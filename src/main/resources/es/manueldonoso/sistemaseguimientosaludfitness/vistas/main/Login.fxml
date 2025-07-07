@@ -1,38 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.main.LoginController">
    <children>
       <MenuBar>
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="btn_menu_salir" mnemonicParsing="false" text="SALIR" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="btn_menu_help" mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass">
+      <AnchorPane id="AnchorPane" prefHeight="516.0" prefWidth="990.0" styleClass="mainFxmlClass">
           <stylesheets>
               <URL value="@/es/manueldonoso/sistemaseguimientosaludfitness/styles/login.css" />
           </stylesheets>
+         <children>
+            <ImageView fitHeight="516.0" fitWidth="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/comun/img_logo_login.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="btn_ingresar" layoutX="627.0" layoutY="363.0" mnemonicParsing="false" text="Iniciar sesión">
+               <font>
+                  <Font name="Comic Sans MS Bold Italic" size="36.0" />
+               </font>
+            </Button>
+            <JFXPasswordField fx:id="tfp_pass" layoutX="663.0" layoutY="242.0" prefHeight="26.0" prefWidth="210.0" promptText="Contraseña">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXTextField fx:id="tf_usuario" layoutX="663.0" layoutY="134.0" prefHeight="26.0" prefWidth="210.0" promptText="Usuario">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+            </JFXTextField>
+            <Label layoutX="663.0" layoutY="89.0" prefHeight="26.0" prefWidth="210.0" text="Usuario">
+               <font>
+                  <Font name="Comic Sans MS Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="663.0" layoutY="190.0" prefHeight="26.0" prefWidth="210.0" text="Contraseña">
+               <font>
+                  <Font name="Comic Sans MS Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbMensajeError" layoutX="663.0" layoutY="319.0" prefHeight="26.0" prefWidth="210.0" textFill="RED" />
+         </children>
       </AnchorPane>
    </children>
 </VBox>

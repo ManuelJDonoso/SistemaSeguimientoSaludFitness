@@ -1,26 +1,45 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+/**
+ * Sample Skeleton for 'Login.fxml' Controller Class
  */
+
 package es.manueldonoso.sistemaseguimientosaludfitness.controllers.main;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 
-/**
- * FXML Controller class
- *
- * @author donpe
- */
-public class LoginController implements Initializable {
+public class LoginController {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+
+    @FXML // fx:id="btn_ingresar"
+    private Button btn_ingresar; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btn_menu_help"
+    private MenuItem btn_menu_help; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btn_menu_salir"
+    private MenuItem btn_menu_salir; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tf_usuario"
+    private JFXTextField tf_usuario; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tfp_pass"
+    private JFXPasswordField tfp_pass; // Value injected by FXMLLoader
+    @FXML
+    private Label lbMensajeError;
+
+    void initialize() {
+        assert btn_ingresar != null : "fx:id=\"btn_ingresar\" was not injected: check your FXML file 'Login.fxml'.";
+        assert btn_menu_help != null : "fx:id=\"btn_menu_help\" was not injected: check your FXML file 'Login.fxml'.";
+        assert btn_menu_salir != null : "fx:id=\"btn_menu_salir\" was not injected: check your FXML file 'Login.fxml'.";
+        assert tf_usuario != null : "fx:id=\"tf_usuario\" was not injected: check your FXML file 'Login.fxml'.";
+        assert tfp_pass != null : "fx:id=\"tfp_pass\" was not injected: check your FXML file 'Login.fxml'.";
+
+    }
+
 }
