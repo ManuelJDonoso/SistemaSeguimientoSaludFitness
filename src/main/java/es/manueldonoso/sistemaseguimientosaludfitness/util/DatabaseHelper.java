@@ -7,6 +7,7 @@ package es.manueldonoso.sistemaseguimientosaludfitness.util;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 /**
@@ -23,6 +24,7 @@ public class DatabaseHelper {
     public static void main(String[] args) {
         crearCarpetaSiNoExite();
         crearBaseDatos();
+      
     }
 
     /**
@@ -63,6 +65,40 @@ public class DatabaseHelper {
         }
     }
 
+    public static void addUserLogin(String usuario,String pass){
+        String url = "jdbc:sqlite:" + DB_PATH;
+        String sql="INSERT INTO login(usuario,pass) VALUES (?,?)";
+        
+        //cifrar la contraseña
+        String hashpass= Seguridad.hashSHA256(pass);
     
+        try(Connection conn= DriverManager.getConnection(url);
+                PreparedStatement pstmt =conn.prepareStatement(sql)){
+            
+            pstmt.setString(1, usuario);
+            pstmt.setString(2, hashpass);
+        
+            pstmt.executeUpdate();
+            System.out.println("Usuario "+ usuario+"  creado correctamente.");
+        }catch(Exception e){
+        e.printStackTrace();
+        }
+    }
 
+    
+     public static boolean verificarLogin(String Usuario, String pass){
+     String url = "jdbc:sqlite:" + DB_PATH;
+     String hashpass= Seguridad.hashSHA256(pass);
+     String sql= "SELECT usuario, pass  FROM  login WHERE usuario = ? AND pass = ?";
+     
+         try (Connection conn =DriverManager.getConnection(url); PreparedStatement pstmt =conn.prepareStatement(sql)){
+          pstmt.setString(1, Usuario);
+          pstmt.setString(2, hashpass);
+          
+          return pstmt.executeQuery().next(); //true si existe
+         } catch (Exception e) {
+             e.printStackTrace();
+             return false;
+         }
+    }
 }
