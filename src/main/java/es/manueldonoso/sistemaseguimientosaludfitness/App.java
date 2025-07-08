@@ -1,5 +1,6 @@
 package es.manueldonoso.sistemaseguimientosaludfitness;
 
+import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +33,9 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+            DatabaseHelper.main(args);
         launch();
+    
     }
 
 }
