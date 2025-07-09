@@ -40,7 +40,7 @@
                   <Image url="@../../images/comun/img_logo_login.jpg" />
                </image>
             </ImageView>
-            <Button fx:id="btn_ingresar" layoutX="627.0" layoutY="363.0" mnemonicParsing="false" text="Iniciar sesión">
+            <Button fx:id="btn_ingresar" layoutX="627.0" layoutY="363.0" mnemonicParsing="false" onAction="#OA_btn_iniciarSesion" text="Iniciar sesión">
                <font>
                   <Font name="Comic Sans MS Bold Italic" size="36.0" />
                </font>

@@ -6,8 +6,10 @@ package es.manueldonoso.sistemaseguimientosaludfitness.controllers.main;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,6 +42,15 @@ public class LoginController {
         assert tf_usuario != null : "fx:id=\"tf_usuario\" was not injected: check your FXML file 'Login.fxml'.";
         assert tfp_pass != null : "fx:id=\"tfp_pass\" was not injected: check your FXML file 'Login.fxml'.";
 
+    }
+
+    @FXML
+    private void OA_btn_iniciarSesion(ActionEvent event) {
+        System.out.println("iniciar sesion");
+        boolean inicioCorrecto=DatabaseHelper.verificarLogin(tf_usuario.getText(), tfp_pass.getText());
+        if(tf_usuario.getText().isBlank()||tfp_pass.getText().isBlank()){
+        lbMensajeError.setText("Los campos usuario y contraseña son requeridos");}else if(!inicioCorrecto){
+        lbMensajeError.setText("Error en el usuario o contraseña");}
     }
 
 }

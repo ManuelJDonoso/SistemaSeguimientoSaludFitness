@@ -24,6 +24,7 @@ public class DatabaseHelper {
     public static void main(String[] args) {
         crearCarpetaSiNoExite();
         crearBaseDatos();
+        if(!verificarUsuarioExiste("admin"))addUserLogin("admin", "admin");
       
     }
 
@@ -94,6 +95,22 @@ public class DatabaseHelper {
          try (Connection conn =DriverManager.getConnection(url); PreparedStatement pstmt =conn.prepareStatement(sql)){
           pstmt.setString(1, Usuario);
           pstmt.setString(2, hashpass);
+          
+          return pstmt.executeQuery().next(); //true si existe
+         } catch (Exception e) {
+             e.printStackTrace();
+             return false;
+         }
+    }
+     
+     public static boolean verificarUsuarioExiste(String Usuario){
+     String url = "jdbc:sqlite:" + DB_PATH;
+ 
+     String sql= "SELECT usuario, pass  FROM  login WHERE usuario = ? ";
+     
+         try (Connection conn =DriverManager.getConnection(url); PreparedStatement pstmt =conn.prepareStatement(sql)){
+          pstmt.setString(1, Usuario);
+       
           
           return pstmt.executeQuery().next(); //true si existe
          } catch (Exception e) {
