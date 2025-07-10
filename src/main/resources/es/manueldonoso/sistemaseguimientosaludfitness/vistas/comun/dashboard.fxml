@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.DashboardController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="624.0" prefWidth="1379.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.DashboardController">
    <children>
-      <MenuBar>
+      <MenuBar VBox.vgrow="ALWAYS">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -30,50 +33,76 @@
           </Menu>
         </menus>
       </MenuBar>
-      <FlowPane columnHalignment="CENTER" prefHeight="605.0" prefWidth="778.0" rowValignment="BASELINE" VBox.vgrow="ALWAYS">
+      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <JFXButton contentDisplay="TOP" prefHeight="192.0" prefWidth="262.0" text="ALTA CLIENTE">
-               <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/comun/alta_usuario.png" />
-                     </image></ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton contentDisplay="TOP" prefHeight="192.0" prefWidth="262.0" text="SEGUIMIENTO">
-               <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/comun/seguimiento.png" />
-                     </image></ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton contentDisplay="TOP" prefHeight="192.0" prefWidth="262.0" text="EJERCICIOS">
-               <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/comun/ejercicio.png" />
-                     </image></ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton contentDisplay="TOP" prefHeight="192.0" prefWidth="262.0" text="RECETAS">
-               <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/comun/receta.png" />
-                     </image></ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton contentDisplay="TOP" prefHeight="192.0" prefWidth="262.0" text="ALTA CLIENTE">
-               <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/comun/alta_usuario.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
+            <ScrollPane fitToHeight="true" prefHeight="470.0" prefWidth="200.0">
+               <content>
+                  <VBox prefHeight="896.0" prefWidth="184.0">
+                     <children>
+                        <JFXButton contentDisplay="TOP" focusTraversable="false" onAction="#OABtnAlta" prefHeight="190.0" prefWidth="182.0" text="ALTA CLIENTE">
+                           <graphic>
+                              <ImageView fitHeight="112.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/comun/alta_usuario.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton contentDisplay="TOP" focusTraversable="false" onAction="#OABtnSeguimiento" prefHeight="192.0" prefWidth="262.0" text="SEGUIMIENTO">
+                           <graphic>
+                              <ImageView fitHeight="100.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/comun/seguimiento.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton contentDisplay="TOP" focusTraversable="false" onAction="#OABtnRecetas" prefHeight="192.0" prefWidth="262.0" text="RECETAS">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/comun/receta.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton contentDisplay="TOP" focusTraversable="false" onAction="#OABtnEjercicio" prefHeight="192.0" prefWidth="262.0" text="EJERCICIOS">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/comun/ejercicio.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton contentDisplay="TOP" focusTraversable="false" onAction="#OABtnCitas" prefHeight="192.0" prefWidth="262.0" text="CITAS">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/comun/citas.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+               </content>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </ScrollPane>
+            <ScrollPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
          </children>
-      </FlowPane>
+      </HBox>
    </children>
 </VBox>

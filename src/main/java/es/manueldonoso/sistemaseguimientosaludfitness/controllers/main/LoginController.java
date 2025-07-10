@@ -7,13 +7,16 @@ package es.manueldonoso.sistemaseguimientosaludfitness.controllers.main;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
 
 public class LoginController {
 
@@ -50,7 +53,11 @@ public class LoginController {
         boolean inicioCorrecto=DatabaseHelper.verificarLogin(tf_usuario.getText(), tfp_pass.getText());
         if(tf_usuario.getText().isBlank()||tfp_pass.getText().isBlank()){
         lbMensajeError.setText("Los campos usuario y contraseña son requeridos");}else if(!inicioCorrecto){
-        lbMensajeError.setText("Error en el usuario o contraseña");}
+        lbMensajeError.setText("Error en el usuario o contraseña");}else{StageShow.MostrarDashboard();
+        Node source=(Node)event.getSource();
+        Stage stage =(Stage)source.getScene().getWindow();
+        stage.close();
+        }
     }
 
 }

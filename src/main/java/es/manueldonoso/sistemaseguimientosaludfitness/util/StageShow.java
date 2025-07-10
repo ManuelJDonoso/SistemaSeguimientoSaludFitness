@@ -46,4 +46,27 @@ public class StageShow {
         }
         primaryStage.show();
     }
+
+    public static void MostrarDashboard(){
+     Stage primaryStage = new Stage();
+        try {
+              FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(LoginController.class.getResource("/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/dashboard.fxml"));
+
+            // Ventana a cargar
+            VBox ventana = (VBox) loader.load();
+
+            // Creo la escena
+            Scene scene = new Scene(ventana);
+
+            // Modifico el stage
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("dashboard");
+            primaryStage.setMaximized(true);
+          //  primaryStage.initStyle(StageStyle.UNDECORATED);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        primaryStage.show();
+    }
 }
