@@ -4,11 +4,13 @@
  */
 package es.manueldonoso.sistemaseguimientosaludfitness.controllers;
 
+import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -20,6 +22,8 @@ public class DashboardController implements Initializable {
 
     @FXML
     private VBox root;
+    @FXML
+    private AnchorPane contentPane;
 
     /**
      * Initializes the controller class.
@@ -31,22 +35,27 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void OABtnAlta(ActionEvent event) {
+        StageShow.cargarVistaDashboard("AltaClientes.fxml", contentPane);
     }
 
     @FXML
     private void OABtnSeguimiento(ActionEvent event) {
+        StageShow.cargarVistaDashboard("Seguimiento.fxml", contentPane);
     }
 
     @FXML
     private void OABtnRecetas(ActionEvent event) {
+        StageShow.cargarVistaDashboard("Recetas.fxml", contentPane);
     }
 
     @FXML
     private void OABtnEjercicio(ActionEvent event) {
+        StageShow.cargarVistaDashboard("Ejercicios.fxml", contentPane);
     }
 
     @FXML
     private void OABtnCitas(ActionEvent event) {
+        StageShow.cargarVistaDashboard("Citas.fxml", contentPane);
     }
     
 }

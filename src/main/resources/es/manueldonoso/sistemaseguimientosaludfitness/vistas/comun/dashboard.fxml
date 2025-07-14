@@ -8,6 +8,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -96,15 +97,19 @@
                   <Insets />
                </HBox.margin>
             </ScrollPane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <AnchorPane fx:id="contentPane" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="593.0" fitWidth="1342.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/comun/fondo.png" />
-                     </image>
-                  </ImageView>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="593.0" fitWidth="1342.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/comun/fondo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </AnchorPane>
          </children>
       </HBox>
    </children>

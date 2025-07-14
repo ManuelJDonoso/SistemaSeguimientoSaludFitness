@@ -8,7 +8,10 @@ import static es.manueldonoso.sistemaseguimientosaludfitness.App.main;
 import es.manueldonoso.sistemaseguimientosaludfitness.controllers.main.LoginController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -69,4 +72,23 @@ public class StageShow {
         }
         primaryStage.show();
     }
+
+     public static void cargarVistaDashboard(String fxmlFile, Pane contenedor) {
+        try {
+            FXMLLoader loader = new FXMLLoader(StageShow.class.getResource("/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/" + fxmlFile));
+            Parent vista = loader.load();
+
+            contenedor.getChildren().clear();
+            contenedor.getChildren().add(vista);
+
+            // Opcional: adaptar la vista al tamaño del contenedor
+            AnchorPane.setTopAnchor(vista, 0.0);
+            AnchorPane.setBottomAnchor(vista, 0.0);
+            AnchorPane.setLeftAnchor(vista, 0.0);
+            AnchorPane.setRightAnchor(vista, 0.0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
