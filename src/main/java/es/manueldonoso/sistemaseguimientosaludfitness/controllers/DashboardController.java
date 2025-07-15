@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -24,13 +26,18 @@ public class DashboardController implements Initializable {
     private VBox root;
     @FXML
     private AnchorPane contentPane;
+    @FXML
+    private ImageView ivImagenFondo;
+    @FXML
+    private ScrollPane scrollPane;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+  
+        
     }    
 
     @FXML

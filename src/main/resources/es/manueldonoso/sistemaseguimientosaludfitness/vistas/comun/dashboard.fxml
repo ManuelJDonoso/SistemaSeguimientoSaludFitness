@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="624.0" prefWidth="1379.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.DashboardController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.DashboardController">
    <children>
       <MenuBar VBox.vgrow="ALWAYS">
         <menus>
@@ -97,19 +97,19 @@
                   <Insets />
                </HBox.margin>
             </ScrollPane>
-            <AnchorPane fx:id="contentPane" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <ScrollPane fx:id="scrollPane" prefHeight="722.0" prefWidth="1180.0" HBox.hgrow="ALWAYS">
+               <content>
+                  <AnchorPane fx:id="contentPane" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="593.0" fitWidth="1342.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ivImagenFondo" fitHeight="883.0" fitWidth="1189.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/comun/fondo.png" />
                            </image>
                         </ImageView>
                      </children>
-                  </HBox>
-               </children>
-            </AnchorPane>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
          </children>
       </HBox>
    </children>

@@ -28,10 +28,11 @@ import javafx.stage.Stage;
  * @author "Manuel Jesús Donoso Pérez";
  */
 public class StageShow {
-    public static void MostrarLogin(){
-     Stage primaryStage = new Stage();
+
+    public static void MostrarLogin() {
+        Stage primaryStage = new Stage();
         try {
-              FXMLLoader loader = new FXMLLoader();
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(LoginController.class.getResource("/es/manueldonoso/sistemaseguimientosaludfitness/vistas/main/Login.fxml"));
 
             // Ventana a cargar
@@ -43,17 +44,17 @@ public class StageShow {
             // Modifico el stage
             primaryStage.setScene(scene);
             primaryStage.setTitle("Login");
-          //  primaryStage.initStyle(StageStyle.UNDECORATED);
+            //  primaryStage.initStyle(StageStyle.UNDECORATED);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         primaryStage.show();
     }
 
-    public static void MostrarDashboard(){
-     Stage primaryStage = new Stage();
+    public static void MostrarDashboard() {
+        Stage primaryStage = new Stage();
         try {
-              FXMLLoader loader = new FXMLLoader();
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(LoginController.class.getResource("/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/dashboard.fxml"));
 
             // Ventana a cargar
@@ -66,22 +67,28 @@ public class StageShow {
             primaryStage.setScene(scene);
             primaryStage.setTitle("dashboard");
             primaryStage.setMaximized(true);
-          //  primaryStage.initStyle(StageStyle.UNDECORATED);
+            //  primaryStage.initStyle(StageStyle.UNDECORATED);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         primaryStage.show();
     }
 
-     public static void cargarVistaDashboard(String fxmlFile, Pane contenedor) {
+    public static void cargarVistaDashboard(String fxmlFile, Pane contenedor) {
         try {
-            FXMLLoader loader = new FXMLLoader(StageShow.class.getResource("/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/" + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(StageShow.class.getResource(
+                    "/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/" + fxmlFile));
             Parent vista = loader.load();
 
-            contenedor.getChildren().clear();
+            // Elimina solo los nodos que no sean el fondo (índice 0)
+            if (contenedor.getChildren().size() > 1) {
+                contenedor.getChildren().remove(1); // Elimina el contenido anterior
+            }
+
+            // Añade el nuevo contenido
             contenedor.getChildren().add(vista);
 
-            // Opcional: adaptar la vista al tamaño del contenedor
+            // Ajusta el nuevo contenido a los bordes del contenedor
             AnchorPane.setTopAnchor(vista, 0.0);
             AnchorPane.setBottomAnchor(vista, 0.0);
             AnchorPane.setLeftAnchor(vista, 0.0);
