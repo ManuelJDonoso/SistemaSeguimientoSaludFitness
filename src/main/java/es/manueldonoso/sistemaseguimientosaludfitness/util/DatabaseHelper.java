@@ -24,8 +24,11 @@ public class DatabaseHelper {
     public static void main(String[] args) {
         crearCarpetaSiNoExite();
         crearBaseDatos();
-        if(!verificarUsuarioExiste("admin"))addUserLogin("admin", "admin");
-      
+        if (!verificarUsuarioExiste("admin")) {
+            addUserLogin("admin", "admin");
+        }
+        crearTablasdefault();
+
     }
 
     /**
@@ -53,10 +56,10 @@ public class DatabaseHelper {
             if (conn != null) {
                 Statement stmt = conn.createStatement();
 
-                stmt.execute( " CREATE TABLE IF NOT EXISTS login("
+                stmt.execute(" CREATE TABLE IF NOT EXISTS login("
                         + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                         + "usuario TEXT NOT NULL, "
-                        + "pass TEXT NOT NULL)"  );
+                        + "pass TEXT NOT NULL)");
 
                 System.out.println("Base de datos creada correctamente en : " + DB_PATH);
             }
@@ -66,56 +69,85 @@ public class DatabaseHelper {
         }
     }
 
-    public static void addUserLogin(String usuario,String pass){
+    public static void addUserLogin(String usuario, String pass) {
         String url = "jdbc:sqlite:" + DB_PATH;
-        String sql="INSERT INTO login(usuario,pass) VALUES (?,?)";
-        
+        String sql = "INSERT INTO login(usuario,pass) VALUES (?,?)";
+
         //cifrar la contraseña
-        String hashpass= Seguridad.hashSHA256(pass);
-    
-        try(Connection conn= DriverManager.getConnection(url);
-                PreparedStatement pstmt =conn.prepareStatement(sql)){
-            
+        String hashpass = Seguridad.hashSHA256(pass);
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setString(1, usuario);
             pstmt.setString(2, hashpass);
-        
+
             pstmt.executeUpdate();
-            System.out.println("Usuario "+ usuario+"  creado correctamente.");
-        }catch(Exception e){
-        e.printStackTrace();
+            System.out.println("Usuario " + usuario + "  creado correctamente.");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    
-     public static boolean verificarLogin(String Usuario, String pass){
-     String url = "jdbc:sqlite:" + DB_PATH;
-     String hashpass= Seguridad.hashSHA256(pass);
-     String sql= "SELECT usuario, pass  FROM  login WHERE usuario = ? AND pass = ?";
-     
-         try (Connection conn =DriverManager.getConnection(url); PreparedStatement pstmt =conn.prepareStatement(sql)){
-          pstmt.setString(1, Usuario);
-          pstmt.setString(2, hashpass);
-          
-          return pstmt.executeQuery().next(); //true si existe
-         } catch (Exception e) {
-             e.printStackTrace();
-             return false;
-         }
+    public static boolean verificarLogin(String Usuario, String pass) {
+        String url = "jdbc:sqlite:" + DB_PATH;
+        String hashpass = Seguridad.hashSHA256(pass);
+        String sql = "SELECT usuario, pass  FROM  login WHERE usuario = ? AND pass = ?";
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, Usuario);
+            pstmt.setString(2, hashpass);
+
+            return pstmt.executeQuery().next(); //true si existe
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-     
-     public static boolean verificarUsuarioExiste(String Usuario){
-     String url = "jdbc:sqlite:" + DB_PATH;
- 
-     String sql= "SELECT usuario, pass  FROM  login WHERE usuario = ? ";
-     
-         try (Connection conn =DriverManager.getConnection(url); PreparedStatement pstmt =conn.prepareStatement(sql)){
-          pstmt.setString(1, Usuario);
-       
-          
-          return pstmt.executeQuery().next(); //true si existe
-         } catch (Exception e) {
-             e.printStackTrace();
-             return false;
-         }
+
+    public static boolean verificarUsuarioExiste(String Usuario) {
+        String url = "jdbc:sqlite:" + DB_PATH;
+
+        String sql = "SELECT usuario, pass  FROM  login WHERE usuario = ? ";
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, Usuario);
+
+            return pstmt.executeQuery().next(); //true si existe
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    public static void crearTablasdefault() {
+        String sqlUsuario = " CREATE TABLE IF NOT EXISTS usuarios ("
+                + "dni TEXT PRIMARY KEY, nombreApellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
+                + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT, grasac REAL, proteina REAL, metabolismoV REAL,"
+                + " grasaVis REAL, pesoIdeal REAL ); ";
+        String sqldietaSemana = " CREATE TABLE IF NOT EXISTS dietaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT );";
+
+        String sqlrutinaSemana = " CREATE TABLE IF NOT EXISTS rutinaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT  ); ";
+
+        String sqlSeguimiento = "  CREATE TABLE IF NOT EXISTS seguimiento ( id INTEGER PRIMARY KEY AUTOINCREMENT, fkUsuario TEXT, fechaSeguimiento TEXT, nuevoPeso REAL, nuevoImc REAL, fk_dietaSemanal INTEGER, fk_rutinaSemanal INTEGER, FOREIGN KEY (fkUsuario) REFERENCES usuarios(dni), FOREIGN KEY (fk_dietaSemanal) REFERENCES dietaSemanal(id), FOREIGN KEY (fk_rutinaSemanal) REFERENCES rutinaSemanal(id) ); ";
+
+        String sqlDietaDia = " CREATE TABLE IF NOT EXISTS dietaDia ( id INTEGER PRIMARY KEY AUTOINCREMENT, fkDietaSemanal INTEGER,  desayuno TEXT,  mediaManana TEXT, comida TEXT, merienda TEXT,  cena TEXT, FOREIGN KEY (fkDietaSemanal) REFERENCES dietaSemanal(id) ); ";
+
+        String sqlRutinaDia = " CREATE TABLE IF NOT EXISTS rutinaDia ( id INTEGER PRIMARY KEY AUTOINCREMENT, fkRutinaSemanal INTEGER, nombreEjercicio TEXT, repeticiones INTEGER, series INTEGER, peso REAL, tiempo TEXT,  urlImagen TEXT, FOREIGN KEY (fkRutinaSemanal) REFERENCES rutinaSemanal(id)  ); ";
+
+        String url = "jdbc:sqlite:" + DB_PATH;
+        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sqlUsuario);
+            stmt.execute(sqldietaSemana);
+            stmt.execute(sqlrutinaSemana);
+            stmt.execute(sqlSeguimiento);
+            stmt.execute(sqlDietaDia);
+            stmt.execute(sqlRutinaDia);
+
+            System.out.println("creada las tablas correctamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

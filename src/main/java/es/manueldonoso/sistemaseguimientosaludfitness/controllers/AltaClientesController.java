@@ -18,6 +18,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.layout.AnchorPane;
 
 import javafx.util.StringConverter;
 
@@ -66,6 +67,16 @@ public class AltaClientesController implements Initializable {
     private Label lb_DNIError;
     @FXML
     private JFXButton btnResert;
+    @FXML
+    private AnchorPane tfMetabolismo;
+    @FXML
+    private JFXTextField tfGrasaCorporal;
+    @FXML
+    private JFXTextField tfProteina;
+    @FXML
+    private JFXTextField tfGrasaVisceral;
+    @FXML
+    private JFXTextField tfPesoIdeal;
 
     /**
      * Initializes the controller class.
