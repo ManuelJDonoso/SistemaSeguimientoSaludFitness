@@ -42,6 +42,7 @@ import com.github.sarxos.webcam.WebcamResolution;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAO;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAOImpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.EspresionesRegulares;
 import java.awt.Dimension;
 import javafx.embed.swing.SwingFXUtils;
 
@@ -58,6 +59,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.EspresionesRegulares;
 
 /**
  * FXML Controller class
@@ -181,6 +183,7 @@ public class AltaClientesController implements Initializable {
 // Listener para cambios en la altura
         sp_Altura.valueProperty().addListener((obs, oldVal, newVal) -> {
             actualizarIMC();
+        
         });
 
         actualizarIMC();
@@ -192,150 +195,195 @@ public class AltaClientesController implements Initializable {
 
     @FXML
     private void OAbtnGuardar(ActionEvent event) {
+        String error = "";
         Usuario user = new Usuario();
 
-        user.setFechaNacimiento(dpfechaNac.getValue());
-        user.setNombre(tf_nombre.getText().trim());
-        user.setApellido1(tfPrimerApellido.getText().trim());
-        user.setApellido2(tfSegundoApellido.getText().trim());
-        user.setDni(tfDNI.getText().trim());
+        LocalDate fnacimiento = dpfechaNac.getValue();
+        String nombre = tf_nombre.getText().trim();
+        String apellido1 = tfPrimerApellido.getText().trim();
+        String apellido2 = tfSegundoApellido.getText().trim();
+        String dni = tfDNI.getText().trim();
         String sex = (rbtn_hombre.isSelected()) ? "hombre" : "mujer";
-        user.setSexo(sex);
-        user.setAltura((sp_Altura.getValue() + "").trim());
-        user.setPeso((sp_Peso.getValue() + "").trim());
-        user.setImc(tfIMC.getText().trim());
-        user.setDireccion(tfDireccion.getText().trim());
-        user.setPoblacion(tfPoblacion.getText());
-        user.setCp(tfCP.getText());
-        user.setTelefono(tfTel.getText().trim());
-        user.setGrasac(tfGrasaCorporal.getText().trim());
-        user.setProteina(tfProteina.getText().trim());
-        user.setMetabolismoV(tfMetabolismo.getText().trim());
-        user.setGrasaV(tfGrasaVisceral.getText());
-        user.setPesoIdeal(tfPesoIdeal.getText());
-        user.setAnotaciones(TAAnotaciones.getText());
-        user.setFechaAlta(LocalDate.now());
+        String altura = (sp_Altura.getValue() + "").trim();
+        String peso = (sp_Peso.getValue() + "").trim();
+        String imc = tfIMC.getText().trim();
+        String direccion = tfDireccion.getText().trim();
+        String poblacion = tfPoblacion.getText().trim();
+        String cp = tfCP.getText().trim();
+        String tel = tfTel.getText().trim();
+        String grasac = tfGrasaCorporal.getText().trim();
+        String proteina = tfProteina.getText().trim();
+        String metabolismo = tfMetabolismo.getText().trim();
+        String grasav = tfGrasaVisceral.getText();
+        String pesoideal = tfPesoIdeal.getText();
+        String anotaciones = TAAnotaciones.getText();
 
-        // Guardar la imagen si hay una seleccionada
-        if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {
-            File imageFile = (File) ivFoto.getProperties().get("imageFile");
-            String dni = tfDNI.getText().trim();
-
-            if (!dni.isEmpty()) {
-                try {
-                    // Crear directorio si no existe
-                    Path userImageDir = Paths.get("data", "images", dni);
-                    Files.createDirectories(userImageDir);
-
-                    // Generar nombre del archivo con DNI y fecha actual
-                    LocalDateTime now = LocalDateTime.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-                    String formattedDateTime = now.format(formatter);
-
-                    // Nombre del archivo: DNI_FECHA.extensión
-                    String fileName = String.format("%s_%s%s",
-                            dni,
-                            formattedDateTime,
-                            getFileExtension(imageFile.getName()));
-
-                    // Copiar la imagen al directorio destino
-                    Path destination = userImageDir.resolve(fileName);
-                    Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
-
-                    // Guardar la ruta en el usuario
-                    user.setDirFoto(destination.toString());
-
-                    // Mostrar mensaje de éxito
-                    mostrarAlerta("Éxito", "Imagen guardada correctamente como: " + fileName, Alert.AlertType.INFORMATION);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    mostrarAlerta("Error al guardar la imagen", "No se pudo guardar la imagen del usuario.");
-                }
-            } else {
-                mostrarAlerta("DNI requerido", "Debe ingresar un DNI para guardar la imagen.");
-            }
+        if (!EspresionesRegulares.soloLetras(nombre, 3) || !EspresionesRegulares.soloLetras(apellido1, 3) || !EspresionesRegulares.soloLetras(apellido2, 3)) {
+            error = "Los nombres y Apellidos deben tener minimo 3 letras";
         }
 
-      
-        UsuarioDAO dao = new UsuarioDAOImpl(DatabaseHelper.conectarddbb());
-        
-        dao.insertar(user);
+        if (!EspresionesRegulares.validarDNIEspana(dni)) {
+            if (!error.isBlank()) {
+                error += ", ";
+            }
+
+            error += "formato DNI no valido";
+        }
+
+        if (fnacimiento == null) {
+            if (!error.isBlank()) {
+                error += ", ";
+            }
+            error += "Fecha nacimiento no puede estar en blanco";
+        }
+
+        if (!error.isBlank()) {
+
+            mostrarAlerta("Error", error);
+        } else {
+
+            user.setFechaNacimiento(fnacimiento);
+            user.setNombre(nombre);
+            user.setApellido1(apellido1);
+            user.setApellido2(apellido2);
+            user.setDni(dni);
+            user.setSexo(sex);
+            user.setAltura(altura);
+            user.setPeso(peso);
+            user.setImc(imc);
+            user.setDireccion(direccion);
+            user.setPoblacion(poblacion);
+            user.setCp(cp);
+            user.setTelefono(tel);
+            user.setGrasac(grasac);
+            user.setProteina(proteina);
+            user.setMetabolismoV(metabolismo);
+            user.setGrasaV(grasav);
+            user.setPesoIdeal(pesoideal);
+            user.setAnotaciones(anotaciones);
+            user.setFechaAlta(LocalDate.now());
+
+            // Guardar la imagen si hay una seleccionada
+            if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {
+                File imageFile = (File) ivFoto.getProperties().get("imageFile");
+
+                if (!dni.isEmpty()) {
+                    try {
+                        // Crear directorio si no existe
+                        Path userImageDir = Paths.get("data", "images", dni);
+                        Files.createDirectories(userImageDir);
+
+                        // Generar nombre del archivo con DNI y fecha actual
+                        LocalDateTime now = LocalDateTime.now();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+                        String formattedDateTime = now.format(formatter);
+
+                        // Nombre del archivo: DNI_FECHA.extensión
+                        String fileName = String.format("%s_%s%s",
+                                dni,
+                                formattedDateTime,
+                                getFileExtension(imageFile.getName()));
+
+                        // Copiar la imagen al directorio destino
+                        Path destination = userImageDir.resolve(fileName);
+                        Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+
+                        // Guardar la ruta en el usuario
+                        user.setDirFoto(destination.toString());
+
+                        // Mostrar mensaje de éxito
+                        mostrarAlerta("Éxito", "Imagen guardada correctamente como: " + fileName, Alert.AlertType.INFORMATION);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        mostrarAlerta("Error al guardar la imagen", "No se pudo guardar la imagen del usuario.");
+                    }
+                } else {
+                    mostrarAlerta("DNI requerido", "Debe ingresar un DNI para guardar la imagen.");
+                }
+            }
+
+            UsuarioDAO dao = new UsuarioDAOImpl(DatabaseHelper.conectarddbb());
+
+            dao.insertar(user);
+            
+            mostrarAlerta("usuario dado de alta", "el usuario se ha añadido a la base de datos", Alert.AlertType.INFORMATION);
+        }
     }
 
     @FXML
     private void OAbtnCamara(ActionEvent event) {
 
         // Verificar si hay cámaras disponibles
-    if (Webcam.getWebcams().isEmpty()) {
-        mostrarAlerta("Cámara no disponible", "No se detectó ninguna cámara conectada.");
-        return;
-    }
-
-    // Configurar la cámara con una resolución adecuada
-    Webcam webcam = Webcam.getDefault();
-    webcam.setViewSize(WebcamResolution.VGA.getSize());
-
-    // Crear panel de Swing para el preview con tamaño fijo
-    WebcamPanel panel = new WebcamPanel(webcam);
-    panel.setFPSDisplayed(false);
-    panel.setDisplayDebugInfo(false);
-    panel.setImageSizeDisplayed(false);
-    panel.setMirrored(true);
-    panel.setPreferredSize(new Dimension(640, 480));
-
-    // Crear diálogo de JavaFX
-    Dialog<ButtonType> dialog = new Dialog<>();
-    dialog.setTitle("Tomar Foto");
-    dialog.setHeaderText("Posiciónese para la foto");
-
-    // Crear botones personalizados
-    ButtonType tomarFotoButtonType = new ButtonType("Tomar Foto", ButtonBar.ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(tomarFotoButtonType, ButtonType.CANCEL);
-
-    // Convertir el panel de Swing a JavaFX
-    SwingNode swingNode = new SwingNode();
-    swingNode.setContent(panel);
-
-    // Diseño del diálogo con tamaño fijo
-    VBox vbox = new VBox(swingNode);
-    vbox.setPadding(new Insets(10));
-    vbox.setStyle("-fx-background-color: white;");
-    vbox.setMinSize(660, 550); // Tamaño suficiente para el preview
-    vbox.setPrefSize(660, 550);
-    
-    dialog.getDialogPane().setContent(vbox);
-    dialog.getDialogPane().setMinSize(680, 580);
-    dialog.getDialogPane().setPrefSize(680, 580);
-
-    // Configurar el tamaño de la ventana del diálogo
-    dialog.setResizable(true);
-
-    // Mostrar diálogo y esperar respuesta
-    Optional<ButtonType> result = dialog.showAndWait();
-
-    if (result.isPresent() && result.get() == tomarFotoButtonType) {
-        try {
-            // Capturar imagen
-            BufferedImage bufferedImage = webcam.getImage();
-            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-
-            // Mostrar en el ImageView
-            ivFoto.setImage(image);
-
-            // Guardar la imagen temporalmente
-            File tempFile = File.createTempFile("webcam_", ".jpg");
-            ImageIO.write(bufferedImage, "jpg", tempFile);
-            ivFoto.getProperties().put("imageFile", tempFile);
-
-            mostrarAlerta("Foto tomada", "Foto capturada correctamente. No olvide guardar los cambios.", Alert.AlertType.INFORMATION);
-        } catch (IOException e) {
-            mostrarAlerta("Error", "No se pudo capturar la imagen: " + e.getMessage());
+        if (Webcam.getWebcams().isEmpty()) {
+            mostrarAlerta("Cámara no disponible", "No se detectó ninguna cámara conectada.");
+            return;
         }
-    }
 
-    // Cerrar la cámara
-    webcam.close();
+        // Configurar la cámara con una resolución adecuada
+        Webcam webcam = Webcam.getDefault();
+        webcam.setViewSize(WebcamResolution.VGA.getSize());
+
+        // Crear panel de Swing para el preview con tamaño fijo
+        WebcamPanel panel = new WebcamPanel(webcam);
+        panel.setFPSDisplayed(false);
+        panel.setDisplayDebugInfo(false);
+        panel.setImageSizeDisplayed(false);
+        panel.setMirrored(true);
+        panel.setPreferredSize(new Dimension(640, 480));
+
+        // Crear diálogo de JavaFX
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Tomar Foto");
+        dialog.setHeaderText("Posiciónese para la foto");
+
+        // Crear botones personalizados
+        ButtonType tomarFotoButtonType = new ButtonType("Tomar Foto", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(tomarFotoButtonType, ButtonType.CANCEL);
+
+        // Convertir el panel de Swing a JavaFX
+        SwingNode swingNode = new SwingNode();
+        swingNode.setContent(panel);
+
+        // Diseño del diálogo con tamaño fijo
+        VBox vbox = new VBox(swingNode);
+        vbox.setPadding(new Insets(10));
+        vbox.setStyle("-fx-background-color: white;");
+        vbox.setMinSize(660, 550); // Tamaño suficiente para el preview
+        vbox.setPrefSize(660, 550);
+
+        dialog.getDialogPane().setContent(vbox);
+        dialog.getDialogPane().setMinSize(680, 580);
+        dialog.getDialogPane().setPrefSize(680, 580);
+
+        // Configurar el tamaño de la ventana del diálogo
+        dialog.setResizable(true);
+
+        // Mostrar diálogo y esperar respuesta
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        if (result.isPresent() && result.get() == tomarFotoButtonType) {
+            try {
+                // Capturar imagen
+                BufferedImage bufferedImage = webcam.getImage();
+                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+
+                // Mostrar en el ImageView
+                ivFoto.setImage(image);
+
+                // Guardar la imagen temporalmente
+                File tempFile = File.createTempFile("webcam_", ".jpg");
+                ImageIO.write(bufferedImage, "jpg", tempFile);
+                ivFoto.getProperties().put("imageFile", tempFile);
+
+                mostrarAlerta("Foto tomada", "Foto capturada correctamente. No olvide guardar los cambios.", Alert.AlertType.INFORMATION);
+            } catch (IOException e) {
+                mostrarAlerta("Error", "No se pudo capturar la imagen: " + e.getMessage());
+            }
+        }
+
+        // Cerrar la cámara
+        webcam.close();
     }
 
     @FXML
@@ -347,6 +395,7 @@ public class AltaClientesController implements Initializable {
         int altura = sp_Altura.getValue();
         double imc = UtilHelper.calcularIMC(peso, altura);
         tfIMC.setText(String.format("%.2f", imc));
+        tfPesoIdeal.setText(UtilHelper.calcularPesoIdeal(altura)+" Kg");
     }
 
     @FXML

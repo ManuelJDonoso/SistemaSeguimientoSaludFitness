@@ -61,6 +61,6 @@
       <JFXTextField fx:id="tfProteina" labelFloat="true" layoutX="274.0" layoutY="461.0" promptText="Proteína" viewOrder="14.0" />
       <JFXTextField fx:id="tfMetabolismo" labelFloat="true" layoutX="442.0" layoutY="461.0" promptText="Metabolismo Basal" viewOrder="15.0" />
       <JFXTextField fx:id="tfGrasaVisceral" labelFloat="true" layoutX="605.0" layoutY="461.0" promptText="Grasa visceral" viewOrder="16.0" />
-      <JFXTextField fx:id="tfPesoIdeal" labelFloat="true" layoutX="757.0" layoutY="461.0" promptText="Peso Ideal" viewOrder="17.0" />
+      <JFXTextField fx:id="tfPesoIdeal" editable="false" labelFloat="true" layoutX="757.0" layoutY="461.0" promptText="Peso Ideal" viewOrder="17.0" />
    </children>
 </AnchorPane>
