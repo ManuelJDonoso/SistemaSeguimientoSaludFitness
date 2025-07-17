@@ -7,6 +7,7 @@ package es.manueldonoso.sistemaseguimientosaludfitness.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.UtilHelper;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -107,28 +108,40 @@ public class AltaClientesController implements Initializable {
 
         sp_Altura.setValueFactory(valueFactory);
 
-      SpinnerValueFactory.DoubleSpinnerValueFactory pesoFactory
-    = new SpinnerValueFactory.DoubleSpinnerValueFactory(10.00, 300.00, 80.00, 0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory pesoFactory
+                = new SpinnerValueFactory.DoubleSpinnerValueFactory(10.00, 300.00, 80.00, 0.01);
 
-pesoFactory.setConverter(new StringConverter<Double>() {
-    @Override
-    public String toString(Double value) {
-        return String.format("%.2f kg", value);
-    }
+        pesoFactory.setConverter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double value) {
+                return String.format("%.2f kg", value);
+            }
 
-    @Override
-    public Double fromString(String text) {
-        try {
-            return Double.parseDouble(text.replace("kg", "").trim());
-        } catch (NumberFormatException e) {
-            return sp_Peso.getValue(); // ← mantener el valor actual si hay error
-        }
-    }
-});
+            @Override
+            public Double fromString(String text) {
+                try {
+                    return Double.parseDouble(text.replace("kg", "").trim());
+                } catch (NumberFormatException e) {
+                    return sp_Peso.getValue(); // ← mantener el valor actual si hay error
+                }
+            }
+        });
 
-sp_Peso.setValueFactory(pesoFactory);
-sp_Peso.setEditable(true); // ← asegúrate de que sea editable
-sp_Peso.getEditor().setText(pesoFactory.getConverter().toString(sp_Peso.getValue()));
+        sp_Peso.setValueFactory(pesoFactory);
+        sp_Peso.setEditable(true); // ← asegúrate de que sea editable
+        sp_Peso.getEditor().setText(pesoFactory.getConverter().toString(sp_Peso.getValue()));
+
+        // Listener para cambios en el peso
+        sp_Peso.valueProperty().addListener((obs, oldVal, newVal) -> {
+            actualizarIMC();
+        });
+
+// Listener para cambios en la altura
+        sp_Altura.valueProperty().addListener((obs, oldVal, newVal) -> {
+            actualizarIMC();
+        });
+        
+        actualizarIMC();
     }
 
     @FXML
@@ -145,6 +158,13 @@ sp_Peso.getEditor().setText(pesoFactory.getConverter().toString(sp_Peso.getValue
 
     @FXML
     private void OAbtnResert(ActionEvent event) {
+    }
+
+    private void actualizarIMC() {
+        double peso = sp_Peso.getValue();
+        int altura = sp_Altura.getValue();
+        double imc = UtilHelper.calcularIMC(peso, altura) ;
+        tfIMC.setText(String.format("%.2f", imc));
     }
 
 }
