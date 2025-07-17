@@ -14,7 +14,7 @@ public class Usuario {
 
     private String dni, nombre, apellido1, apellido2, sexo, altura, peso, imc, dirFoto,
             direccion, poblacion, cp, telefono, grasac, proteina, metabolismoV, grasaV, PesoIdeal, Anotaciones;
-    private LocalDate fechaNacimiento;
+    private LocalDate fechaNacimiento,fechaAlta;
 
     public Usuario() {
     }
@@ -179,9 +179,19 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
+    }
+
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
     @Override
     public String toString() {
-        return "usuario{" + "dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", sexo=" + sexo + ", altura=" + altura + ", peso=" + peso + ", imc=" + imc + ", dirFoto=" + dirFoto + ", direccion=" + direccion + ", poblacion=" + poblacion + ", cp=" + cp + ", telefono=" + telefono + ", grasac=" + grasac + ", proteina=" + proteina + ", metabolismoV=" + metabolismoV + ", grasaV=" + grasaV + ", PesoIdeal=" + PesoIdeal + ", Anotaciones=" + Anotaciones + ", fechaNacimiento=" + fechaNacimiento + '}';
+        return "Usuario{" + "dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", sexo=" + sexo + ", altura=" + altura + ", peso=" + peso + ", imc=" + imc + ", dirFoto=" + dirFoto + ", direccion=" + direccion + ", poblacion=" + poblacion + ", cp=" + cp + ", telefono=" + telefono + ", grasac=" + grasac + ", proteina=" + proteina + ", metabolismoV=" + metabolismoV + ", grasaV=" + grasaV + ", PesoIdeal=" + PesoIdeal + ", Anotaciones=" + Anotaciones + ", fechaNacimiento=" + fechaNacimiento + ", fechaAlta=" + fechaAlta + '}';
     }
+
+
 
 }

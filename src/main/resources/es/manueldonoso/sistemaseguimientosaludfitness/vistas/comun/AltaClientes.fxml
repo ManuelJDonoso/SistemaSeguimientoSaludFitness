@@ -14,7 +14,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="tfMetabolismo" prefHeight="805.0" prefWidth="977.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.AltaClientesController">
+<AnchorPane id="AnchorPane" prefHeight="805.0" prefWidth="977.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.AltaClientesController">
     <stylesheets>
         <URL value="@/es/manueldonoso/sistemaseguimientosaludfitness/styles/altaclientes.css" />
     </stylesheets>
@@ -25,17 +25,17 @@
          </tooltip></JFXTextField>
       <JFXTextField fx:id="tfPrimerApellido" labelFloat="true" layoutX="249.0" layoutY="80.0" promptText="Primer Apellido" viewOrder="2.0" />
       <JFXTextField fx:id="tfSegundoApellido" labelFloat="true" layoutX="418.0" layoutY="80.0" promptText="Segundo Apellido" viewOrder="3.0" />
-      <DatePicker layoutX="86.0" layoutY="210.0" promptText="Fecha de Nacimiento" />
+      <DatePicker fx:id="dpfechaNac" layoutX="86.0" layoutY="210.0" promptText="Fecha de Nacimiento" />
       <JFXTextField fx:id="tfDNI" labelFloat="true" layoutX="86.0" layoutY="131.0" onInputMethodTextChanged="#oitextChanged_DNI" promptText="DNI" viewOrder="4.0">
          <tooltip>
             <Tooltip text="introducir el DNI formato 12345678Z" />
          </tooltip></JFXTextField>
-      <JFXRadioButton layoutX="231.0" layoutY="148.0" selected="true" text="Hombre" viewOrder="5.0">
+      <JFXRadioButton fx:id="rbtn_hombre" layoutX="231.0" layoutY="148.0" selected="true" text="Hombre" viewOrder="5.0">
          <toggleGroup>
             <ToggleGroup fx:id="sexo" />
          </toggleGroup>
       </JFXRadioButton>
-      <JFXRadioButton layoutX="378.0" layoutY="148.0" text="Mujer" toggleGroup="$sexo" viewOrder="6.0" />
+      <JFXRadioButton fx:id="rbtn_mujer" layoutX="378.0" layoutY="148.0" text="Mujer" toggleGroup="$sexo" viewOrder="6.0" />
       <Spinner fx:id="sp_Altura" editable="true" layoutX="86.0" layoutY="269.0" />
       <Spinner fx:id="sp_Peso" editable="true" layoutX="260.0" layoutY="269.0" />
       <Label layoutX="86.0" layoutY="241.0" text="Altura" textFill="#4d4d4d" />
@@ -52,14 +52,14 @@
          </image>
       </ImageView>
       <JFXButton fx:id="btnCamara" layoutX="728.0" layoutY="264.0" onAction="#OAbtnCamara" text="Camara" viewOrder="7.0" />
-      <JFXButton fx:id="btnSubirFoto" layoutX="877.0" layoutY="264.0" onAction="#OAbtnCamara" text="Subir foto" viewOrder="8.0" />
+      <JFXButton fx:id="btnSubirFoto" layoutX="877.0" layoutY="264.0" onAction="#OAbtnsubirfoto" text="Subir foto" viewOrder="8.0" />
       <JFXTextArea fx:id="TAAnotaciones" labelFloat="true" layoutX="86.0" layoutY="554.0" prefHeight="175.0" prefWidth="776.0" promptText="Anotaciones" viewOrder="18.0" />
       <Label fx:id="lb_DNIError" layoutX="88.0" layoutY="165.0" text=" " />
       <Label layoutX="88.0" layoutY="187.0" text="Fecha de Naciiento" />
       <JFXButton fx:id="btnResert" layoutX="720.0" layoutY="764.0" onAction="#OAbtnResert" prefHeight="26.0" prefWidth="142.0" text="Reset" viewOrder="20.0" />
       <JFXTextField fx:id="tfGrasaCorporal" labelFloat="true" layoutX="94.0" layoutY="461.0" promptText="Grasa Corporal" viewOrder="13.0" />
       <JFXTextField fx:id="tfProteina" labelFloat="true" layoutX="274.0" layoutY="461.0" promptText="Proteína" viewOrder="14.0" />
-      <JFXTextField labelFloat="true" layoutX="442.0" layoutY="461.0" promptText="Metabolismo Basal" viewOrder="15.0" />
+      <JFXTextField fx:id="tfMetabolismo" labelFloat="true" layoutX="442.0" layoutY="461.0" promptText="Metabolismo Basal" viewOrder="15.0" />
       <JFXTextField fx:id="tfGrasaVisceral" labelFloat="true" layoutX="605.0" layoutY="461.0" promptText="Grasa visceral" viewOrder="16.0" />
       <JFXTextField fx:id="tfPesoIdeal" labelFloat="true" layoutX="757.0" layoutY="461.0" promptText="Peso Ideal" viewOrder="17.0" />
    </children>
