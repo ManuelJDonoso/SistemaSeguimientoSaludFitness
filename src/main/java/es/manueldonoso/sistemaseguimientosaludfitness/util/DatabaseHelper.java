@@ -8,6 +8,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -69,6 +70,22 @@ public class DatabaseHelper {
         }
     }
 
+    
+    
+    public static Connection conectarddbb(){
+      String url = "jdbc:sqlite:" + DB_PATH;
+      Connection conn;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException ex) {
+            System.getLogger(DatabaseHelper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            conn=null;
+        }
+      
+      return conn;
+    
+    }
+    
     public static void addUserLogin(String usuario, String pass) {
         String url = "jdbc:sqlite:" + DB_PATH;
         String sql = "INSERT INTO login(usuario,pass) VALUES (?,?)";
@@ -121,9 +138,9 @@ public class DatabaseHelper {
 
     public static void crearTablasdefault() {
         String sqlUsuario = " CREATE TABLE IF NOT EXISTS usuarios ("
-                + "dni TEXT PRIMARY KEY, nombreApellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
+                + "dni TEXT PRIMARY KEY, nombre TEXT, apellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
                 + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT, grasac REAL, proteina REAL, metabolismoV REAL,"
-                + " grasaVis REAL, pesoIdeal REAL, fAlta TEXT); ";
+                + " grasaVis REAL, pesoIdeal REAL,anotaciones TEXT, fAlta TEXT); ";
         String sqldietaSemana = " CREATE TABLE IF NOT EXISTS dietaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT );";
 
         String sqlrutinaSemana = " CREATE TABLE IF NOT EXISTS rutinaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT  ); ";

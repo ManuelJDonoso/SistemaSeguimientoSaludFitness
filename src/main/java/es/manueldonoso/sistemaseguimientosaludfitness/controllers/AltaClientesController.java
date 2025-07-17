@@ -39,6 +39,9 @@ import javafx.util.StringConverter;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAO;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAOImpl;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import java.awt.Dimension;
 import javafx.embed.swing.SwingFXUtils;
 
@@ -254,7 +257,10 @@ public class AltaClientesController implements Initializable {
             }
         }
 
-        System.out.println(user.toString());
+      
+        UsuarioDAO dao = new UsuarioDAOImpl(DatabaseHelper.conectarddbb());
+        
+        dao.insertar(user);
     }
 
     @FXML
