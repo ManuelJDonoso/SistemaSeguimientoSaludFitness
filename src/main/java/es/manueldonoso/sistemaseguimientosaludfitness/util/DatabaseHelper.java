@@ -123,7 +123,7 @@ public class DatabaseHelper {
         String sqlUsuario = " CREATE TABLE IF NOT EXISTS usuarios ("
                 + "dni TEXT PRIMARY KEY, nombreApellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
                 + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT, grasac REAL, proteina REAL, metabolismoV REAL,"
-                + " grasaVis REAL, pesoIdeal REAL ); ";
+                + " grasaVis REAL, pesoIdeal REAL, fAlta TEXT); ";
         String sqldietaSemana = " CREATE TABLE IF NOT EXISTS dietaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT );";
 
         String sqlrutinaSemana = " CREATE TABLE IF NOT EXISTS rutinaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT  ); ";

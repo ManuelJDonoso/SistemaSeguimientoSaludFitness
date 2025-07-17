@@ -33,10 +33,28 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import javafx.util.StringConverter;
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
+import java.awt.Dimension;
+import javafx.embed.swing.SwingFXUtils;
+
+import javafx.scene.control.ButtonType;
+
+import javafx.embed.swing.SwingNode;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.scene.control.Dialog;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.util.Optional;
+import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 
 /**
  * FXML Controller class
@@ -242,6 +260,76 @@ public class AltaClientesController implements Initializable {
     @FXML
     private void OAbtnCamara(ActionEvent event) {
 
+        // Verificar si hay cámaras disponibles
+    if (Webcam.getWebcams().isEmpty()) {
+        mostrarAlerta("Cámara no disponible", "No se detectó ninguna cámara conectada.");
+        return;
+    }
+
+    // Configurar la cámara con una resolución adecuada
+    Webcam webcam = Webcam.getDefault();
+    webcam.setViewSize(WebcamResolution.VGA.getSize());
+
+    // Crear panel de Swing para el preview con tamaño fijo
+    WebcamPanel panel = new WebcamPanel(webcam);
+    panel.setFPSDisplayed(false);
+    panel.setDisplayDebugInfo(false);
+    panel.setImageSizeDisplayed(false);
+    panel.setMirrored(true);
+    panel.setPreferredSize(new Dimension(640, 480));
+
+    // Crear diálogo de JavaFX
+    Dialog<ButtonType> dialog = new Dialog<>();
+    dialog.setTitle("Tomar Foto");
+    dialog.setHeaderText("Posiciónese para la foto");
+
+    // Crear botones personalizados
+    ButtonType tomarFotoButtonType = new ButtonType("Tomar Foto", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(tomarFotoButtonType, ButtonType.CANCEL);
+
+    // Convertir el panel de Swing a JavaFX
+    SwingNode swingNode = new SwingNode();
+    swingNode.setContent(panel);
+
+    // Diseño del diálogo con tamaño fijo
+    VBox vbox = new VBox(swingNode);
+    vbox.setPadding(new Insets(10));
+    vbox.setStyle("-fx-background-color: white;");
+    vbox.setMinSize(660, 550); // Tamaño suficiente para el preview
+    vbox.setPrefSize(660, 550);
+    
+    dialog.getDialogPane().setContent(vbox);
+    dialog.getDialogPane().setMinSize(680, 580);
+    dialog.getDialogPane().setPrefSize(680, 580);
+
+    // Configurar el tamaño de la ventana del diálogo
+    dialog.setResizable(true);
+
+    // Mostrar diálogo y esperar respuesta
+    Optional<ButtonType> result = dialog.showAndWait();
+
+    if (result.isPresent() && result.get() == tomarFotoButtonType) {
+        try {
+            // Capturar imagen
+            BufferedImage bufferedImage = webcam.getImage();
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+
+            // Mostrar en el ImageView
+            ivFoto.setImage(image);
+
+            // Guardar la imagen temporalmente
+            File tempFile = File.createTempFile("webcam_", ".jpg");
+            ImageIO.write(bufferedImage, "jpg", tempFile);
+            ivFoto.getProperties().put("imageFile", tempFile);
+
+            mostrarAlerta("Foto tomada", "Foto capturada correctamente. No olvide guardar los cambios.", Alert.AlertType.INFORMATION);
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo capturar la imagen: " + e.getMessage());
+        }
+    }
+
+    // Cerrar la cámara
+    webcam.close();
     }
 
     @FXML
@@ -278,7 +366,7 @@ public class AltaClientesController implements Initializable {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                 mostrarAlerta("Error al cargar la imagen", "No se pudo cargar la imagen seleccionada.");
+                mostrarAlerta("Error al cargar la imagen", "No se pudo cargar la imagen seleccionada.");
             }
         }
     }
