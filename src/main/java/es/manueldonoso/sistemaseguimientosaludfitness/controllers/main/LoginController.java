@@ -64,12 +64,7 @@ public class LoginController {
         }
     }
 
-    @FXML
-    private void onKeyTypedEnter(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            detectarIntro();
-        }
-    }
+
 
     private void detectarIntro() {
             System.out.println("detecta intro");
@@ -78,8 +73,9 @@ public class LoginController {
 
     @FXML
     private void onKeyPressedEnter(KeyEvent event) {
-          System.out.println("detecta intro");
-        OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
+        if (event.getCode() == KeyCode.ENTER) {
+            detectarIntro();
+        }
     }
 
 }
