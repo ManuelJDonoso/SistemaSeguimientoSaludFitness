@@ -1,7 +1,6 @@
 /**
  * Sample Skeleton for 'Login.fxml' Controller Class
  */
-
 package es.manueldonoso.sistemaseguimientosaludfitness.controllers.main;
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -10,16 +9,18 @@ import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class LoginController {
-
 
     @FXML // fx:id="btn_ingresar"
     private Button btn_ingresar; // Value injected by FXMLLoader
@@ -50,14 +51,35 @@ public class LoginController {
     @FXML
     private void OA_btn_iniciarSesion(ActionEvent event) {
         System.out.println("iniciar sesion");
-        boolean inicioCorrecto=DatabaseHelper.verificarLogin(tf_usuario.getText(), tfp_pass.getText());
-        if(tf_usuario.getText().isBlank()||tfp_pass.getText().isBlank()){
-        lbMensajeError.setText("Los campos usuario y contraseña son requeridos");}else if(!inicioCorrecto){
-        lbMensajeError.setText("Error en el usuario o contraseña");}else{StageShow.MostrarDashboard();
-        Node source=(Node)event.getSource();
-        Stage stage =(Stage)source.getScene().getWindow();
-        stage.close();
+        boolean inicioCorrecto = DatabaseHelper.verificarLogin(tf_usuario.getText(), tfp_pass.getText());
+        if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
+            lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
+        } else if (!inicioCorrecto) {
+            lbMensajeError.setText("Error en el usuario o contraseña");
+        } else {
+            StageShow.MostrarDashboard();
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
         }
+    }
+
+    @FXML
+    private void onKeyTypedEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            detectarIntro();
+        }
+    }
+
+    private void detectarIntro() {
+            System.out.println("detecta intro");
+            OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
+    }
+
+    @FXML
+    private void onKeyPressedEnter(KeyEvent event) {
+          System.out.println("detecta intro");
+        OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
     }
 
 }

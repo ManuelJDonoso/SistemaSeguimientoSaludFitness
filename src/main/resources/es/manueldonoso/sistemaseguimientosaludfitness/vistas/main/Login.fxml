@@ -40,21 +40,21 @@
                   <Image url="@../../images/comun/img_logo_login.jpg" />
                </image>
             </ImageView>
+            <JFXTextField fx:id="tf_usuario" layoutX="663.0" layoutY="134.0" onKeyPressed="#onKeyPressedEnter" onKeyTyped="#onKeyTypedEnter" prefHeight="26.0" prefWidth="210.0" promptText="Usuario">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXPasswordField fx:id="tfp_pass" layoutX="663.0" layoutY="242.0" onKeyPressed="#onKeyPressedEnter" onKeyTyped="#onKeyTypedEnter" prefHeight="26.0" prefWidth="210.0" promptText="Contraseña" viewOrder="1.0">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+            </JFXPasswordField>
             <Button fx:id="btn_ingresar" layoutX="627.0" layoutY="363.0" mnemonicParsing="false" onAction="#OA_btn_iniciarSesion" text="Iniciar sesión">
                <font>
                   <Font name="Comic Sans MS Bold Italic" size="36.0" />
                </font>
             </Button>
-            <JFXPasswordField fx:id="tfp_pass" layoutX="663.0" layoutY="242.0" prefHeight="26.0" prefWidth="210.0" promptText="Contraseña">
-               <font>
-                  <Font name="Comic Sans MS" size="14.0" />
-               </font>
-            </JFXPasswordField>
-            <JFXTextField fx:id="tf_usuario" layoutX="663.0" layoutY="134.0" prefHeight="26.0" prefWidth="210.0" promptText="Usuario">
-               <font>
-                  <Font name="Comic Sans MS" size="14.0" />
-               </font>
-            </JFXTextField>
             <Label layoutX="663.0" layoutY="89.0" prefHeight="26.0" prefWidth="210.0" text="Usuario">
                <font>
                   <Font name="Comic Sans MS Bold Italic" size="18.0" />
