@@ -4,12 +4,19 @@
  */
 package es.manueldonoso.sistemaseguimientosaludfitness.util;
 
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Usuario;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAOImpl;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,6 +29,7 @@ public class DatabaseHelper {
     private static final String DB_NAME = "datos.db";
     private static final String DB_PATH = DB_FOLDER + "/" + DB_NAME;
 
+
     public static void main(String[] args) {
         crearCarpetaSiNoExite();
         crearBaseDatos();
@@ -29,6 +37,12 @@ public class DatabaseHelper {
             addUserLogin("admin", "admin");
         }
         crearTablasdefault();
+        //borrar en produccion
+        Connection conn = conectarddbb();
+        if(esTablaUsuariosVacia(conn)){
+                
+                insertarUsuariosPorDefecto(conn);
+        }
 
     }
 
@@ -70,22 +84,20 @@ public class DatabaseHelper {
         }
     }
 
-    
-    
-    public static Connection conectarddbb(){
-      String url = "jdbc:sqlite:" + DB_PATH;
-      Connection conn;
+    public static Connection conectarddbb() {
+        String url = "jdbc:sqlite:" + DB_PATH;
+        Connection conn;
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException ex) {
             System.getLogger(DatabaseHelper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            conn=null;
+            conn = null;
         }
-      
-      return conn;
-    
+
+        return conn;
+
     }
-    
+
     public static void addUserLogin(String usuario, String pass) {
         String url = "jdbc:sqlite:" + DB_PATH;
         String sql = "INSERT INTO login(usuario,pass) VALUES (?,?)";
@@ -166,7 +178,55 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
     }
+
     
-    public static void insertarDatosUsuarioN(){}
+    public static boolean esTablaUsuariosVacia(Connection conn) {
+    String sql = "SELECT COUNT(*) FROM usuarios";
+    try (Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            return count == 0;
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false; // En caso de error o tabla no encontrada
+}
+    
+    public static void insertarUsuariosPorDefecto(Connection conn) {
+        UsuarioDAOImpl dao =new UsuarioDAOImpl(conn);
+        List<Usuario> usuarios = new ArrayList<>();
+
+    for (int i = 1; i < 10; i++) {
+        usuarios.add(new Usuario(
+                "0000000" + i + "X",
+                "Nombre" + i,
+                "Apellido1_" + i,
+                "Apellido2_" + i,
+                i % 2 == 0 ? "Hombre" : "Mujer",
+                "1.75", "75", "24.5",
+                "foto" + i + ".jpg",
+                "Calle Falsa " + i,
+                "Ciudad" + i,
+                "2800" + i,
+                "60000000" + i,
+                "15", "20", "1600", "12",
+                "70", "Sin anotaciones",
+                LocalDate.of(1990, 1, i),
+                LocalDateTime.now()
+        ));
+    }
+
+    for (Usuario u : usuarios) {
+       dao.insertar(u);
+    }
+
+    System.out.println("9 usuarios insertados con éxito.");
+    }
+    
+    
 
 }

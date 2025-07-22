@@ -21,6 +21,32 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(String dni, String nombre, String apellido1, String apellido2, String sexo, String altura, String peso, String imc, String dirFoto, String direccion, String poblacion, String cp, String telefono, String grasac, String proteina, String metabolismoV, String grasaV, String PesoIdeal, String Anotaciones, LocalDate fechaNacimiento, LocalDateTime fechaAlta) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        this.sexo = sexo;
+        this.altura = altura;
+        this.peso = peso;
+        this.imc = imc;
+        this.dirFoto = dirFoto;
+        this.direccion = direccion;
+        this.poblacion = poblacion;
+        this.cp = cp;
+        this.telefono = telefono;
+        this.grasac = grasac;
+        this.proteina = proteina;
+        this.metabolismoV = metabolismoV;
+        this.grasaV = grasaV;
+        this.PesoIdeal = PesoIdeal;
+        this.Anotaciones = Anotaciones;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaAlta = fechaAlta;
+    }
+
+    
+    
     public String getDni() {
         return dni;
     }
