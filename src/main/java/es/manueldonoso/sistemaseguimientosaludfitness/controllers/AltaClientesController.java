@@ -261,7 +261,7 @@ public class AltaClientesController implements Initializable {
             user.setGrasaV(grasav);
             user.setPesoIdeal(pesoideal);
             user.setAnotaciones(anotaciones);
-            user.setFechaAlta(LocalDate.now());
+            user.setFechaAlta(LocalDateTime.now());
 
             // Guardar la imagen si hay una seleccionada
             if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {

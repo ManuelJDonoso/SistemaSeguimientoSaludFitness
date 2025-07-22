@@ -37,7 +37,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             ps.setString(5, u.getSexo());
 
             // Convertir LocalDate a java.sql.Date
-            ps.setDate(6, java.sql.Date.valueOf(u.getFechaNacimiento()));
+            ps.setString(6, u.getFechaNacimiento().toString());
 
             ps.setString(7, u.getAltura());
             ps.setString(8, u.getPeso());
@@ -55,7 +55,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             ps.setString(20, u.getAnotaciones());
 
             // Convertir LocalDate a java.sql.Date para fechaAlta
-            ps.setDate(21, java.sql.Date.valueOf(u.getFechaAlta()));
+            ps.setString(21, u.getFechaAlta().toString());
 
             ps.executeUpdate();
         } catch (SQLException ex) {

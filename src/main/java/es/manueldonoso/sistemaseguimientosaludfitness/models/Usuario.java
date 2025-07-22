@@ -5,6 +5,7 @@
 package es.manueldonoso.sistemaseguimientosaludfitness.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -14,7 +15,8 @@ public class Usuario {
 
     private String dni, nombre, apellido1, apellido2, sexo, altura, peso, imc, dirFoto,
             direccion, poblacion, cp, telefono, grasac, proteina, metabolismoV, grasaV, PesoIdeal, Anotaciones;
-    private LocalDate fechaNacimiento,fechaAlta;
+    private LocalDate fechaNacimiento;
+    private LocalDateTime fechaAlta;
 
     public Usuario() {
     }
@@ -179,13 +181,15 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public LocalDate getFechaAlta() {
+    public LocalDateTime getFechaAlta() {
         return fechaAlta;
     }
 
-    public void setFechaAlta(LocalDate fechaAlta) {
+    public void setFechaAlta(LocalDateTime fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
+
+
 
     @Override
     public String toString() {
