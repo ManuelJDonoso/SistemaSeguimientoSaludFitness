@@ -5,6 +5,8 @@ package es.manueldonoso.sistemaseguimientosaludfitness.controllers.main;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
 import java.net.URL;
@@ -20,6 +22,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+/**
+ *
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
+ */
 public class LoginController {
 
     @FXML // fx:id="btn_ingresar"
@@ -51,7 +57,10 @@ public class LoginController {
     @FXML
     private void OA_btn_iniciarSesion(ActionEvent event) {
         System.out.println("iniciar sesion");
-        boolean inicioCorrecto = DatabaseHelper.verificarLogin(tf_usuario.getText(), tfp_pass.getText());
+
+        LoginDAOimpl DAO = new LoginDAOimpl();
+
+        boolean inicioCorrecto = DAO.verificarLogin(tf_usuario.getText(), tfp_pass.getText());
         if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
             lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
         } else if (!inicioCorrecto) {
@@ -64,11 +73,9 @@ public class LoginController {
         }
     }
 
-
-
     private void detectarIntro() {
-            System.out.println("detecta intro");
-            OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
+        System.out.println("detecta intro");
+        OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
     }
 
     @FXML

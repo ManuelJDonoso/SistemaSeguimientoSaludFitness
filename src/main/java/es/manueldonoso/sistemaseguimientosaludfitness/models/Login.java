@@ -20,7 +20,10 @@ public class Login {
         this.usuario = usuario;
         this.pass = pass;
     }
-
+    public Login( String usuario, String pass) {
+        this.usuario = usuario;
+        this.pass = pass;
+    }
     public int getId() {
         return id;
     }

@@ -22,6 +22,10 @@ public class LoginDAOimpl implements LoginDAO {
     private static final String DB_NAME = "datos.db";
     private static final String DB_PATH = DB_FOLDER + "/" + DB_NAME;
 
+    public LoginDAOimpl() {
+    }
+
+    
     @Override
     public void insertar(Login login) {
         String url = "jdbc:sqlite:" + DB_PATH;
