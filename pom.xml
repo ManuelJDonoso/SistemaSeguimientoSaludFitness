@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.manueldonoso</groupId>
     <artifactId>sistemaSeguimientoSaludFitness</artifactId>
@@ -10,11 +10,11 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
-         <!--
-        JavaFX Controls
-        ¿Qué hace?
-        Incluye los controles gráficos estándar de JavaFX, es decir, los componentes de la interfaz de usuario que puedes usar en una aplicación JavaFX.
-    -->
+        <!--
+            JavaFX Controls
+            ¿Qué hace?
+            Incluye los controles gráficos estándar de JavaFX, es decir, los componentes de la interfaz de usuario que puedes usar en una aplicación JavaFX.
+        -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -55,23 +55,23 @@
         </dependency>
 
         <!--
-            AnimateFX es una librería que proporciona efectos de animación predefinidos para nodos de JavaFX, como Label, Button, ImageView, Pane, etc. Está inspirada en la biblioteca de animaciones Animate.css de JavaScript.
-            🎯 ¿Para qué sirve?
+    AnimateFX es una librería que proporciona efectos de animación predefinidos para nodos de JavaFX, como Label, Button, ImageView, Pane, etc. Está inspirada en la biblioteca de animaciones Animate.css de JavaScript.
+    🎯 ¿Para qué sirve?
 
-            Te permite aplicar animaciones como:
+    Te permite aplicar animaciones como:
 
-                FadeIn, FadeOut
+        FadeIn, FadeOut
 
-                Bounce, Shake, Pulse
+        Bounce, Shake, Pulse
 
-                ZoomIn, ZoomOut
+        ZoomIn, ZoomOut
 
-                SlideInLeft, SlideInRight, etc.
+        SlideInLeft, SlideInRight, etc.
 
-                RotateIn, FlipInX, etc.
+        RotateIn, FlipInX, etc.
 
-                  de forma sencilla con una sola línea de código
-                -->
+          de forma sencilla con una sola línea de código
+        -->
         <dependency>
             <groupId>io.github.typhon0</groupId>
             <artifactId>AnimateFX</artifactId>
@@ -131,14 +131,7 @@
         </dependency>
 
 
-        <!--Es la versión 4 de JUnit, uno de los frameworks más usados para pruebas unitarias en Java.-->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-            <type>jar</type>
-        </dependency>
+
 
         <!--Añade la API principal de JUnit 5 (también llamada JUnit Jupiter).-->
         <dependency>
@@ -176,6 +169,14 @@
             <version>2.2.5</version>
             <scope>test</scope>
             <type>jar</type>
+        </dependency>
+        
+        <!-- H2 para pruebas -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.214</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -225,11 +226,11 @@
                         <id>ide-profile</id>
                         <configuration>
                             <options>
-				<option>${profiler.jvmargs.arg1}</option>
-				<option>${profiler.jvmargs.arg2}</option>
-				<option>${profiler.jvmargs.arg3}</option>
-				<option>${profiler.jvmargs.arg4}</option>
-				<option>${profiler.jvmargs.arg5}</option>
+                                <option>${profiler.jvmargs.arg1}</option>
+                                <option>${profiler.jvmargs.arg2}</option>
+                                <option>${profiler.jvmargs.arg3}</option>
+                                <option>${profiler.jvmargs.arg4}</option>
+                                <option>${profiler.jvmargs.arg5}</option>
                             </options>
                         </configuration>
                     </execution>
