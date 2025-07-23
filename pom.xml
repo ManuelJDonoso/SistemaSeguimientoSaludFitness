@@ -136,10 +136,9 @@
         <!--Añade la API principal de JUnit 5 (también llamada JUnit Jupiter).-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.1.0-M2</version>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.0</version>
             <scope>test</scope>
-            <type>jar</type>
         </dependency>
 
         <!--Permite reproducir audio y vídeo en aplicaciones JavaFX.-->
