@@ -32,4 +32,8 @@ public interface LoginDAO {
 
     boolean verificarLogin(String Usuario, String pass, String url);
 
+    boolean usuarioExiste(String Usuario);
+
+    boolean usuarioExiste(String Usuario, String url);
+
 }

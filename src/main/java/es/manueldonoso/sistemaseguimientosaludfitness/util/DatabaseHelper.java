@@ -4,7 +4,10 @@
  */
 package es.manueldonoso.sistemaseguimientosaludfitness.util;
 
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Login;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Usuario;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAO;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAOImpl;
 import java.io.File;
 import java.sql.Connection;
@@ -33,9 +36,13 @@ public class DatabaseHelper {
     public static void main(String[] args) {
         crearCarpetaSiNoExite();
         crearBaseDatos();
-        if (!verificarUsuarioExiste("admin")) {
-            addUserLogin("admin", "admin");
+        LoginDAOimpl DAO= new LoginDAOimpl();
+        
+        if (!DAO.usuarioExiste("admin")) {
+            Login login = new Login("admin", "admin");
+            DAO.insertar(login);
         }
+        
         crearTablasdefault();
         //borrar en produccion
         Connection conn = conectarddbb();
