@@ -31,24 +31,25 @@ public class DatabaseHelper {
     private static final String DB_FOLDER = "data/databases";
     private static final String DB_NAME = "datos.db";
     private static final String DB_PATH = DB_FOLDER + "/" + DB_NAME;
-
+    private static String url = "jdbc:sqlite:" + DB_PATH;
+    private static Connection sharedConnection;
 
     public static void main(String[] args) {
         crearCarpetaSiNoExite();
         crearBaseDatos();
-        LoginDAOimpl DAO= new LoginDAOimpl();
-        
+        LoginDAOimpl DAO = new LoginDAOimpl();
+
         if (!DAO.usuarioExiste("admin")) {
             Login login = new Login("admin", "admin");
             DAO.insertar(login);
         }
-        
+
         crearTablasdefault();
         //borrar en produccion
         Connection conn = conectarddbb();
-        if(esTablaUsuariosVacia(conn)){
-                
-                insertarUsuariosPorDefecto(conn);
+        if (esTablaUsuariosVacia(conn)) {
+
+            insertarUsuariosPorDefecto(conn);
         }
 
     }
@@ -72,8 +73,8 @@ public class DatabaseHelper {
     /**
      * crea la base de datos y su tabla login si no existe
      */
-    private static void crearBaseDatos() {
-        String url = "jdbc:sqlite:" + DB_PATH;
+    public static void crearBaseDatos() {
+
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 Statement stmt = conn.createStatement();
@@ -83,7 +84,7 @@ public class DatabaseHelper {
                         + "usuario TEXT NOT NULL, "
                         + "pass TEXT NOT NULL)");
 
-                System.out.println("Base de datos creada correctamente en : " + DB_PATH);
+                System.out.println("Base de datos creada correctamente en : " + url.substring(12));
             }
         } catch (Exception e) {
 
@@ -92,21 +93,20 @@ public class DatabaseHelper {
     }
 
     public static Connection conectarddbb() {
-        String url = "jdbc:sqlite:" + DB_PATH;
-        Connection conn;
+
         try {
-            conn = DriverManager.getConnection(url);
+            sharedConnection = DriverManager.getConnection(url);
         } catch (SQLException ex) {
             System.getLogger(DatabaseHelper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            conn = null;
+            sharedConnection = null;
         }
 
-        return conn;
+        return sharedConnection;
 
     }
 
     public static void addUserLogin(String usuario, String pass) {
-        String url = "jdbc:sqlite:" + DB_PATH;
+
         String sql = "INSERT INTO login(usuario,pass) VALUES (?,?)";
 
         //cifrar la contraseña
@@ -125,7 +125,7 @@ public class DatabaseHelper {
     }
 
     public static boolean verificarLogin(String Usuario, String pass) {
-        String url = "jdbc:sqlite:" + DB_PATH;
+
         String hashpass = Seguridad.hashSHA256(pass);
         String sql = "SELECT usuario, pass  FROM  login WHERE usuario = ? AND pass = ?";
 
@@ -141,7 +141,6 @@ public class DatabaseHelper {
     }
 
     public static boolean verificarUsuarioExiste(String Usuario) {
-        String url = "jdbc:sqlite:" + DB_PATH;
 
         String sql = "SELECT usuario, pass  FROM  login WHERE usuario = ? ";
 
@@ -170,7 +169,6 @@ public class DatabaseHelper {
 
         String sqlRutinaDia = " CREATE TABLE IF NOT EXISTS rutinaDia ( id INTEGER PRIMARY KEY AUTOINCREMENT, fkRutinaSemanal INTEGER, nombreEjercicio TEXT, repeticiones INTEGER, series INTEGER, peso REAL, tiempo TEXT,  urlImagen TEXT, FOREIGN KEY (fkRutinaSemanal) REFERENCES rutinaSemanal(id)  ); ";
 
-        String url = "jdbc:sqlite:" + DB_PATH;
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement()) {
 
             stmt.execute(sqlUsuario);
@@ -186,54 +184,87 @@ public class DatabaseHelper {
         }
     }
 
-    
     public static boolean esTablaUsuariosVacia(Connection conn) {
-    String sql = "SELECT COUNT(*) FROM usuarios";
-    try (Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql)) {
+        String sql = "SELECT COUNT(*) FROM usuarios";
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
-        if (rs.next()) {
-            int count = rs.getInt(1);
-            return count == 0;
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count == 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return false; // En caso de error o tabla no encontrada
     }
-    return false; // En caso de error o tabla no encontrada
-}
-    
+
     public static void insertarUsuariosPorDefecto(Connection conn) {
-        UsuarioDAOImpl dao =new UsuarioDAOImpl(conn);
+        UsuarioDAOImpl dao = new UsuarioDAOImpl(conn);
         List<Usuario> usuarios = new ArrayList<>();
 
-    for (int i = 1; i < 10; i++) {
-        usuarios.add(new Usuario(
-                "0000000" + i + "X",
-                "Nombre" + i,
-                "Apellido1_" + i,
-                "Apellido2_" + i,
-                i % 2 == 0 ? "Hombre" : "Mujer",
-                "1.75", "75", "24.5",
-                "foto" + i + ".jpg",
-                "Calle Falsa " + i,
-                "Ciudad" + i,
-                "2800" + i,
-                "60000000" + i,
-                "15", "20", "1600", "12",
-                "70", "Sin anotaciones",
-                LocalDate.of(1990, 1, i),
-                LocalDateTime.now()
-        ));
+        for (int i = 1; i < 10; i++) {
+            usuarios.add(new Usuario(
+                    "0000000" + i + "X",
+                    "Nombre" + i,
+                    "Apellido1_" + i,
+                    "Apellido2_" + i,
+                    i % 2 == 0 ? "Hombre" : "Mujer",
+                    "1.75", "75", "24.5",
+                    "foto" + i + ".jpg",
+                    "Calle Falsa " + i,
+                    "Ciudad" + i,
+                    "2800" + i,
+                    "60000000" + i,
+                    "15", "20", "1600", "12",
+                    "70", "Sin anotaciones",
+                    LocalDate.of(1990, 1, i),
+                    LocalDateTime.now()
+            ));
+        }
+
+        for (Usuario u : usuarios) {
+            dao.insertar(u);
+        }
+
+        System.out.println("9 usuarios insertados con éxito.");
     }
 
-    for (Usuario u : usuarios) {
-       dao.insertar(u);
+    public static void setUrl(String url) {
+        DatabaseHelper.url = url;
     }
 
-    System.out.println("9 usuarios insertados con éxito.");
+    public static String getUrl() {
+        return url;
+    }
+
+    public static Connection getSharedConnection() {
+        return sharedConnection;
+    }
+
+    public static void setSharedConnection(Connection sharedConnection) {
+        DatabaseHelper.sharedConnection = sharedConnection;
+    }
+
+    public static  boolean sharedConnectionIsClose() throws SQLException{
+    return sharedConnection.isClosed();
     }
     
+    public static void SharedConnectionClose() throws SQLException{
+        sharedConnection.close();
+    }
     
-
+    public static void forceCloseAllConnections() {
+    try {
+        // Cierra la conexión compartida si existe
+        if (sharedConnection != null && !sharedConnection.isClosed()) {
+            sharedConnection.close();
+        }
+        
+  
+    } catch (SQLException e) {
+        System.err.println("Error forzando cierre de conexiones: " + e.getMessage());
+    }
+}
+    
 }

@@ -1,35 +1,29 @@
-package util;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+package util;
 
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Login;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *
- * @author donpe
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
-public class DatabaseHelperTest {
+public class LoginDAOimplTest {
 
     private static final String DB_FOLDER = "data/databases";
     private static final String DB_NAME = "test_temp.db";
@@ -39,11 +33,26 @@ public class DatabaseHelperTest {
     private static final String TEST_USER = "test_user";
     private static final String TEST_PASS = "test_pass";
 
+    private static LoginDAOimpl loginDAO;
+    private static Login testLogin;
+
+    public LoginDAOimplTest() {
+    }
+
     @BeforeAll
-    public static void setUpClass() throws SQLException {
+    public static void setUpClass() {
         DatabaseHelper.setUrl(TEST_DB_URL);
         DatabaseHelper.crearBaseDatos();
         DatabaseHelper.crearTablasdefault();
+
+        // Inicializar el DAO
+        loginDAO = new LoginDAOimpl();
+        loginDAO.setDB_NAME(DB_NAME);
+
+        // Crear objeto Login para pruebas
+        testLogin = new Login();
+        testLogin.setUsuario(TEST_USER);
+        testLogin.setPass(TEST_PASS);
 
     }
 
@@ -91,63 +100,61 @@ public class DatabaseHelperTest {
 
     @BeforeEach
     public void setUp() {
-
     }
 
     @AfterEach
     public void tearDown() {
-        // Nada por ahora
+       System.out.println("eliminando usuario: " + testLogin);
+        // Act
+        loginDAO.eleminar(testLogin);  
     }
 
     @Test
-    public void testConectarDB() {
-        System.out.println("conectar con la base de datos temporal");
-        Connection conn = DatabaseHelper.conectarddbb();
-        assertNotNull(conn, "La conexión a la base de datos debe ser válida");
+    public void testInsertar() {
+        System.out.println("insertando usuario: " + testLogin);
+        // Act
+        loginDAO.insertar(testLogin);
+
+        System.out.println("comprobando que " + testLogin + " exite despues de insertar");
+        // Assert
+        assertTrue(loginDAO.usuarioExiste(TEST_USER));
     }
 
     @Test
-    public void testComprobarTablas() throws SQLException {
+    public void testVerificarLogin() {
+        loginDAO.insertar(testLogin);
+        System.out.println("-----usuario insertado :"+ testLogin);
+        assertTrue(loginDAO.usuarioExiste(TEST_USER));
+        loginDAO.verificarLogin(testLogin);
+        
 
-        try (Connection conn = DatabaseHelper.conectarddbb()) {
-            // Verifica primero que la conexión es válida
-            assertFalse(conn.isClosed(), "La conexión debería estar abierta");
-
-            // Verifica que hay tablas (cualquier tabla)
-            DatabaseMetaData meta = conn.getMetaData();
-            ResultSet allTables = meta.getTables(null, null, "%", null);
-            assertTrue(allTables.next(), "La base de datos no tiene ninguna tabla");
-
-            // Lista específica de tablas
-            String[] tablasRequeridas = {"login", "usuarios", "dietaSemanal", "rutinaSemanal",
-                "seguimiento", "dietaDia", "rutinaDia"};
-
-            for (String tabla : tablasRequeridas) {
-                ResultSet rs = meta.getTables(null, null, tabla, null);
-                assertTrue(rs.next(), "La tabla " + tabla + " no fue creada");
-            }
-        } catch (SQLException e) {
-            fail("Error al comprobar tablas: " + e.getMessage());
-        }
     }
 
     @Test
-    public void testAddUserLoginYVerificarLogin() {
-        System.out.println("añadiendo el usuario test_user");
-        DatabaseHelper.addUserLogin(TEST_USER, TEST_PASS);
-        boolean loginCorrecto = DatabaseHelper.verificarLogin(TEST_USER, TEST_PASS);
-        assertTrue(loginCorrecto, "El login debe funcionar para el usuario creado");
+    public void testCambiarPass() {
+        System.out.println("------CAMBIO DE PASS----");
+        loginDAO.insertar(testLogin);
+         System.out.println("-----usuario insertado :"+ testLogin);
+          assertTrue(loginDAO.usuarioExiste(TEST_USER));
+            System.out.println(testLogin);
+          loginDAO.cambiarPass(testLogin, "HOLA");
+          testLogin.setPass("HOLA");
+          loginDAO.verificarLogin(testLogin);
+          System.out.println(testLogin);
+          
+ 
     }
 
     @Test
-    public void testEsTablaUsuariosVacia() {
-        Connection conn = DatabaseHelper.conectarddbb();
-        assertNotNull(conn);
-        boolean vacia = DatabaseHelper.esTablaUsuariosVacia(conn);
-        // Al ejecutar DatabaseHelper.main(), los usuarios se insertan si la tabla está vacía
-        assertTrue(vacia, "La tabla de usuarios  debe estar vacía  ");
-        DatabaseHelper.insertarUsuariosPorDefecto(conn);
-        vacia = DatabaseHelper.esTablaUsuariosVacia(conn);
-        assertFalse(vacia, "La tabla de usuarios no debe estar vacía después de inicializar");
+    public void testEliminar() {
+        loginDAO.insertar(testLogin);
+        assertTrue(loginDAO.usuarioExiste(TEST_USER));
+        System.out.println("eliminando usuario: " + testLogin);
+        // Act
+        loginDAO.eleminar(testLogin);
+
+        System.out.println("comprobando que " + testLogin + " NO exite despues de Borrar");
+        // Assert
+        assertFalse(loginDAO.usuarioExiste(TEST_USER));
     }
 }

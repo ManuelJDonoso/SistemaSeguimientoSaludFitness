@@ -5,6 +5,7 @@ package es.manueldonoso.sistemaseguimientosaludfitness.controllers.main;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Login;
 
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
@@ -60,7 +61,8 @@ public class LoginController {
 
         LoginDAOimpl DAO = new LoginDAOimpl();
 
-        boolean inicioCorrecto = DAO.verificarLogin(tf_usuario.getText(), tfp_pass.getText());
+        Login login =new Login(tf_usuario.getText(), tfp_pass.getText());
+        boolean inicioCorrecto = DAO.verificarLogin(login);
         if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
             lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
         } else if (!inicioCorrecto) {
