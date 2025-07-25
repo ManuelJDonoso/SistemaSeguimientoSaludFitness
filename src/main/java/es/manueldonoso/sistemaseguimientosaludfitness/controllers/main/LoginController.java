@@ -87,4 +87,9 @@ public class LoginController {
         }
     }
 
+    @FXML
+    private void oa_btn_salir(ActionEvent event) {
+      Platform.exit();
+    }
+
 }
