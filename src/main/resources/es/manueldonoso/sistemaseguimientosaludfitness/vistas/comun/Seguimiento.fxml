@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import java.net.URL?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.SeguimientoController">
+<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="1063.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.SeguimientoController">
     <stylesheets>
         <URL value="@/es/manueldonoso/sistemaseguimientosaludfitness/styles/seguimiento.css" />
     </stylesheets>
    <children>
-      <Label layoutX="272.0" layoutY="192.0" text="Seguimiento" />
+      <JFXTextField fx:id="tf_dni" labelFloat="true" layoutX="42.0" layoutY="61.0" promptText="DNI" />
+      <JFXTextField fx:id="tf_nombre" labelFloat="true" layoutX="216.0" layoutY="61.0" prefHeight="25.0" prefWidth="186.0" promptText="NOMBRE" />
+      <JFXComboBox fx:id="cb_poblacion" labelFloat="true" layoutX="681.0" layoutY="61.0" prefHeight="25.0" prefWidth="135.0" promptText="POBLACION" />
+      <JFXTextField fx:id="tf_apellidos" labelFloat="true" layoutX="436.0" layoutY="61.0" prefHeight="25.0" prefWidth="221.0" promptText="APELLIDOS" />
+      <DatePicker fx:id="fp_fecha_cita" layoutX="850.0" layoutY="61.0" prefHeight="25.0" prefWidth="186.0" />
+      <TableView fx:id="tabla_clientes" layoutX="165.0" layoutY="173.0" prefHeight="302.0" prefWidth="705.0">
+        <columns>
+          <TableColumn fx:id="cl_dni" prefWidth="146.0" text="DNI" />
+          <TableColumn fx:id="cl_clientes" prefWidth="300.0" text="USUARIO" />
+            <TableColumn fx:id="cl_poblacion" prefWidth="144.0" text="POBLACIÓN" />
+            <TableColumn fx:id="cl_cita" prefWidth="114.0" text="CITA" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
