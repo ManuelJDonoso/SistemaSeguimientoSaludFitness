@@ -11,17 +11,17 @@ import java.time.LocalDateTime;
  *
  * @author donpe
  */
-public class Usuario {
+public class Cliente {
 
     private String dni, nombre, apellido1, apellido2, sexo, altura, peso, imc, dirFoto,
             direccion, poblacion, cp, telefono, grasac, proteina, metabolismoV, grasaV, PesoIdeal, Anotaciones;
     private LocalDate fechaNacimiento;
-    private LocalDateTime fechaAlta;
+    private LocalDateTime fechaAlta, proximaCita;
 
-    public Usuario() {
+    public Cliente() {
     }
 
-    public Usuario(String dni, String nombre, String apellido1, String apellido2, String sexo, String altura, String peso, String imc, String dirFoto, String direccion, String poblacion, String cp, String telefono, String grasac, String proteina, String metabolismoV, String grasaV, String PesoIdeal, String Anotaciones, LocalDate fechaNacimiento, LocalDateTime fechaAlta) {
+    public Cliente(String dni, String nombre, String apellido1, String apellido2, String sexo, String altura, String peso, String imc, String dirFoto, String direccion, String poblacion, String cp, String telefono, String grasac, String proteina, String metabolismoV, String grasaV, String PesoIdeal, String Anotaciones, LocalDate fechaNacimiento, LocalDateTime fechaAlta) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -43,10 +43,9 @@ public class Usuario {
         this.Anotaciones = Anotaciones;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaAlta = fechaAlta;
+
     }
 
-    
-    
     public String getDni() {
         return dni;
     }
@@ -215,13 +214,21 @@ public class Usuario {
         this.fechaAlta = fechaAlta;
     }
 
+    public LocalDateTime getProximaCita() {
+        return proximaCita;
+    }
 
+    public void setProximaCita(LocalDateTime proximaCita) {
+        this.proximaCita = proximaCita;
+    }
+
+    public String getNombreCompleto() {
+        return nombre + " " + apellido1 + " " + apellido2;
+    }
 
     @Override
     public String toString() {
-        return "Usuario{" + "dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", sexo=" + sexo + ", altura=" + altura + ", peso=" + peso + ", imc=" + imc + ", dirFoto=" + dirFoto + ", direccion=" + direccion + ", poblacion=" + poblacion + ", cp=" + cp + ", telefono=" + telefono + ", grasac=" + grasac + ", proteina=" + proteina + ", metabolismoV=" + metabolismoV + ", grasaV=" + grasaV + ", PesoIdeal=" + PesoIdeal + ", Anotaciones=" + Anotaciones + ", fechaNacimiento=" + fechaNacimiento + ", fechaAlta=" + fechaAlta + '}';
+        return "Cliente{" + "dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", sexo=" + sexo + ", altura=" + altura + ", peso=" + peso + ", imc=" + imc + ", dirFoto=" + dirFoto + ", direccion=" + direccion + ", poblacion=" + poblacion + ", cp=" + cp + ", telefono=" + telefono + ", grasac=" + grasac + ", proteina=" + proteina + ", metabolismoV=" + metabolismoV + ", grasaV=" + grasaV + ", PesoIdeal=" + PesoIdeal + ", Anotaciones=" + Anotaciones + ", fechaNacimiento=" + fechaNacimiento + ", fechaAlta=" + fechaAlta + ", proximaCita=" + proximaCita + '}';
     }
-
-
 
 }

@@ -5,7 +5,7 @@
 package es.manueldonoso.sistemaseguimientosaludfitness.util;
 
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Login;
-import es.manueldonoso.sistemaseguimientosaludfitness.models.Usuario;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAO;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAOImpl;
@@ -201,10 +201,10 @@ public class DatabaseHelper {
 
     public static void insertarUsuariosPorDefecto(Connection conn) {
         ClienteDAOImpl dao = new ClienteDAOImpl(conn);
-        List<Usuario> usuarios = new ArrayList<>();
+        List<Cliente> usuarios = new ArrayList<>();
 
         for (int i = 1; i < 10; i++) {
-            usuarios.add(new Usuario(
+            usuarios.add(new Cliente(
                     "0000000" + i + "X",
                     "Nombre" + i,
                     "Apellido1_" + i,
@@ -223,7 +223,7 @@ public class DatabaseHelper {
             ));
         }
 
-        for (Usuario u : usuarios) {
+        for (Cliente u : usuarios) {
             dao.insertar(u);
         }
 
@@ -246,25 +246,29 @@ public class DatabaseHelper {
         DatabaseHelper.sharedConnection = sharedConnection;
     }
 
-    public static  boolean sharedConnectionIsClose() throws SQLException{
-    return sharedConnection.isClosed();
+    public static boolean sharedConnectionIsClose() throws SQLException {
+        return sharedConnection.isClosed();
     }
-    
-    public static void SharedConnectionClose() throws SQLException{
+
+    public static void SharedConnectionClose() throws SQLException {
         sharedConnection.close();
     }
-    
+
     public static void forceCloseAllConnections() {
-    try {
-        // Cierra la conexión compartida si existe
-        if (sharedConnection != null && !sharedConnection.isClosed()) {
-            sharedConnection.close();
+        try {
+            // Cierra la conexión compartida si existe
+            if (sharedConnection != null && !sharedConnection.isClosed()) {
+                sharedConnection.close();
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error forzando cierre de conexiones: " + e.getMessage());
         }
-        
-  
-    } catch (SQLException e) {
-        System.err.println("Error forzando cierre de conexiones: " + e.getMessage());
     }
-}
-    
+
+    public static ResultSet resultSet(String query) throws SQLException {
+        PreparedStatement stmt = sharedConnection.prepareStatement(query);
+        return stmt.executeQuery();
+    }
+
 }

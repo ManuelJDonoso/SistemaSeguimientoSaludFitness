@@ -4,7 +4,7 @@
  */
 package es.manueldonoso.sistemaseguimientosaludfitness.models.dao;
 
-import es.manueldonoso.sistemaseguimientosaludfitness.models.Usuario;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
-    public void insertar(Usuario u) {
+    public void insertar(Cliente u) {
         String sql = "INSERT INTO clientes (dni, nombre, apellido1, apellido2, sexo,"
                 + " fnacimiento, altura, peso, imc, dirFoto, direccion, poblacion, cp, tel, grasac,"
                 + " proteina, metabolismoV, grasaVis, PesoIdeal, anotaciones,fAlta ) "
@@ -65,17 +65,17 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
-    public Usuario obtenerPorDni(String dni) {
+    public Cliente obtenerPorDni(String dni) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Usuario> listarTodos() {
+    public List<Cliente> listarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void actualizar(Usuario u) {
+    public void actualizar(Cliente u) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

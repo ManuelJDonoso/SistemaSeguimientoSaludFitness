@@ -8,7 +8,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import es.manueldonoso.sistemaseguimientosaludfitness.models.Usuario;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.UtilHelper;
 import java.io.File;
 import java.io.IOException;
@@ -196,7 +196,7 @@ public class AltaClientesController implements Initializable {
     @FXML
     private void OAbtnGuardar(ActionEvent event) {
         String error = "";
-        Usuario user = new Usuario();
+        Cliente user = new Cliente();
 
         LocalDate fnacimiento = dpfechaNac.getValue();
         String nombre = tf_nombre.getText().trim();
