@@ -39,8 +39,7 @@ import javafx.util.StringConverter;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
-import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAO;
-import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAOImpl;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAOImpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.EspresionesRegulares;
 import java.awt.Dimension;
@@ -60,6 +59,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.EspresionesRegulares;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAO;
 
 /**
  * FXML Controller class
@@ -303,7 +303,7 @@ public class AltaClientesController implements Initializable {
                 }
             }
 
-            UsuarioDAO dao = new UsuarioDAOImpl(DatabaseHelper.conectarddbb());
+            ClienteDAO dao = new ClienteDAOImpl(DatabaseHelper.conectarddbb());
 
             dao.insertar(user);
             

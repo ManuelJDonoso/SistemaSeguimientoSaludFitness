@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Manuel Jesús Donoso Pérez
  */
-public interface UsuarioDAO {
+public interface ClienteDAO {
     void insertar(Usuario u);
     Usuario obtenerPorDni(String dni);
     List<Usuario> listarTodos();

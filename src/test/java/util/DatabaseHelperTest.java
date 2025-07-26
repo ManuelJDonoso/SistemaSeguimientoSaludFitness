@@ -119,7 +119,7 @@ public class DatabaseHelperTest {
             assertTrue(allTables.next(), "La base de datos no tiene ninguna tabla");
 
             // Lista específica de tablas
-            String[] tablasRequeridas = {"login", "usuarios", "dietaSemanal", "rutinaSemanal",
+            String[] tablasRequeridas = {"login", "clientes", "dietaSemanal", "rutinaSemanal",
                 "seguimiento", "dietaDia", "rutinaDia"};
 
             for (String tabla : tablasRequeridas) {

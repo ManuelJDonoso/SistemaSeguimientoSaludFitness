@@ -8,7 +8,7 @@ import es.manueldonoso.sistemaseguimientosaludfitness.models.Login;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Usuario;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAO;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
-import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.UsuarioDAOImpl;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAOImpl;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -155,7 +155,7 @@ public class DatabaseHelper {
     }
 
     public static void crearTablasdefault() {
-        String sqlUsuario = " CREATE TABLE IF NOT EXISTS usuarios ("
+        String sqlUsuario = " CREATE TABLE IF NOT EXISTS clientes ("
                 + "dni TEXT PRIMARY KEY, nombre TEXT, apellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
                 + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT, grasac REAL, proteina REAL, metabolismoV REAL,"
                 + " grasaVis REAL, pesoIdeal REAL,anotaciones TEXT, fAlta TEXT); ";
@@ -185,7 +185,7 @@ public class DatabaseHelper {
     }
 
     public static boolean esTablaUsuariosVacia(Connection conn) {
-        String sql = "SELECT COUNT(*) FROM usuarios";
+        String sql = "SELECT COUNT(*) FROM clientes";
         try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
@@ -200,7 +200,7 @@ public class DatabaseHelper {
     }
 
     public static void insertarUsuariosPorDefecto(Connection conn) {
-        UsuarioDAOImpl dao = new UsuarioDAOImpl(conn);
+        ClienteDAOImpl dao = new ClienteDAOImpl(conn);
         List<Usuario> usuarios = new ArrayList<>();
 
         for (int i = 1; i < 10; i++) {

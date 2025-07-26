@@ -14,17 +14,17 @@ import java.util.List;
  *
  * @author Manuel Jesús Donoso Pérez
  */
-public class UsuarioDAOImpl implements UsuarioDAO {
+public class ClienteDAOImpl implements ClienteDAO {
 
     private Connection conn;
 
-    public UsuarioDAOImpl(Connection conn) {
+    public ClienteDAOImpl(Connection conn) {
         this.conn = conn;
     }
 
     @Override
     public void insertar(Usuario u) {
-        String sql = "INSERT INTO usuarios (dni, nombre, apellido1, apellido2, sexo,"
+        String sql = "INSERT INTO clientes (dni, nombre, apellido1, apellido2, sexo,"
                 + " fnacimiento, altura, peso, imc, dirFoto, direccion, poblacion, cp, tel, grasac,"
                 + " proteina, metabolismoV, grasaVis, PesoIdeal, anotaciones,fAlta ) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
