@@ -11,9 +11,12 @@ import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeSet;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,7 +66,18 @@ public class SeguimientoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // Configurar las columnas de la tabla
+        configurarColumnas();
+        // Configurar el filtrado
+
+        cargarDatos();
+
+        tabla_clientes.setItems(filteredData);
+
+        añadirListenersFiltro();
+
+    }
+
+    private void configurarColumnas() {
         cl_dni.setCellValueFactory(new PropertyValueFactory<>("dni"));
         cl_clientes.setCellValueFactory(cellData
                 -> new SimpleStringProperty(cellData.getValue().getNombreCompleto()));
@@ -74,9 +88,6 @@ public class SeguimientoController implements Initializable {
                         ? cellData.getValue().getProximaCita().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                         : "Sin cita"
                 ));
-
-        // Cargar datos de la base de datos
-        cargarDatos();
     }
 
     private void cargarDatos() {
@@ -87,9 +98,7 @@ public class SeguimientoController implements Initializable {
             ResultSet rs = DatabaseHelper.resultSet(query);
 
             clientesList.clear();
-            // Asignar los datos a la tabla
-            tabla_clientes.setItems(clientesList);
-    
+
             while (rs.next()) {
                 // Parsear la fecha de la cita si existe
                 LocalDateTime proximaCita = null;
@@ -121,9 +130,10 @@ public class SeguimientoController implements Initializable {
                         null, // fechaNacimiento
                         null // fechaAlta
                 );
-                System.out.println(cliente);
                 cliente.setProximaCita(proximaCita);
                 clientesList.add(cliente);
+                // Cargar las poblaciones después de tener los datos
+                cargarPoblaciones();
             }
 
         } catch (SQLException ex) {
@@ -134,10 +144,73 @@ public class SeguimientoController implements Initializable {
             alert.setContentText(ex.getMessage());
             alert.showAndWait();
         }
-        
-            System.out.println("Items en tabla: " + tabla_clientes.getItems().size());
+
+        System.out.println("Items en tabla: " + tabla_clientes.getItems().size());
 
     }
 
-    
+    private void cargarPoblaciones() {
+        Set<String> poblaciones = new TreeSet<>();
+        for (Cliente cliente : clientesList) {
+            if (cliente.getPoblacion() != null && !cliente.getPoblacion().isEmpty()) {
+                poblaciones.add(cliente.getPoblacion());
+            }
+        }
+
+        cb_poblacion.getItems().clear();
+        cb_poblacion.getItems().add(""); // Opción vacía para no filtrar
+        cb_poblacion.getItems().addAll(poblaciones);
+    }
+
+    private void añadirListenersFiltro() {
+        tf_dni.textProperty().addListener((obs, oldVal, newVal) -> aplicarFiltros());
+        tf_nombre.textProperty().addListener((obs, oldVal, newVal) -> aplicarFiltros());
+        tf_apellidos.textProperty().addListener((obs, oldVal, newVal) -> aplicarFiltros());
+        cb_poblacion.valueProperty().addListener((obs, oldVal, newVal) -> aplicarFiltros());
+        fp_fecha_cita.valueProperty().addListener((obs, oldVal, newVal) -> aplicarFiltros());
+    }
+
+    private void aplicarFiltros() {
+        filteredData.setPredicate(cliente -> {
+            // Filtro por DNI
+            String filtroDNI = tf_dni.getText();
+            if (filtroDNI != null && !filtroDNI.isEmpty() && !cliente.getDni().toLowerCase().contains(filtroDNI.toLowerCase())) {
+                return false;
+            }
+
+            // Filtro por nombre
+            String filtroNombre = tf_nombre.getText();
+            if (filtroNombre != null && !filtroNombre.isEmpty()
+                    && !cliente.getNombreCompleto().toLowerCase().contains(filtroNombre.toLowerCase())) {
+                return false;
+            }
+
+            // Filtro por apellidos
+            String filtroApellidos = tf_apellidos.getText();
+            if (filtroApellidos != null && !filtroApellidos.isEmpty()) {
+                String apellidosCliente = (cliente.getApellido1() + " " + cliente.getApellido2()).toLowerCase();
+                if (!apellidosCliente.contains(filtroApellidos.toLowerCase())) {
+                    return false;
+                }
+            }
+
+            // Filtro por población
+            String filtroPoblacion = cb_poblacion.getValue();
+            if (filtroPoblacion != null && !filtroPoblacion.isEmpty()
+                    && (cliente.getPoblacion() == null || !cliente.getPoblacion().equalsIgnoreCase(filtroPoblacion))) {
+                return false;
+            }
+
+            // Filtro por fecha de cita
+            LocalDate filtroFecha = fp_fecha_cita.getValue();
+            if (filtroFecha != null) {
+                LocalDateTime cita = cliente.getProximaCita();
+                if (cita == null || !cita.toLocalDate().equals(filtroFecha)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }
 }
