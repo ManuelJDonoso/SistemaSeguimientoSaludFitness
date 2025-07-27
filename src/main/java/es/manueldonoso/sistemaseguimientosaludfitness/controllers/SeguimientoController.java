@@ -28,6 +28,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 
 /**
  * FXML Controller class
@@ -74,6 +75,8 @@ public class SeguimientoController implements Initializable {
         tabla_clientes.setItems(filteredData);
 
         añadirListenersFiltro();
+
+        selecionarCliente();
 
     }
 
@@ -211,6 +214,22 @@ public class SeguimientoController implements Initializable {
             }
 
             return true;
+        });
+    }
+
+    private void selecionarCliente() {
+        tabla_clientes.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && tabla_clientes.getSelectionModel().getSelectedItem() != null) {
+                Cliente seleccionado = tabla_clientes.getSelectionModel().getSelectedItem();
+                System.out.println("Doble clic en: " + seleccionado);
+            }
+
+            tabla_clientes.setOnKeyPressed(e -> {
+                if (e.getCode() == KeyCode.ENTER && tabla_clientes.getSelectionModel().getSelectedItem() != null) {
+                    Cliente seleccionado = tabla_clientes.getSelectionModel().getSelectedItem();
+                    System.out.println("Intro pulsado en: " + seleccionado);
+                }
+            });
         });
     }
 }
