@@ -61,7 +61,7 @@ public class LoginController {
 
         LoginDAOimpl DAO = new LoginDAOimpl();
 
-        Login login =new Login(tf_usuario.getText(), tfp_pass.getText());
+        Login login = new Login(tf_usuario.getText(), tfp_pass.getText());
         boolean inicioCorrecto = DAO.verificarLogin(login);
         if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
             lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
@@ -89,7 +89,7 @@ public class LoginController {
 
     @FXML
     private void oa_btn_salir(ActionEvent event) {
-      Platform.exit();
+        Platform.exit();
     }
 
 }

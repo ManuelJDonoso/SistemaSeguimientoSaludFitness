@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  *
- * @author donpe
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class DatabaseHelper {
 

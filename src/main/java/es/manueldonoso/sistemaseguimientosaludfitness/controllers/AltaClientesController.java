@@ -64,7 +64,7 @@ import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAO;
 /**
  * FXML Controller class
  *
- * @author donpe
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class AltaClientesController implements Initializable {
 
@@ -183,7 +183,7 @@ public class AltaClientesController implements Initializable {
 // Listener para cambios en la altura
         sp_Altura.valueProperty().addListener((obs, oldVal, newVal) -> {
             actualizarIMC();
-        
+
         });
 
         actualizarIMC();
@@ -306,7 +306,7 @@ public class AltaClientesController implements Initializable {
             ClienteDAO dao = new ClienteDAOImpl(DatabaseHelper.conectarddbb());
 
             dao.insertar(user);
-            
+
             mostrarAlerta("usuario dado de alta", "el usuario se ha añadido a la base de datos", Alert.AlertType.INFORMATION);
         }
     }
@@ -395,7 +395,7 @@ public class AltaClientesController implements Initializable {
         int altura = sp_Altura.getValue();
         double imc = UtilHelper.calcularIMC(peso, altura);
         tfIMC.setText(String.format("%.2f", imc));
-        tfPesoIdeal.setText(UtilHelper.calcularPesoIdeal(altura)+" Kg");
+        tfPesoIdeal.setText(UtilHelper.calcularPesoIdeal(altura) + " Kg");
     }
 
     @FXML

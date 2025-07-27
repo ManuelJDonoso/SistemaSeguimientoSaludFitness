@@ -6,11 +6,12 @@ package es.manueldonoso.sistemaseguimientosaludfitness.models;
 
 /**
  *
- * @author Manuel Jesús Donoso Pérez
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class Login {
+
     private int id;
-    private String usuario,pass;
+    private String usuario, pass;
 
     public Login() {
     }
@@ -20,10 +21,12 @@ public class Login {
         this.usuario = usuario;
         this.pass = pass;
     }
-    public Login( String usuario, String pass) {
+
+    public Login(String usuario, String pass) {
         this.usuario = usuario;
         this.pass = pass;
     }
+
     public int getId() {
         return id;
     }
@@ -52,6 +55,5 @@ public class Login {
     public String toString() {
         return "login{" + "id=" + id + ", usuario=" + usuario + ", pass=" + pass + '}';
     }
-    
-    
+
 }

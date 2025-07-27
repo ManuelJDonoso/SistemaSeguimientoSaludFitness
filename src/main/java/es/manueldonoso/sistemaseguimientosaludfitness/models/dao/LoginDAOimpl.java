@@ -56,8 +56,6 @@ public class LoginDAOimpl implements LoginDAO {
         }
     }
 
- 
-
     @Override
     public void eleminar(Login login) {
 
@@ -106,7 +104,7 @@ public class LoginDAOimpl implements LoginDAO {
     @Override
     public boolean verificarLogin(Login login) {
         String hashpass = Seguridad.hashSHA256(login.getPass());
-        
+
         String sql = "SELECT pass FROM login WHERE usuario = ?";
 
         try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {

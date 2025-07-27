@@ -11,7 +11,7 @@ import javafx.fxml.Initializable;
 /**
  * FXML Controller class
  *
- * @author donpe
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class EjerciciosController implements Initializable {
 
@@ -21,6 +21,6 @@ public class EjerciciosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }

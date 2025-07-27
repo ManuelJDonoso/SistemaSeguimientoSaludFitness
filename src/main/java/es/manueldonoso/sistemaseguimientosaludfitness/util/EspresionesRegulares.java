@@ -6,9 +6,9 @@ package es.manueldonoso.sistemaseguimientosaludfitness.util;
  */
 /**
  *
- * @author Manuel Jesús Donoso Pérez
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
-public class  EspresionesRegulares {
+public class EspresionesRegulares {
 
     /**
      * Valida una dirección de email usando expresiones regulares

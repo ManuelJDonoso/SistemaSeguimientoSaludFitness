@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  * ventanas y la gestión de efectos visuales. Cada método corresponde a una
  * ventana o panel específico de la aplicación.
  *
- * @author "Manuel Jesús Donoso Pérez";
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class StageShow {
 

@@ -9,12 +9,17 @@ import java.util.List;
 
 /**
  *
- * @author Manuel Jesús Donoso Pérez
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public interface ClienteDAO {
+
     void insertar(Cliente u);
+
     Cliente obtenerPorDni(String dni);
+
     List<Cliente> listarTodos();
+
     void actualizar(Cliente u);
+
     void eliminar(String dni);
 }

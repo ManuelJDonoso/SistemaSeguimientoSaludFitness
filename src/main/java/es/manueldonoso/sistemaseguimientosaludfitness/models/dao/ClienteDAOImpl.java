@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author Manuel Jesús Donoso Pérez
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class ClienteDAOImpl implements ClienteDAO {
 

@@ -36,9 +36,8 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-  
-        
-    }    
+
+    }
 
     @FXML
     private void OABtnAlta(ActionEvent event) {
@@ -64,5 +63,5 @@ public class DashboardController implements Initializable {
     private void OABtnCitas(ActionEvent event) {
         StageShow.cargarVistaDashboard("Citas.fxml", contentPane);
     }
-    
+
 }

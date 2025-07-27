@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author donpe
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class Cliente {
 

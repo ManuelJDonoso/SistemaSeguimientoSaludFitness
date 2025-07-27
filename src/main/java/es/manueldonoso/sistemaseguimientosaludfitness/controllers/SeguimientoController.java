@@ -33,7 +33,7 @@ import javafx.scene.input.KeyCode;
 /**
  * FXML Controller class
  *
- * @author donpe
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class SeguimientoController implements Initializable {
 
