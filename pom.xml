@@ -155,6 +155,11 @@
             <version>22</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.bajins</groupId>
+            <artifactId>datetime-picker-javafx</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <!--Plugin de Maven para generar documentación Javadoc del código fuente Java.-->
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
@@ -177,6 +182,8 @@
             <version>2.1.214</version>
             <scope>test</scope>
         </dependency>
+        
+        
     </dependencies>
     <build>
         <plugins>
