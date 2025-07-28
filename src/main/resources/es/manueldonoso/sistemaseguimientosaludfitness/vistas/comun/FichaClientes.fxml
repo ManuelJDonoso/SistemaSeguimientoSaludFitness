@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.browniebytes.javafx.control.DateTimePicker?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import java.net.URL?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.FichaClientesController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="758.0" prefWidth="684.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.FichaClientesController">
     <stylesheets>
         <URL value="@/es/manueldonoso/sistemaseguimientosaludfitness/styles/fichaclientes.css" />
     </stylesheets>
    <children>
-      <Label layoutX="263.0" layoutY="192.0" text="fichaCliente" />
+      <JFXTextField fx:id="tf_cliente" editable="false" focusTraversable="false" labelFloat="true" layoutX="229.0" layoutY="46.0" promptText="CLIENTE" />
+      <JFXTextField fx:id="tf_dni" focusTraversable="false" labelFloat="true" layoutX="45.0" layoutY="46.0" promptText="DNI" />
+      <JFXTextField fx:id="tf_altura" editable="false" focusTraversable="false" labelFloat="true" layoutX="45.0" layoutY="107.0" promptText="ALTURA" />
+      <JFXTextField fx:id="tf_ultimoPeso" editable="false" focusTraversable="false" labelFloat="true" layoutX="229.0" layoutY="107.0" promptText="ULTIMO PESO" />
+      <ImageView fitHeight="179.0" fitWidth="186.0" layoutX="460.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/comun/anadir%20foto.png" />
+         </image>
+      </ImageView>
+      <JFXButton buttonType="RAISED" layoutX="45.0" layoutY="156.0" onAction="#OA_btnDatosContactos" prefHeight="51.0" prefWidth="323.0" text="DATOS DE CONTACTO" />
+      <JFXTextField fx:id="tf_pesoActual" layoutX="45.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="PESO ACTUAL" />
+      <JFXTextField fx:id="tf_grasaCorporal" labelFloat="true" layoutX="156.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="GRASA CORPORAL" />
+      <JFXTextField fx:id="tf_proteina" labelFloat="true" layoutX="286.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="PROTEÍNA" />
+      <JFXTextField fx:id="tf_metabolismoBasal" labelFloat="true" layoutX="400.0" layoutY="263.0" prefHeight="25.0" prefWidth="126.0" promptText="METABOLISMO BASAL" />
+      <JFXTextField fx:id="tfGrasaVisceral" labelFloat="true" layoutX="536.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="GRASA VISCERAL" />
+      <JFXTextArea fx:id="ta_Anotaciones" labelFloat="true" layoutX="47.0" layoutY="375.0" prefHeight="98.0" prefWidth="570.0" promptText="ANOTACIONES" />
+      <JFXButton layoutX="513.0" layoutY="324.0" onAction="#oa_btnActualizarDatos" text="ACTUALIZAR DATOS" />
+      <JFXButton layoutX="41.0" layoutY="685.0" onAction="#OA_AsignarCita" prefHeight="43.0" prefWidth="200.0" text="ASIGNAR CITA" />
+      <JFXButton cancelButton="true" layoutX="403.0" layoutY="685.0" onAction="#OA_Cancelar" prefHeight="43.0" prefWidth="220.0" text="CANCELAR" />
+      <DateTimePicker fx:id="tf_fechaHoraTomasDatos" alignment="CENTER" layoutX="300.0" layoutY="324.0" />
+      <JFXButton layoutX="462.0" layoutY="207.0" onAction="#OA_camara" text="CAMARA" />
+      <JFXButton layoutX="538.0" layoutY="207.0" onAction="#OA_subirImagen" text="SUBIR IMAGEN" />
+      <JFXTextField fx:id="tf_pesoIdeal" labelFloat="true" layoutX="47.0" layoutY="318.0" promptText="PESO IDEAL" />
+      <JFXButton alignment="BASELINE_LEFT" layoutX="47.0" layoutY="500.0" onAction="#OA_historialDieta" prefHeight="43.0" prefWidth="200.0" text="HISTORIAL DE DIETAS" />
+      <JFXButton alignment="BASELINE_LEFT" layoutX="393.0" layoutY="500.0" onAction="#OA_establecerDieta" prefHeight="43.0" prefWidth="241.0" text="ESTABLECER DIETA SEMANAL" />
+      <JFXButton layoutX="45.0" layoutY="564.0" onAction="#OA_historialEjercicios" prefHeight="43.0" prefWidth="200.0" text="HISTORIAL DE RUTINAS EJERCICIO" />
+      <JFXButton layoutX="393.0" layoutY="564.0" onAction="#OA_ejercicioSemanal" prefHeight="43.0" prefWidth="241.0" text="ESTABLECER RUTINA EJERCICIO SEMANAL" />
+      <JFXButton layoutX="254.0" layoutY="630.0" onAction="#OA_pdf" prefHeight="36.0" prefWidth="169.0" text="GENERAR PDF" />
    </children>
 </AnchorPane>
