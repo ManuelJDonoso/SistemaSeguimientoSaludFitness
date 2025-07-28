@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +33,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -60,6 +65,8 @@ public class SeguimientoController implements Initializable {
 
     private ObservableList<Cliente> clientesList = FXCollections.observableArrayList();
     private FilteredList<Cliente> filteredData = new FilteredList<>(clientesList, p -> true);
+    @FXML
+    private AnchorPane root;
 
     /**
      * Initializes the controller class.
@@ -221,13 +228,23 @@ public class SeguimientoController implements Initializable {
         tabla_clientes.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && tabla_clientes.getSelectionModel().getSelectedItem() != null) {
                 Cliente seleccionado = tabla_clientes.getSelectionModel().getSelectedItem();
-                System.out.println("Doble clic en: " + seleccionado);
+
+                try {
+                    StageShow.CargarDatosClientes(root, seleccionado.getDni());
+                } catch (IOException ex) {
+                    Logger.getLogger(SeguimientoController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
 
             tabla_clientes.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.ENTER && tabla_clientes.getSelectionModel().getSelectedItem() != null) {
                     Cliente seleccionado = tabla_clientes.getSelectionModel().getSelectedItem();
-                    System.out.println("Intro pulsado en: " + seleccionado);
+                    try {
+                        StageShow.CargarDatosClientes(root, seleccionado.getDni());
+                    } catch (IOException ex) {
+                        Logger.getLogger(SeguimientoController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
         });

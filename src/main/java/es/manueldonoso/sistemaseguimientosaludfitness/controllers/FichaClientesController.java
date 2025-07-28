@@ -4,6 +4,7 @@
  */
 package es.manueldonoso.sistemaseguimientosaludfitness.controllers;
 
+import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -20,12 +21,29 @@ public class FichaClientesController implements Initializable {
     @FXML
     private AnchorPane root;
 
+    private Cliente cliente;
+    
+    private String dni;
+
+
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //to do
     }    
+
+    private void setDni(String dni) {
+        this.dni = dni;
+       
+    }
+    
+    public void cargarFicha(String dni){
+        setDni(dni);
+        System.out.println(dni);
+    }
     
 }

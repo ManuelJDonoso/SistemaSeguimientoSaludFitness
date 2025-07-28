@@ -5,6 +5,7 @@
 package es.manueldonoso.sistemaseguimientosaludfitness.util;
 
 import static es.manueldonoso.sistemaseguimientosaludfitness.App.main;
+import es.manueldonoso.sistemaseguimientosaludfitness.controllers.FichaClientesController;
 import es.manueldonoso.sistemaseguimientosaludfitness.controllers.main.LoginController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.bridj.util.Utils;
 
 /**
  * La clase `Stage_show` se encarga de gestionar la visualización de diferentes
@@ -96,6 +99,29 @@ public class StageShow {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void CargarDatosClientes(Pane root,String dni) throws IOException{
+        FXMLLoader loader = new FXMLLoader(StageShow.class.getResource(
+                    "/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/FichaClientes.fxml"));
+        AnchorPane pane =loader.load();
+        
+        // Obtener el controlador
+        FichaClientesController controller = loader.getController();
+    
+        // Pasar el DNI al controlador
+        controller.cargarFicha(dni);
+    
+    
+        Scene scene = new Scene(pane);
+        Stage stage = new Stage();
+        stage.setTitle("Ficha Cliente");
+        stage.setScene(scene);
+        stage.initOwner(root.getScene().getWindow());
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.setResizable(false);
+        stage.setIconified(false);
+        stage.showAndWait();
     }
 
 }
