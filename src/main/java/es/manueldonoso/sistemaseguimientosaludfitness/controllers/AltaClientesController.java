@@ -122,6 +122,8 @@ public class AltaClientesController implements Initializable {
     private JFXRadioButton rbtn_mujer;
     @FXML
     private DatePicker dpfechaNac;
+    @FXML
+    private JFXTextField tf_email;
 
     /**
      * Initializes the controller class.

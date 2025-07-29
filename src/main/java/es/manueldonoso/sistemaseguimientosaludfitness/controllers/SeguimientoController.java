@@ -138,7 +138,8 @@ public class SeguimientoController implements Initializable {
                         null, // PesoIdeal
                         null, // Anotaciones
                         null, // fechaNacimiento
-                        null // fechaAlta
+                        null, // fechaAlta
+                        null  // email
                 );
                 cliente.setProximaCita(proximaCita);
                 clientesList.add(cliente);

@@ -26,8 +26,8 @@ public class ClienteDAOImpl implements ClienteDAO {
     public void insertar(Cliente u) {
         String sql = "INSERT INTO clientes (dni, nombre, apellido1, apellido2, sexo,"
                 + " fnacimiento, altura, peso, imc, dirFoto, direccion, poblacion, cp, tel, grasac,"
-                + " proteina, metabolismoV, grasaVis, PesoIdeal, anotaciones,fAlta ) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+                + " proteina, metabolismoV, grasaVis, PesoIdeal, anotaciones,fAlta,email ) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, u.getDni());
@@ -56,7 +56,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
             // Convertir LocalDate a java.sql.Date para fechaAlta
             ps.setString(21, u.getFechaAlta().toString());
-
+            ps.setString(22, u.getEmail());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("Error al insertar usuario: " + ex.getMessage());

@@ -158,7 +158,7 @@ public class DatabaseHelper {
         String sqlUsuario = " CREATE TABLE IF NOT EXISTS clientes ("
                 + "dni TEXT PRIMARY KEY, nombre TEXT, apellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
                 + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT, grasac REAL, proteina REAL, metabolismoV REAL,"
-                + " grasaVis REAL, pesoIdeal REAL,anotaciones TEXT, fAlta TEXT); ";
+                + " grasaVis REAL, pesoIdeal REAL,anotaciones TEXT, fAlta TEXT,email TEXT); ";
         String sqldietaSemana = " CREATE TABLE IF NOT EXISTS dietaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT );";
 
         String sqlrutinaSemana = " CREATE TABLE IF NOT EXISTS rutinaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT  ); ";
@@ -219,7 +219,8 @@ public class DatabaseHelper {
                     "15", "20", "1600", "12",
                     "70", "Sin anotaciones",
                     LocalDate.of(1990, 1, i),
-                    LocalDateTime.now()
+                    LocalDateTime.now(),
+                    "email"+i+"@examplo.com"
             ));
         }
 

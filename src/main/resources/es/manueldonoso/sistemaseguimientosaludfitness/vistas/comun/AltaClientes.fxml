@@ -42,9 +42,9 @@
       <Label layoutX="261.0" layoutY="241.0" text="Peso" textFill="#4d4d4d" />
       <JFXTextField fx:id="tfIMC" editable="false" labelFloat="true" layoutX="434.0" layoutY="269.0" promptText="IMC" text="0" />
       <JFXTextField fx:id="tfDireccion" labelFloat="true" layoutX="86.0" layoutY="325.0" prefHeight="25.0" prefWidth="776.0" promptText="Dirección" viewOrder="9.0" />
-      <JFXTextField fx:id="tfPoblacion" labelFloat="true" layoutX="92.0" layoutY="404.0" prefHeight="25.0" prefWidth="539.0" promptText="Población" viewOrder="10.0" />
-      <JFXTextField fx:id="tfCP" labelFloat="true" layoutX="656.0" layoutY="404.0" prefHeight="25.0" prefWidth="72.0" promptText="Código Postal" viewOrder="11.0" />
-      <JFXTextField fx:id="tfTel" labelFloat="true" layoutX="760.0" layoutY="404.0" prefHeight="25.0" prefWidth="102.0" promptText="Telefono" viewOrder="12.0" />
+      <JFXTextField fx:id="tfPoblacion" labelFloat="true" layoutX="92.0" layoutY="404.0" prefHeight="25.0" prefWidth="380.0" promptText="Población" viewOrder="10.0" />
+      <JFXTextField fx:id="tfCP" labelFloat="true" layoutX="522.0" layoutY="404.0" prefHeight="25.0" prefWidth="72.0" promptText="Código Postal" viewOrder="11.0" />
+      <JFXTextField fx:id="tfTel" labelFloat="true" layoutX="626.0" layoutY="404.0" prefHeight="25.0" prefWidth="102.0" promptText="Telefono" viewOrder="12.0" />
       <JFXButton fx:id="btnGuardar" layoutX="82.0" layoutY="760.0" onAction="#OAbtnGuardar" prefHeight="33.0" prefWidth="215.0" text="Guardar" viewOrder="19.0" />
       <ImageView fx:id="ivFoto" fitHeight="245.0" fitWidth="215.0" layoutX="731.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -62,5 +62,6 @@
       <JFXTextField fx:id="tfMetabolismo" labelFloat="true" layoutX="442.0" layoutY="461.0" promptText="Metabolismo Basal" viewOrder="15.0" />
       <JFXTextField fx:id="tfGrasaVisceral" labelFloat="true" layoutX="605.0" layoutY="461.0" promptText="Grasa visceral" viewOrder="16.0" />
       <JFXTextField fx:id="tfPesoIdeal" editable="false" labelFloat="true" layoutX="757.0" layoutY="461.0" promptText="Peso Ideal" viewOrder="17.0" />
+      <JFXTextField fx:id="tf_email" labelFloat="true" layoutX="740.0" layoutY="404.0" prefHeight="25.0" prefWidth="149.0" promptText="Email" />
    </children>
 </AnchorPane>
