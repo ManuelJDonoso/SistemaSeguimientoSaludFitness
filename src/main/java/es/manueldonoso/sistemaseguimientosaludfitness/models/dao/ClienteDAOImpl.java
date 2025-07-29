@@ -7,7 +7,10 @@ package es.manueldonoso.sistemaseguimientosaludfitness.models.dao;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -20,6 +23,10 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     public ClienteDAOImpl(Connection conn) {
         this.conn = conn;
+    }
+
+    public boolean estaConectado() {
+        return null != this.conn;
     }
 
     @Override
@@ -66,7 +73,67 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     @Override
     public Cliente obtenerPorDni(String dni) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        if (dni == null || dni.trim().isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacío");
+        }
+
+        String sql = "SELECT dni, nombre, apellido1, apellido2, sexo, fnacimiento, altura, peso, imc, "
+                + "dirFoto, direccion, poblacion, cp, tel, grasac, proteina, metabolismoV, grasaVis, "
+                + "PesoIdeal, anotaciones, fAlta, email FROM clientes WHERE dni = ?";
+
+        Cliente cliente = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, dni);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                           
+                
+                if (rs.next()) {
+                    
+                    String fechaStr = rs.getString("fnacimiento");
+                    LocalDate fechaParseadaNacimiento = LocalDate.parse(fechaStr);
+                    
+                    String fechaHoraStr = rs.getString("fAlta");
+                    LocalDateTime fechaHoraParseadaFAlta = LocalDateTime.parse(fechaHoraStr);
+                    
+                   
+                    cliente = new Cliente(
+                            rs.getString("dni"),
+                            rs.getString("nombre"),
+                            rs.getString("apellido1"),
+                            rs.getString("apellido2"),
+                            rs.getString("sexo"),
+                            rs.getString("altura"),
+                            rs.getString("peso"),
+                            rs.getString("imc"),
+                            rs.getString("dirFoto"),
+                            rs.getString("direccion"),
+                            rs.getString("poblacion"),
+                            rs.getString("cp"),
+                            rs.getString("tel"),
+                            rs.getString("grasac"),
+                            rs.getString("proteina"),
+                            rs.getString("metabolismoV"),
+                            rs.getString("grasaVis"),
+                            rs.getString("PesoIdeal"),
+                            rs.getString("anotaciones"),
+                            fechaParseadaNacimiento,
+                            fechaHoraParseadaFAlta,
+                            rs.getString("email")
+                    );
+                   
+                }
+            }
+        } catch (Exception  e) {  // Loggear el error o relanzar una excepción personalizada
+            System.err.println("Error al crear el cliente: " + e.getMessage());
+        e.printStackTrace();
+        }
+
+        return cliente;
+
     }
 
     @Override

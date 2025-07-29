@@ -8,6 +8,8 @@ import com.browniebytes.javafx.control.DateTimePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAOImpl;
+import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,6 +28,7 @@ public class FichaClientesController implements Initializable {
     private AnchorPane root;
 
     private Cliente cliente;
+    private ClienteDAOImpl DAO;
     
     private String dni;
     @FXML
@@ -66,6 +69,7 @@ public class FichaClientesController implements Initializable {
 
     
     
+    
     /**
      * Initializes the controller class.
      */
@@ -81,7 +85,12 @@ public class FichaClientesController implements Initializable {
     
     public void cargarFicha(String dni){
         setDni(dni);
-        System.out.println(dni);
+        DAO=new ClienteDAOImpl(DatabaseHelper.conectarddbb());
+   
+        cliente =DAO.obtenerPorDni(dni);
+        System.out.println(cliente);
+        
+        
     }
 
 
