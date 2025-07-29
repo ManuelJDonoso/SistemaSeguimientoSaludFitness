@@ -140,4 +140,8 @@ public class LoginDAOimpl implements LoginDAO {
         }
     }
 
+    public static void seturl(String url){
+        LoginDAOimpl.url=url;
+    
+    }
 }

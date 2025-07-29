@@ -57,7 +57,7 @@ public class DatabaseHelper {
     /**
      * crea la carperta Data si no existe
      */
-    private static void crearCarpetaSiNoExite() {
+    public static void crearCarpetaSiNoExite() {
         File carpeta = new File(DB_FOLDER);
         if (!carpeta.exists()) {
             if (carpeta.mkdirs()) {
@@ -155,6 +155,11 @@ public class DatabaseHelper {
     }
 
     public static void crearTablasdefault() {
+        String sqllogin =" CREATE TABLE IF NOT EXISTS login("
+                        + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + "usuario TEXT NOT NULL, "
+                        + "pass TEXT NOT NULL)";
+        
         String sqlUsuario = " CREATE TABLE IF NOT EXISTS clientes ("
                 + "dni TEXT PRIMARY KEY, nombre TEXT, apellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
                 + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT, grasac REAL, proteina REAL, metabolismoV REAL,"
@@ -171,6 +176,7 @@ public class DatabaseHelper {
 
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement()) {
 
+            stmt.execute(sqllogin);
             stmt.execute(sqlUsuario);
             stmt.execute(sqldietaSemana);
             stmt.execute(sqlrutinaSemana);

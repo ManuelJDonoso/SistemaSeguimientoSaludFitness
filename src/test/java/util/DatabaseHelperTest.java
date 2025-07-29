@@ -41,6 +41,7 @@ public class DatabaseHelperTest {
 
     @BeforeAll
     public static void setUpClass() throws SQLException {
+        DatabaseHelper.crearCarpetaSiNoExite();
         DatabaseHelper.setUrl(TEST_DB_URL);
         DatabaseHelper.crearBaseDatos();
         DatabaseHelper.crearTablasdefault();

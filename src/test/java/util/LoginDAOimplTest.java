@@ -36,12 +36,17 @@ public class LoginDAOimplTest {
     private static LoginDAOimpl loginDAO;
     private static Login testLogin;
 
+    
+    
+    
     public LoginDAOimplTest() {
     }
 
     @BeforeAll
     public static void setUpClass() {
+        DatabaseHelper.crearCarpetaSiNoExite();
         DatabaseHelper.setUrl(TEST_DB_URL);
+        LoginDAOimpl.seturl(TEST_DB_URL);
         DatabaseHelper.crearBaseDatos();
         DatabaseHelper.crearTablasdefault();
 
@@ -106,7 +111,7 @@ public class LoginDAOimplTest {
     public void tearDown() {
        System.out.println("eliminando usuario: " + testLogin);
         // Act
-        loginDAO.eleminar(testLogin);  
+    //    loginDAO.eleminar(testLogin);  
     }
 
     @Test
