@@ -5,42 +5,81 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.net.URL?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="758.0" prefWidth="684.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.FichaClientesController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="598.0" prefWidth="684.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.manueldonoso.sistemaseguimientosaludfitness.controllers.FichaClientesController">
     <stylesheets>
         <URL value="@/es/manueldonoso/sistemaseguimientosaludfitness/styles/fichaclientes.css" />
     </stylesheets>
    <children>
-      <JFXTextField fx:id="tf_cliente" editable="false" focusTraversable="false" labelFloat="true" layoutX="229.0" layoutY="46.0" promptText="CLIENTE" />
-      <JFXTextField fx:id="tf_dni" focusTraversable="false" labelFloat="true" layoutX="45.0" layoutY="46.0" promptText="DNI" />
-      <JFXTextField fx:id="tf_altura" editable="false" focusTraversable="false" labelFloat="true" layoutX="45.0" layoutY="107.0" promptText="ALTURA" />
-      <JFXTextField fx:id="tf_ultimoPeso" editable="false" focusTraversable="false" labelFloat="true" layoutX="229.0" layoutY="107.0" promptText="ULTIMO PESO" />
-      <ImageView fitHeight="179.0" fitWidth="186.0" layoutX="460.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/comun/anadir%20foto.png" />
-         </image>
-      </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="45.0" layoutY="156.0" onAction="#OA_btnDatosContactos" prefHeight="51.0" prefWidth="323.0" text="DATOS DE CONTACTO" />
-      <JFXTextField fx:id="tf_pesoActual" layoutX="45.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="PESO ACTUAL" />
-      <JFXTextField fx:id="tf_grasaCorporal" labelFloat="true" layoutX="156.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="GRASA CORPORAL" />
-      <JFXTextField fx:id="tf_proteina" labelFloat="true" layoutX="286.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="PROTEÍNA" />
-      <JFXTextField fx:id="tf_metabolismoBasal" labelFloat="true" layoutX="400.0" layoutY="263.0" prefHeight="25.0" prefWidth="126.0" promptText="METABOLISMO BASAL" />
-      <JFXTextField fx:id="tfGrasaVisceral" labelFloat="true" layoutX="536.0" layoutY="263.0" prefHeight="25.0" prefWidth="101.0" promptText="GRASA VISCERAL" />
-      <JFXTextArea fx:id="ta_Anotaciones" labelFloat="true" layoutX="47.0" layoutY="375.0" prefHeight="98.0" prefWidth="570.0" promptText="ANOTACIONES" />
-      <JFXButton layoutX="513.0" layoutY="324.0" onAction="#oa_btnActualizarDatos" text="ACTUALIZAR DATOS" />
-      <JFXButton layoutX="41.0" layoutY="685.0" onAction="#OA_AsignarCita" prefHeight="43.0" prefWidth="200.0" text="ASIGNAR CITA" />
-      <JFXButton cancelButton="true" layoutX="403.0" layoutY="685.0" onAction="#OA_Cancelar" prefHeight="43.0" prefWidth="220.0" text="CANCELAR" />
-      <DateTimePicker fx:id="tf_fechaHoraTomasDatos" alignment="CENTER" layoutX="300.0" layoutY="324.0" />
-      <JFXButton layoutX="462.0" layoutY="207.0" onAction="#OA_camara" text="CAMARA" />
-      <JFXButton layoutX="538.0" layoutY="207.0" onAction="#OA_subirImagen" text="SUBIR IMAGEN" />
-      <JFXTextField fx:id="tf_pesoIdeal" labelFloat="true" layoutX="47.0" layoutY="318.0" promptText="PESO IDEAL" />
-      <JFXButton alignment="BASELINE_LEFT" layoutX="47.0" layoutY="500.0" onAction="#OA_historialDieta" prefHeight="43.0" prefWidth="200.0" text="HISTORIAL DE DIETAS" />
-      <JFXButton alignment="BASELINE_LEFT" layoutX="393.0" layoutY="500.0" onAction="#OA_establecerDieta" prefHeight="43.0" prefWidth="241.0" text="ESTABLECER DIETA SEMANAL" />
-      <JFXButton layoutX="45.0" layoutY="564.0" onAction="#OA_historialEjercicios" prefHeight="43.0" prefWidth="200.0" text="HISTORIAL DE RUTINAS EJERCICIO" />
-      <JFXButton layoutX="393.0" layoutY="564.0" onAction="#OA_ejercicioSemanal" prefHeight="43.0" prefWidth="241.0" text="ESTABLECER RUTINA EJERCICIO SEMANAL" />
-      <JFXButton layoutX="254.0" layoutY="630.0" onAction="#OA_pdf" prefHeight="36.0" prefWidth="169.0" text="GENERAR PDF" />
+      <TabPane prefHeight="506.0" prefWidth="684.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="DATOS DE CONTACTO">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <JFXTextField fx:id="tf_cliente" editable="false" focusTraversable="false" labelFloat="true" layoutX="240.0" layoutY="26.0" promptText="CLIENTE" />
+                        <JFXTextField fx:id="tf_dni" focusTraversable="false" labelFloat="true" layoutX="37.0" layoutY="26.0" promptText="DNI" />
+                        <ImageView fitHeight="179.0" fitWidth="186.0" layoutX="453.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/comun/anadir%20foto.png" />
+                           </image>
+                        </ImageView>
+                        <JFXTextField fx:id="tfDireccion" labelFloat="true" layoutX="30.0" layoutY="201.0" prefHeight="26.0" prefWidth="608.0" promptText="Dirección" viewOrder="9.0" />
+                        <JFXTextField fx:id="tfPoblacion" labelFloat="true" layoutX="30.0" layoutY="247.0" prefHeight="26.0" prefWidth="208.0" promptText="Población" viewOrder="10.0" />
+                        <JFXTextField fx:id="tfCP" labelFloat="true" layoutX="250.0" layoutY="247.0" prefHeight="26.0" prefWidth="146.0" promptText="Código Postal" viewOrder="11.0" />
+                        <JFXTextField fx:id="tfTel" labelFloat="true" layoutX="30.0" layoutY="309.0" prefHeight="25.0" prefWidth="102.0" promptText="Telefono" viewOrder="12.0" />
+                        <JFXTextField fx:id="tf_Email" labelFloat="true" layoutX="187.0" layoutY="309.0" promptText="email" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="TOMA DE CONTROL">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="684.0">
+                     <children>
+                        <JFXTextField fx:id="tf_ultimoPeso" editable="false" focusTraversable="false" labelFloat="true" layoutX="414.0" layoutY="14.0" promptText="ULTIMO PESO" />
+                        <JFXTextField fx:id="tf_pesoActual" layoutX="203.0" layoutY="58.0" prefHeight="26.0" prefWidth="135.0" promptText="PESO ACTUAL" />
+                        <JFXTextField fx:id="tf_grasaCorporal" labelFloat="true" layoutX="25.0" layoutY="104.0" prefHeight="26.0" prefWidth="135.0" promptText="GRASA CORPORAL" />
+                        <JFXTextField fx:id="tf_proteina" labelFloat="true" layoutX="27.0" layoutY="148.0" prefHeight="26.0" prefWidth="135.0" promptText="PROTEÍNA" />
+                        <JFXTextField fx:id="tf_metabolismoBasal" editable="false" labelFloat="true" layoutX="203.0" layoutY="148.0" prefHeight="26.0" prefWidth="137.0" promptText="METABOLISMO BASAL" />
+                        <JFXTextField fx:id="tfGrasaVisceral" labelFloat="true" layoutX="203.0" layoutY="103.0" prefHeight="26.0" prefWidth="135.0" promptText="GRASA VISCERAL" />
+                        <JFXTextField fx:id="tf_pesoIdeal" labelFloat="true" layoutX="27.0" layoutY="58.0" promptText="PESO IDEAL" />
+                        <DateTimePicker fx:id="tf_fechaHoraTomasDatos" alignment="CENTER" layoutX="27.0" layoutY="14.0" />
+                        <JFXTextArea fx:id="ta_Anotaciones" labelFloat="true" layoutX="27.0" layoutY="251.0" prefHeight="122.0" prefWidth="627.0" promptText="ANOTACIONES" />
+                        <JFXTextField fx:id="tf_altura" editable="false" focusTraversable="false" labelFloat="true" layoutX="238.0" layoutY="14.0" promptText="ALTURA" />
+                        <JFXButton layoutX="26.0" layoutY="395.0" onAction="#oa_btnActualizarDatos" prefHeight="70.0" prefWidth="630.0" text="ACTUALIZAR DATOS" />
+                        <JFXButton layoutX="449.0" layoutY="219.0" onAction="#OA_camara" text="CAMARA" />
+                        <JFXButton layoutX="538.0" layoutY="219.0" onAction="#OA_subirImagen" text="SUBIR IMAGEN" />
+                        <ImageView fitHeight="138.0" fitWidth="193.0" layoutX="469.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/comun/anadir%20foto.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="DIETAS Y EJERCICIOS">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <JFXButton alignment="BASELINE_LEFT" layoutX="454.0" layoutY="25.0" onAction="#OA_historialDieta" prefHeight="43.0" prefWidth="200.0" text="HISTORIAL DE DIETAS" />
+                        <JFXButton layoutX="33.0" layoutY="25.0" onAction="#OA_historialEjercicios" prefHeight="43.0" prefWidth="200.0" text="HISTORIAL DE RUTINAS EJERCICIO" />
+                        <JFXButton alignment="BASELINE_LEFT" layoutX="28.0" layoutY="150.0" onAction="#OA_establecerDieta" prefHeight="43.0" prefWidth="200.0" text="ESTABLECER DIETA SEMANAL" />
+                        <JFXButton layoutX="400.0" layoutY="145.0" onAction="#OA_ejercicioSemanal" prefHeight="43.0" prefWidth="241.0" text="ESTABLECER RUTINA EJERCICIO SEMANAL" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <JFXButton layoutX="14.0" layoutY="514.0" onAction="#OA_AsignarCita" prefHeight="43.0" prefWidth="200.0" text="ASIGNAR CITA" />
+      <JFXButton cancelButton="true" layoutX="450.0" layoutY="514.0" onAction="#OA_Cancelar" prefHeight="43.0" prefWidth="220.0" text="CANCELAR" />
+      <JFXButton layoutX="257.0" layoutY="518.0" onAction="#OA_pdf" prefHeight="36.0" prefWidth="169.0" text="GENERAR PDF" />
    </children>
 </AnchorPane>

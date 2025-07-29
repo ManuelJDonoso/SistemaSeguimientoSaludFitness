@@ -52,6 +52,16 @@ public class FichaClientesController implements Initializable {
     private DateTimePicker tf_fechaHoraTomasDatos;
     @FXML
     private JFXTextField tf_pesoIdeal;
+    @FXML
+    private JFXTextField tfDireccion;
+    @FXML
+    private JFXTextField tfPoblacion;
+    @FXML
+    private JFXTextField tfCP;
+    @FXML
+    private JFXTextField tfTel;
+    @FXML
+    private JFXTextField tf_Email;
 
 
     
@@ -74,9 +84,6 @@ public class FichaClientesController implements Initializable {
         System.out.println(dni);
     }
 
-    @FXML
-    private void OA_btnDatosContactos(ActionEvent event) {
-    }
 
     @FXML
     private void oa_btnActualizarDatos(ActionEvent event) {
