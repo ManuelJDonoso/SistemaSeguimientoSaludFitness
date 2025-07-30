@@ -88,8 +88,16 @@ public class FichaClientesController implements Initializable {
         DAO=new ClienteDAOImpl(DatabaseHelper.conectarddbb());
    
         cliente =DAO.obtenerPorDni(dni);
-        System.out.println(cliente);
-        
+        tf_cliente.setText(cliente.getNombreCompleto());
+        tf_dni.setText(cliente.getDni());
+        tfDireccion.setText(cliente.getDireccion());
+        tfPoblacion.setText(cliente.getPoblacion());
+        tfCP.setText(cliente.getCp());
+        tfTel.setText(cliente.getTelefono());
+        tf_Email.setText(cliente.getEmail());
+        tf_altura.setText(cliente.getAltura());
+        tf_pesoIdeal.setText(cliente.getPesoIdeal());
+        ta_Anotaciones.setText(cliente.getAnotaciones());
         
     }
 
