@@ -121,7 +121,7 @@ public class DatabaseHelperTest {
 
             // Lista específica de tablas
             String[] tablasRequeridas = {"login", "clientes", "dietaSemanal", "rutinaSemanal",
-                "seguimiento", "dietaDia", "rutinaDia"};
+                "datosToma", "dietaDia", "rutinaDia"};
 
             for (String tabla : tablasRequeridas) {
                 ResultSet rs = meta.getTables(null, null, tabla, null);

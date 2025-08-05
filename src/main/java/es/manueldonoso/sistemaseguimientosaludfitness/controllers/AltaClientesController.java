@@ -39,6 +39,7 @@ import javafx.util.StringConverter;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.DatosToma;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAOImpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.EspresionesRegulares;
@@ -60,6 +61,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.EspresionesRegulares;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAO;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.DatosTomaDAOImpl;
 
 /**
  * FXML Controller class
@@ -199,6 +201,7 @@ public class AltaClientesController implements Initializable {
     private void OAbtnGuardar(ActionEvent event) {
         String error = "";
         Cliente user = new Cliente();
+        DatosToma dt= new DatosToma();
 
         LocalDate fnacimiento = dpfechaNac.getValue();
         String nombre = tf_nombre.getText().trim();
@@ -219,6 +222,7 @@ public class AltaClientesController implements Initializable {
         String grasav = tfGrasaVisceral.getText();
         String pesoideal = tfPesoIdeal.getText();
         String anotaciones = TAAnotaciones.getText();
+        String email= tf_email.getText();
 
         if (!EspresionesRegulares.soloLetras(nombre, 3) || !EspresionesRegulares.soloLetras(apellido1, 3) || !EspresionesRegulares.soloLetras(apellido2, 3)) {
             error = "Los nombres y Apellidos deben tener minimo 3 letras";
@@ -251,19 +255,16 @@ public class AltaClientesController implements Initializable {
             user.setDni(dni);
             user.setSexo(sex);
             user.setAltura(altura);
-            user.setPeso(peso);
-            user.setImc(imc);
+
             user.setDireccion(direccion);
             user.setPoblacion(poblacion);
             user.setCp(cp);
             user.setTelefono(tel);
-            user.setGrasac(grasac);
-            user.setProteina(proteina);
-            user.setMetabolismoV(metabolismo);
-            user.setGrasaV(grasav);
+
             user.setPesoIdeal(pesoideal);
             user.setAnotaciones(anotaciones);
             user.setFechaAlta(LocalDateTime.now());
+            user.setEmail(email);
 
             // Guardar la imagen si hay una seleccionada
             if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {
@@ -305,7 +306,22 @@ public class AltaClientesController implements Initializable {
                 }
             }
 
+            
+            dt.setDni(dni);
+            dt.setFechaToma(LocalDateTime.now());
+            dt.setPeso(peso);
+            dt.setGrasaV(grasav);
+            dt.setGrasac(grasac);
+            dt.setMetabolismoV(metabolismo);
+            dt.setProteina(proteina);
+            dt.setImc(imc);
+            
+            
+            
+            
             ClienteDAO dao = new ClienteDAOImpl(DatabaseHelper.conectarddbb());
+            DatosTomaDAOImpl datosTomaDaoImpl = new DatosTomaDAOImpl(DatabaseHelper.conectarddbb());
+            datosTomaDaoImpl.insertarDatosToma(dt);
 
             dao.insertar(user);
 

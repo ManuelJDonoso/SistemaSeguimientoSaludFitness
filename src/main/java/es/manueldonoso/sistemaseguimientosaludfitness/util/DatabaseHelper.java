@@ -6,9 +6,11 @@ package es.manueldonoso.sistemaseguimientosaludfitness.util;
 
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Login;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.DatosToma;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAO;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAOImpl;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.DatosTomaDAOImpl;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -155,20 +157,23 @@ public class DatabaseHelper {
     }
 
     public static void crearTablasdefault() {
-        String sqllogin =" CREATE TABLE IF NOT EXISTS login("
-                        + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                        + "usuario TEXT NOT NULL, "
-                        + "pass TEXT NOT NULL)";
-        
+        String sqllogin = " CREATE TABLE IF NOT EXISTS login("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "usuario TEXT NOT NULL, "
+                + "pass TEXT NOT NULL)";
+
         String sqlUsuario = " CREATE TABLE IF NOT EXISTS clientes ("
-                + "dni TEXT PRIMARY KEY, nombre TEXT, apellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, peso REAL, imc REAL,"
-                + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT, grasac REAL, proteina REAL, metabolismoV REAL,"
-                + " grasaVis REAL, pesoIdeal REAL,anotaciones TEXT, fAlta TEXT,email TEXT); ";
+                + "dni TEXT PRIMARY KEY, nombre TEXT, apellido1 TEXT, apellido2 TEXT, sexo TEXT, fnacimiento TEXT, altura REAL, "
+                + "dirFoto TEXT, direccion TEXT,  poblacion TEXT, cp TEXT, tel TEXT,"
+                + " pesoIdeal REAL,anotaciones TEXT, fAlta TEXT,email TEXT); ";
         String sqldietaSemana = " CREATE TABLE IF NOT EXISTS dietaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT );";
 
         String sqlrutinaSemana = " CREATE TABLE IF NOT EXISTS rutinaSemanal ( id INTEGER PRIMARY KEY AUTOINCREMENT  ); ";
 
-        String sqlSeguimiento = "  CREATE TABLE IF NOT EXISTS seguimiento ( id INTEGER PRIMARY KEY AUTOINCREMENT, fkUsuario TEXT, fechaSeguimiento TEXT, nuevoPeso REAL, nuevoImc REAL, fk_dietaSemanal INTEGER, fk_rutinaSemanal INTEGER, FOREIGN KEY (fkUsuario) REFERENCES usuarios(dni), FOREIGN KEY (fk_dietaSemanal) REFERENCES dietaSemanal(id), FOREIGN KEY (fk_rutinaSemanal) REFERENCES rutinaSemanal(id) ); ";
+        String sqlDatoToma = "  CREATE TABLE IF NOT EXISTS datosToma ( "
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, fkCliente TEXT, fechaToma TEXT, fechaProximaCita TEXT,"
+                + "peso TEXT,imc TEXT,dirFoto TEXT, grasac TEXT, proteina TEXT, metabolismoV TEXT, grasaV TEXT,"
+                + " FOREIGN KEY (fkCliente) REFERENCES  clientes(dni))";
 
         String sqlDietaDia = " CREATE TABLE IF NOT EXISTS dietaDia ( id INTEGER PRIMARY KEY AUTOINCREMENT, fkDietaSemanal INTEGER,  desayuno TEXT,  mediaManana TEXT, comida TEXT, merienda TEXT,  cena TEXT, FOREIGN KEY (fkDietaSemanal) REFERENCES dietaSemanal(id) ); ";
 
@@ -180,7 +185,7 @@ public class DatabaseHelper {
             stmt.execute(sqlUsuario);
             stmt.execute(sqldietaSemana);
             stmt.execute(sqlrutinaSemana);
-            stmt.execute(sqlSeguimiento);
+            stmt.execute(sqlDatoToma);
             stmt.execute(sqlDietaDia);
             stmt.execute(sqlRutinaDia);
 
@@ -207,8 +212,9 @@ public class DatabaseHelper {
 
     public static void insertarUsuariosPorDefecto(Connection conn) {
         ClienteDAOImpl dao = new ClienteDAOImpl(conn);
+        DatosTomaDAOImpl daoDatosToma = new DatosTomaDAOImpl(conn);
         List<Cliente> usuarios = new ArrayList<>();
-
+        List<DatosToma> DatosTomas = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             usuarios.add(new Cliente(
                     "0000000" + i + "X",
@@ -216,7 +222,9 @@ public class DatabaseHelper {
                     "Apellido1_" + i,
                     "Apellido2_" + i,
                     i % 2 == 0 ? "Hombre" : "Mujer",
-                    "1.75", "75", "24.5",
+                    "1.75",
+                    "75",
+                    "24.5",
                     "foto" + i + ".jpg",
                     "Calle Falsa " + i,
                     "Ciudad" + i,
@@ -226,8 +234,21 @@ public class DatabaseHelper {
                     "70", "Sin anotaciones",
                     LocalDate.of(1990, 1, i),
                     LocalDateTime.now(),
-                    "email"+i+"@examplo.com"
+                    "email" + i + "@examplo.com"
             ));
+
+            DatosTomas.add(new DatosToma(
+                    "0000000" + i + "X",//dni
+                    "75",//peso
+                    "24.5",//imc
+                    "foto" + i + ".jpg",//dir foto
+                    "12",//grasac
+                    "13",//proteina
+                    "2500",//metabolismov
+                    "14",//grasav
+                    "80",//PesoIdeal
+                    LocalDateTime.now().plusDays(i),//Fecha Toma
+                    LocalDateTime.now().plusDays(i+7)));//proxima cita
         }
 
         for (Cliente u : usuarios) {
@@ -235,6 +256,12 @@ public class DatabaseHelper {
         }
 
         System.out.println("9 usuarios insertados con éxito.");
+        
+           for (DatosToma d : DatosTomas) {
+            daoDatosToma.insertarDatosToma(d);
+        }
+           
+           System.out.println("9 datos de tomas insertadas");
     }
 
     public static void setUrl(String url) {

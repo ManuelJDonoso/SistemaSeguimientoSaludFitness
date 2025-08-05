@@ -92,12 +92,12 @@ public class SeguimientoController implements Initializable {
         cl_clientes.setCellValueFactory(cellData
                 -> new SimpleStringProperty(cellData.getValue().getNombreCompleto()));
         cl_poblacion.setCellValueFactory(new PropertyValueFactory<>("poblacion"));
-        cl_cita.setCellValueFactory(cellData
-                -> new SimpleStringProperty(
-                        cellData.getValue().getProximaCita() != null
-                        ? cellData.getValue().getProximaCita().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
-                        : "Sin cita"
-                ));
+//        cl_cita.setCellValueFactory(cellData
+//                -> new SimpleStringProperty(
+//                        cellData.getValue().getProximaCita() != null
+//                        ? cellData.getValue().getProximaCita().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+//                        : "Sin cita"
+//                ));
     }
 
     private void cargarDatos() {
@@ -141,7 +141,7 @@ public class SeguimientoController implements Initializable {
                         null, // fechaAlta
                         null  // email
                 );
-                cliente.setProximaCita(proximaCita);
+//                cliente.setProximaCita(proximaCita);
                 clientesList.add(cliente);
                 // Cargar las poblaciones después de tener los datos
                 cargarPoblaciones();
@@ -214,12 +214,12 @@ public class SeguimientoController implements Initializable {
 
             // Filtro por fecha de cita
             LocalDate filtroFecha = fp_fecha_cita.getValue();
-            if (filtroFecha != null) {
-                LocalDateTime cita = cliente.getProximaCita();
-                if (cita == null || !cita.toLocalDate().equals(filtroFecha)) {
-                    return false;
-                }
-            }
+//            if (filtroFecha != null) {
+//                LocalDateTime cita = cliente.getProximaCita();
+//                if (cita == null || !cita.toLocalDate().equals(filtroFecha)) {
+//                    return false;
+//                }
+//            }
 
             return true;
         });

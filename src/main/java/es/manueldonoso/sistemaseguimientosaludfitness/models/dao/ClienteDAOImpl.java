@@ -5,6 +5,7 @@
 package es.manueldonoso.sistemaseguimientosaludfitness.models.dao;
 
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.DatosToma;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,12 +32,13 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     @Override
     public void insertar(Cliente u) {
-        String sql = "INSERT INTO clientes (dni, nombre, apellido1, apellido2, sexo,"
-                + " fnacimiento, altura, peso, imc, dirFoto, direccion, poblacion, cp, tel, grasac,"
-                + " proteina, metabolismoV, grasaVis, PesoIdeal, anotaciones,fAlta,email ) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sqlCliente = "INSERT INTO clientes (dni, nombre, apellido1, apellido2, sexo,"
+                + " fnacimiento, altura,  dirFoto, direccion, poblacion, cp, tel,"
+                + "  PesoIdeal, anotaciones, fAlta,email ) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlCliente)) {
             ps.setString(1, u.getDni());
             ps.setString(2, u.getNombre());
             ps.setString(3, u.getApellido1());
@@ -47,23 +49,62 @@ public class ClienteDAOImpl implements ClienteDAO {
             ps.setString(6, u.getFechaNacimiento().toString());
 
             ps.setString(7, u.getAltura());
-            ps.setString(8, u.getPeso());
-            ps.setString(9, u.getImc());
-            ps.setString(10, u.getDirFoto());
-            ps.setString(11, u.getDireccion());
-            ps.setString(12, u.getPoblacion());
-            ps.setString(13, u.getCp());
-            ps.setString(14, u.getTelefono());
-            ps.setString(15, u.getGrasac());
-            ps.setString(16, u.getProteina());
-            ps.setString(17, u.getMetabolismoV());
-            ps.setString(18, u.getGrasaV());
-            ps.setString(19, u.getPesoIdeal());
-            ps.setString(20, u.getAnotaciones());
+
+            ps.setString(8, u.getDirFoto());
+            ps.setString(9, u.getDireccion());
+            ps.setString(10, u.getPoblacion());
+            ps.setString(11, u.getCp());
+            ps.setString(12, u.getTelefono());
+
+            ps.setString(13, u.getPesoIdeal());
+            ps.setString(14, u.getAnotaciones());
 
             // Convertir LocalDate a java.sql.Date para fechaAlta
-            ps.setString(21, u.getFechaAlta().toString());
-            ps.setString(22, u.getEmail());
+            ps.setString(15, u.getFechaAlta().toString());
+            ps.setString(16, u.getEmail());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("Error al insertar usuario: " + ex.getMessage());
+            // Puedes lanzar una excepción personalizada aquí si lo prefieres
+        }
+
+    }
+
+    @Override
+    public void insertar(Cliente u, DatosToma d) {
+        String sqlCliente = "INSERT INTO clientes (dni, nombre, apellido1, apellido2, sexo,"
+                + " fnacimiento, altura,  dirFoto, direccion, poblacion, cp, tel,"
+                + "  PesoIdeal,anotaciones, fAlta,email ) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        DatosTomaDAOImpl datosTomasDaoimp = new DatosTomaDAOImpl(conn);
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlCliente)) {
+            ps.setString(1, u.getDni());
+            ps.setString(2, u.getNombre());
+            ps.setString(3, u.getApellido1());
+            ps.setString(4, u.getApellido2());
+            ps.setString(5, u.getSexo());
+
+            // Convertir LocalDate a java.sql.Date
+            ps.setString(6, u.getFechaNacimiento().toString());
+
+            ps.setString(7, u.getAltura());
+
+            ps.setString(8, u.getDirFoto());
+            ps.setString(9, u.getDireccion());
+            ps.setString(10, u.getPoblacion());
+            ps.setString(11, u.getCp());
+            ps.setString(12, u.getTelefono());
+
+            ps.setString(13, u.getPesoIdeal());
+            ps.setString(14, u.getAnotaciones());
+
+            // Convertir LocalDate a java.sql.Date para fechaAlta
+            ps.setString(15, u.getFechaAlta().toString());
+            ps.setString(16, u.getEmail());
+            datosTomasDaoimp.insertarDatosToma(d);
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("Error al insertar usuario: " + ex.getMessage());
@@ -89,17 +130,15 @@ public class ClienteDAOImpl implements ClienteDAO {
             stmt.setString(1, dni);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                           
-                
+
                 if (rs.next()) {
-                    
+
                     String fechaStr = rs.getString("fnacimiento");
                     LocalDate fechaParseadaNacimiento = LocalDate.parse(fechaStr);
-                    
+
                     String fechaHoraStr = rs.getString("fAlta");
                     LocalDateTime fechaHoraParseadaFAlta = LocalDateTime.parse(fechaHoraStr);
-                    
-                   
+
                     cliente = new Cliente(
                             rs.getString("dni"),
                             rs.getString("nombre"),
@@ -124,12 +163,12 @@ public class ClienteDAOImpl implements ClienteDAO {
                             fechaHoraParseadaFAlta,
                             rs.getString("email")
                     );
-                   
+
                 }
             }
-        } catch (Exception  e) {  // Loggear el error o relanzar una excepción personalizada
+        } catch (Exception e) {  // Loggear el error o relanzar una excepción personalizada
             System.err.println("Error al crear el cliente: " + e.getMessage());
-        e.printStackTrace();
+            e.printStackTrace();
         }
 
         return cliente;

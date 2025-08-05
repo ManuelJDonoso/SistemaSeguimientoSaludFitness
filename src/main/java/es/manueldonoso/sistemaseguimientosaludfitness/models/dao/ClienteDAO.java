@@ -5,6 +5,7 @@
 package es.manueldonoso.sistemaseguimientosaludfitness.models.dao;
 
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
+import es.manueldonoso.sistemaseguimientosaludfitness.models.DatosToma;
 import java.util.List;
 
 /**
@@ -13,7 +14,8 @@ import java.util.List;
  */
 public interface ClienteDAO {
 
-    void insertar(Cliente u);
+    void insertar(Cliente u, DatosToma d);
+    void insertar(Cliente u );
 
     Cliente obtenerPorDni(String dni);
 

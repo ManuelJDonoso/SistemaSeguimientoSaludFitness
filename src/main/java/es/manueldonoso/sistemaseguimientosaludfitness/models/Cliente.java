@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
  */
 public class Cliente {
 
-    private String dni, nombre, apellido1, apellido2, sexo, altura, peso, imc, dirFoto,
-            direccion, poblacion, cp, telefono, grasac, proteina, metabolismoV, grasaV, PesoIdeal, Anotaciones,email;
+    private String dni, nombre, apellido1, apellido2, sexo, altura, dirFoto,
+            direccion, poblacion, cp, telefono, PesoIdeal, Anotaciones,email;
     private LocalDate fechaNacimiento;
-    private LocalDateTime fechaAlta, proximaCita;
+    private LocalDateTime fechaAlta;
 
     public Cliente() {
     }
@@ -28,17 +28,13 @@ public class Cliente {
         this.apellido2 = apellido2;
         this.sexo = sexo;
         this.altura = altura;
-        this.peso = peso;
-        this.imc = imc;
+
         this.dirFoto = dirFoto;
         this.direccion = direccion;
         this.poblacion = poblacion;
         this.cp = cp;
         this.telefono = telefono;
-        this.grasac = grasac;
-        this.proteina = proteina;
-        this.metabolismoV = metabolismoV;
-        this.grasaV = grasaV;
+
         this.PesoIdeal = PesoIdeal;
         this.Anotaciones = Anotaciones;
         this.fechaNacimiento = fechaNacimiento;
@@ -95,21 +91,8 @@ public class Cliente {
         this.altura = altura;
     }
 
-    public String getPeso() {
-        return peso;
-    }
 
-    public void setPeso(String peso) {
-        this.peso = peso;
-    }
 
-    public String getImc() {
-        return imc;
-    }
-
-    public void setImc(String imc) {
-        this.imc = imc;
-    }
 
     public String getDirFoto() {
         return dirFoto;
@@ -151,38 +134,7 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    public String getGrasac() {
-        return grasac;
-    }
-
-    public void setGrasac(String grasac) {
-        this.grasac = grasac;
-    }
-
-    public String getProteina() {
-        return proteina;
-    }
-
-    public void setProteina(String proteina) {
-        this.proteina = proteina;
-    }
-
-    public String getMetabolismoV() {
-        return metabolismoV;
-    }
-
-    public void setMetabolismoV(String metabolismoV) {
-        this.metabolismoV = metabolismoV;
-    }
-
-    public String getGrasaV() {
-        return grasaV;
-    }
-
-    public void setGrasaV(String grasaV) {
-        this.grasaV = grasaV;
-    }
-
+   
     public String getPesoIdeal() {
         return PesoIdeal;
     }
@@ -215,13 +167,9 @@ public class Cliente {
         this.fechaAlta = fechaAlta;
     }
 
-    public LocalDateTime getProximaCita() {
-        return proximaCita;
-    }
 
-    public void setProximaCita(LocalDateTime proximaCita) {
-        this.proximaCita = proximaCita;
-    }
+
+   
 
     public String getNombreCompleto() {
         return nombre + " " + apellido1 + " " + apellido2;
@@ -237,8 +185,10 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", sexo=" + sexo + ", altura=" + altura + ", peso=" + peso + ", imc=" + imc + ", dirFoto=" + dirFoto + ", direccion=" + direccion + ", poblacion=" + poblacion + ", cp=" + cp + ", telefono=" + telefono + ", grasac=" + grasac + ", proteina=" + proteina + ", metabolismoV=" + metabolismoV + ", grasaV=" + grasaV + ", PesoIdeal=" + PesoIdeal + ", Anotaciones=" + Anotaciones + ", email=" + email + ", fechaNacimiento=" + fechaNacimiento + ", fechaAlta=" + fechaAlta + ", proximaCita=" + proximaCita + '}';
+        return "Cliente{" + "dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", sexo=" + sexo + ", altura=" + altura + ", dirFoto=" + dirFoto + ", direccion=" + direccion + ", poblacion=" + poblacion + ", cp=" + cp + ", telefono=" + telefono + ", PesoIdeal=" + PesoIdeal + ", Anotaciones=" + Anotaciones + ", email=" + email + ", fechaNacimiento=" + fechaNacimiento + ", fechaAlta=" + fechaAlta + '}';
     }
+
+
 
   
 
