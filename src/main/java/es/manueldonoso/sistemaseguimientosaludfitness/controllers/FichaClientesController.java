@@ -11,6 +11,7 @@ import es.manueldonoso.sistemaseguimientosaludfitness.models.Cliente;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAOImpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,20 +85,24 @@ public class FichaClientesController implements Initializable {
     }
     
     public void cargarFicha(String dni){
-        setDni(dni);
-        DAO=new ClienteDAOImpl(DatabaseHelper.conectarddbb());
-   
-        cliente =DAO.obtenerPorDni(dni);
-        tf_cliente.setText(cliente.getNombreCompleto());
-        tf_dni.setText(cliente.getDni());
-        tfDireccion.setText(cliente.getDireccion());
-        tfPoblacion.setText(cliente.getPoblacion());
-        tfCP.setText(cliente.getCp());
-        tfTel.setText(cliente.getTelefono());
-        tf_Email.setText(cliente.getEmail());
-        tf_altura.setText(cliente.getAltura());
-        tf_pesoIdeal.setText(cliente.getPesoIdeal());
-        ta_Anotaciones.setText(cliente.getAnotaciones());
+        try {
+            setDni(dni);
+            DAO=new ClienteDAOImpl(DatabaseHelper.getConnection());
+            
+            cliente =DAO.obtenerPorDni(dni);
+            tf_cliente.setText(cliente.getNombreCompleto());
+            tf_dni.setText(cliente.getDni());
+            tfDireccion.setText(cliente.getDireccion());
+            tfPoblacion.setText(cliente.getPoblacion());
+            tfCP.setText(cliente.getCp());
+            tfTel.setText(cliente.getTelefono());
+            tf_Email.setText(cliente.getEmail());
+            tf_altura.setText(cliente.getAltura());
+            tf_pesoIdeal.setText(cliente.getPesoIdeal());
+            ta_Anotaciones.setText(cliente.getAnotaciones());
+        } catch (SQLException ex) {
+            System.getLogger(FichaClientesController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         
     }
 

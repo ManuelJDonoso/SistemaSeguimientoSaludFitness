@@ -33,7 +33,9 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-            DatabaseHelper.main(args);
+        String ruta="data/databases", db="datos.db";
+        
+            DatabaseHelper.InitBaseDatosSQLite(ruta, db);
         launch();
     
     }

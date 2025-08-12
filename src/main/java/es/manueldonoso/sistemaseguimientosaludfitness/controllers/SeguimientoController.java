@@ -77,7 +77,7 @@ public class SeguimientoController implements Initializable {
         configurarColumnas();
         // Configurar el filtrado
 
-        cargarDatos();
+//        cargarDatos();
 
         tabla_clientes.setItems(filteredData);
 
@@ -100,65 +100,65 @@ public class SeguimientoController implements Initializable {
 //                ));
     }
 
-    private void cargarDatos() {
-        try {
-
-            String query = "SELECT dni, nombre, apellido1, apellido2, poblacion FROM clientes";
-
-            ResultSet rs = DatabaseHelper.resultSet(query);
-
-            clientesList.clear();
-
-            while (rs.next()) {
-                // Parsear la fecha de la cita si existe
-                LocalDateTime proximaCita = null;
-                String citaStr = null; //rs.getString("proximaCita");
-                if (citaStr != null && !citaStr.isEmpty()) {
-                    proximaCita = LocalDateTime.parse(citaStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                }
-
-                Cliente cliente = new Cliente(
-                        rs.getString("dni"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido1"),
-                        rs.getString("apellido2"),
-                        null, // sexo
-                        null, // altura
-                        null, // peso
-                        null, // imc
-                        null, // dirFoto
-                        null, // direccion
-                        rs.getString("poblacion"),
-                        null, // cp
-                        null, // telefono
-                        null, // grasac
-                        null, // proteina
-                        null, // metabolismoV
-                        null, // grasaV
-                        null, // PesoIdeal
-                        null, // Anotaciones
-                        null, // fechaNacimiento
-                        null, // fechaAlta
-                        null  // email
-                );
-//                cliente.setProximaCita(proximaCita);
-                clientesList.add(cliente);
-                // Cargar las poblaciones después de tener los datos
-                cargarPoblaciones();
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de base de datos");
-            alert.setHeaderText("No se pudieron cargar los clientes");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
-        }
-
-        System.out.println("Items en tabla: " + tabla_clientes.getItems().size());
-
-    }
+//    private void cargarDatos() {
+//        try {
+//
+//            String query = "SELECT dni, nombre, apellido1, apellido2, poblacion FROM clientes";
+//
+//            ResultSet rs = DatabaseHelper.resultSet(query);
+//
+//            clientesList.clear();
+//
+//            while (rs.next()) {
+//                // Parsear la fecha de la cita si existe
+//                LocalDateTime proximaCita = null;
+//                String citaStr = null; //rs.getString("proximaCita");
+//                if (citaStr != null && !citaStr.isEmpty()) {
+//                    proximaCita = LocalDateTime.parse(citaStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+//                }
+//
+//                Cliente cliente = new Cliente(
+//                        rs.getString("dni"),
+//                        rs.getString("nombre"),
+//                        rs.getString("apellido1"),
+//                        rs.getString("apellido2"),
+//                        null, // sexo
+//                        null, // altura
+//                        null, // peso
+//                        null, // imc
+//                        null, // dirFoto
+//                        null, // direccion
+//                        rs.getString("poblacion"),
+//                        null, // cp
+//                        null, // telefono
+//                        null, // grasac
+//                        null, // proteina
+//                        null, // metabolismoV
+//                        null, // grasaV
+//                        null, // PesoIdeal
+//                        null, // Anotaciones
+//                        null, // fechaNacimiento
+//                        null, // fechaAlta
+//                        null  // email
+//                );
+////                cliente.setProximaCita(proximaCita);
+//                clientesList.add(cliente);
+//                // Cargar las poblaciones después de tener los datos
+//                cargarPoblaciones();
+//            }
+//
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Error de base de datos");
+//            alert.setHeaderText("No se pudieron cargar los clientes");
+//            alert.setContentText(ex.getMessage());
+//            alert.showAndWait();
+//        }
+//
+//        System.out.println("Items en tabla: " + tabla_clientes.getItems().size());
+//
+//    }
 
     private void cargarPoblaciones() {
         Set<String> poblaciones = new TreeSet<>();

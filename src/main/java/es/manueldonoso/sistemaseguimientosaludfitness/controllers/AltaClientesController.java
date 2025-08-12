@@ -62,6 +62,7 @@ import javafx.scene.control.ButtonBar;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.EspresionesRegulares;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.ClienteDAO;
 import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.DatosTomaDAOImpl;
+import java.sql.SQLException;
 
 /**
  * FXML Controller class
@@ -248,84 +249,88 @@ public class AltaClientesController implements Initializable {
             mostrarAlerta("Error", error);
         } else {
 
-            user.setFechaNacimiento(fnacimiento);
-            user.setNombre(nombre);
-            user.setApellido1(apellido1);
-            user.setApellido2(apellido2);
-            user.setDni(dni);
-            user.setSexo(sex);
-            user.setAltura(altura);
-
-            user.setDireccion(direccion);
-            user.setPoblacion(poblacion);
-            user.setCp(cp);
-            user.setTelefono(tel);
-
-            user.setPesoIdeal(pesoideal);
-            user.setAnotaciones(anotaciones);
-            user.setFechaAlta(LocalDateTime.now());
-            user.setEmail(email);
-
-            // Guardar la imagen si hay una seleccionada
-            if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {
-                File imageFile = (File) ivFoto.getProperties().get("imageFile");
-
-                if (!dni.isEmpty()) {
-                    try {
-                        // Crear directorio si no existe
-                        Path userImageDir = Paths.get("data", "images", dni);
-                        Files.createDirectories(userImageDir);
-
-                        // Generar nombre del archivo con DNI y fecha actual
-                        LocalDateTime now = LocalDateTime.now();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-                        String formattedDateTime = now.format(formatter);
-
-                        // Nombre del archivo: DNI_FECHA.extensión
-                        String fileName = String.format("%s_%s%s",
-                                dni,
-                                formattedDateTime,
-                                getFileExtension(imageFile.getName()));
-
-                        // Copiar la imagen al directorio destino
-                        Path destination = userImageDir.resolve(fileName);
-                        Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
-
-                        // Guardar la ruta en el usuario
-                        user.setDirFoto(destination.toString());
-
-                        // Mostrar mensaje de éxito
-                        mostrarAlerta("Éxito", "Imagen guardada correctamente como: " + fileName, Alert.AlertType.INFORMATION);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        mostrarAlerta("Error al guardar la imagen", "No se pudo guardar la imagen del usuario.");
+            try {
+                user.setFechaNacimiento(fnacimiento);
+                user.setNombre(nombre);
+                user.setApellido1(apellido1);
+                user.setApellido2(apellido2);
+                user.setDni(dni);
+                user.setSexo(sex);
+                user.setAltura(altura);
+                
+                user.setDireccion(direccion);
+                user.setPoblacion(poblacion);
+                user.setCp(cp);
+                user.setTelefono(tel);
+                
+                user.setPesoIdeal(pesoideal);
+                user.setAnotaciones(anotaciones);
+                user.setFechaAlta(LocalDateTime.now());
+                user.setEmail(email);
+                
+                // Guardar la imagen si hay una seleccionada
+                if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {
+                    File imageFile = (File) ivFoto.getProperties().get("imageFile");
+                    
+                    if (!dni.isEmpty()) {
+                        try {
+                            // Crear directorio si no existe
+                            Path userImageDir = Paths.get("data", "images", dni);
+                            Files.createDirectories(userImageDir);
+                            
+                            // Generar nombre del archivo con DNI y fecha actual
+                            LocalDateTime now = LocalDateTime.now();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+                            String formattedDateTime = now.format(formatter);
+                            
+                            // Nombre del archivo: DNI_FECHA.extensión
+                            String fileName = String.format("%s_%s%s",
+                                    dni,
+                                    formattedDateTime,
+                                    getFileExtension(imageFile.getName()));
+                            
+                            // Copiar la imagen al directorio destino
+                            Path destination = userImageDir.resolve(fileName);
+                            Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                            
+                            // Guardar la ruta en el usuario
+                            user.setDirFoto(destination.toString());
+                            
+                            // Mostrar mensaje de éxito
+                            mostrarAlerta("Éxito", "Imagen guardada correctamente como: " + fileName, Alert.AlertType.INFORMATION);
+                            
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            mostrarAlerta("Error al guardar la imagen", "No se pudo guardar la imagen del usuario.");
+                        }
+                    } else {
+                        mostrarAlerta("DNI requerido", "Debe ingresar un DNI para guardar la imagen.");
                     }
-                } else {
-                    mostrarAlerta("DNI requerido", "Debe ingresar un DNI para guardar la imagen.");
                 }
+                
+                
+                dt.setDni(dni);
+                dt.setFechaToma(LocalDateTime.now());
+                dt.setPeso(peso);
+                dt.setGrasaV(grasav);
+                dt.setGrasac(grasac);
+                dt.setMetabolismoV(metabolismo);
+                dt.setProteina(proteina);
+                dt.setImc(imc);
+                
+                
+                
+                
+                ClienteDAO dao = new ClienteDAOImpl(DatabaseHelper.getConnection());
+                DatosTomaDAOImpl datosTomaDaoImpl = new DatosTomaDAOImpl(DatabaseHelper.getConnection());
+                datosTomaDaoImpl.insertarDatosToma(dt);
+                
+                dao.insertar(user);
+                
+                mostrarAlerta("usuario dado de alta", "el usuario se ha añadido a la base de datos", Alert.AlertType.INFORMATION);
+            } catch (SQLException ex) {
+                System.getLogger(AltaClientesController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
-
-            
-            dt.setDni(dni);
-            dt.setFechaToma(LocalDateTime.now());
-            dt.setPeso(peso);
-            dt.setGrasaV(grasav);
-            dt.setGrasac(grasac);
-            dt.setMetabolismoV(metabolismo);
-            dt.setProteina(proteina);
-            dt.setImc(imc);
-            
-            
-            
-            
-            ClienteDAO dao = new ClienteDAOImpl(DatabaseHelper.conectarddbb());
-            DatosTomaDAOImpl datosTomaDaoImpl = new DatosTomaDAOImpl(DatabaseHelper.conectarddbb());
-            datosTomaDaoImpl.insertarDatosToma(dt);
-
-            dao.insertar(user);
-
-            mostrarAlerta("usuario dado de alta", "el usuario se ha añadido a la base de datos", Alert.AlertType.INFORMATION);
         }
     }
 
