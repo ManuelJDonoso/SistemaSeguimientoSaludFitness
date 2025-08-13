@@ -29,6 +29,12 @@ public class DatabaseHelperTest extends BaseTest {
     public void tearDown() {
     }
 
+    /**
+     * Verifica que se pueda establecer una conexión válida con la base de datos
+     * temporal.
+     *
+     * @throws SQLException si ocurre un error al intentar conectar
+     */
     @Test
     public void testConectarDB() throws SQLException {
         System.out.println("conectar con la base de datos temporal");
@@ -37,6 +43,13 @@ public class DatabaseHelperTest extends BaseTest {
 
     }
 
+    /**
+     * Verifica que el método
+     * {@link DatabaseHelper#crearTablasdefault(Connection)} crea correctamente
+     * todas las tablas por defecto.
+     *
+     * @throws SQLException si ocurre un error al crear o verificar las tablas
+     */
     @Test
     public void testCrearTablas() throws SQLException {
         System.out.println("Creando Tablas en la base de datos...");
