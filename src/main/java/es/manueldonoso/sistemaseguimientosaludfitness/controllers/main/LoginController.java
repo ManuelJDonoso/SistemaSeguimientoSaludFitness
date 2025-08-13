@@ -55,37 +55,37 @@ public class LoginController {
 
     }
 
-    @FXML
-    private void OA_btn_iniciarSesion(ActionEvent event) {
-        System.out.println("iniciar sesion");
+//    @FXML
+//    private void OA_btn_iniciarSesion(ActionEvent event) {
+//        System.out.println("iniciar sesion");
+//
+//        LoginDAOimpl DAO = new LoginDAOimpl();
+//
+//        Login login = new Login(tf_usuario.getText(), tfp_pass.getText());
+//        boolean inicioCorrecto = DAO.verificarLogin(login);
+//        if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
+//            lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
+//        } else if (!inicioCorrecto) {
+//            lbMensajeError.setText("Error en el usuario o contraseña");
+//        } else {
+//            StageShow.MostrarDashboard();
+//            Node source = (Node) event.getSource();
+//            Stage stage = (Stage) source.getScene().getWindow();
+//            stage.close();
+//        }
+//    }
 
-        LoginDAOimpl DAO = new LoginDAOimpl();
+//    private void detectarIntro() {
+//        System.out.println("detecta intro");
+//        OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
+//    }
 
-        Login login = new Login(tf_usuario.getText(), tfp_pass.getText());
-        boolean inicioCorrecto = DAO.verificarLogin(login);
-        if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
-            lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
-        } else if (!inicioCorrecto) {
-            lbMensajeError.setText("Error en el usuario o contraseña");
-        } else {
-            StageShow.MostrarDashboard();
-            Node source = (Node) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
-        }
-    }
-
-    private void detectarIntro() {
-        System.out.println("detecta intro");
-        OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
-    }
-
-    @FXML
-    private void onKeyPressedEnter(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            detectarIntro();
-        }
-    }
+//    @FXML
+//    private void onKeyPressedEnter(KeyEvent event) {
+//        if (event.getCode() == KeyCode.ENTER) {
+//            detectarIntro();
+//        }
+//    }
 
     @FXML
     private void oa_btn_salir(ActionEvent event) {

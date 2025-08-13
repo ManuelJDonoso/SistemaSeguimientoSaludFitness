@@ -5,6 +5,7 @@
 package es.manueldonoso.sistemaseguimientosaludfitness.models.dao;
 
 import es.manueldonoso.sistemaseguimientosaludfitness.models.Login;
+import java.sql.Connection;
 
 /**
  *
@@ -24,7 +25,6 @@ public interface LoginDAO {
 
     boolean usuarioExiste(String Usuario);
 
-    String getDB_NAME();
-
-    void setDB_NAME(String DB_NAME);
+    Connection getConn();
+    void setConn(Connection conn);
 }

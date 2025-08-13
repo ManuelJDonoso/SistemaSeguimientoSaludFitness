@@ -27,8 +27,9 @@ public abstract class BaseTest {
     }
     
 @BeforeAll
-    public static void setUpClass() {
+    public static void setUpClass() throws SQLException {
         DatabaseHelper.InitBaseDatosSQLite(ruta, archivo);
+        conn=DatabaseHelper.getConnection();
     }
 
     @AfterAll

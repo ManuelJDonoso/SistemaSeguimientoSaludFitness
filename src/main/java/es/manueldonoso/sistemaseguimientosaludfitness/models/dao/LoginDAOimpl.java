@@ -17,23 +17,20 @@ import java.sql.ResultSet;
  */
 public class LoginDAOimpl implements LoginDAO {
 
-    //ruta completa donde se guardara la base de datos
-    private static final String DB_FOLDER = "data/databases";
-    private static String DB_NAME = "datos.db";
-    private static final String DB_PATH = DB_FOLDER + "/" + DB_NAME;
-    private static String url = "jdbc:sqlite:" + DB_PATH;
+    private static Connection conn;
 
-    public LoginDAOimpl() {
+    public LoginDAOimpl(Connection connection) {
+        conn = connection;
     }
 
     @Override
-    public String getDB_NAME() {
-        return DB_NAME;
+    public Connection getConn() {
+        return conn;
     }
 
     @Override
-    public void setDB_NAME(String DB_NAME) {
-        LoginDAOimpl.DB_NAME = DB_NAME;
+    public void setConn(Connection conn) {
+        LoginDAOimpl.conn = conn;
     }
 
     @Override
@@ -44,7 +41,7 @@ public class LoginDAOimpl implements LoginDAO {
         //cifrar la contraseña
         String hashpass = Seguridad.hashSHA256(login.getPass());
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, login.getUsuario());
             pstmt.setString(2, hashpass);
@@ -61,7 +58,7 @@ public class LoginDAOimpl implements LoginDAO {
 
         String sql = "DELETE FROM login WHERE usuario = ?";
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, login.getUsuario());
             int affectedRows = pstmt.executeUpdate();
@@ -84,7 +81,7 @@ public class LoginDAOimpl implements LoginDAO {
         // Cifrar la nueva contraseña
         String hashNuevaPass = Seguridad.hashSHA256(nuevaPass);
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, hashNuevaPass);
             pstmt.setString(2, login.getUsuario());
@@ -107,14 +104,14 @@ public class LoginDAOimpl implements LoginDAO {
 
         String sql = "SELECT pass FROM login WHERE usuario = ?";
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, login.getUsuario());
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String storedHash = rs.getString("pass");
-                System.out.println("Hash almacenado: " + storedHash);
-                System.out.println("Hash proporcionado: " + hashpass);
+//                System.out.println("Hash almacenado: " + storedHash);
+//                System.out.println("Hash proporcionado: " + hashpass);
                 return storedHash.equals(hashpass);
             }
             return false;
@@ -130,7 +127,7 @@ public class LoginDAOimpl implements LoginDAO {
 
         String sql = "SELECT usuario, pass  FROM  login WHERE usuario = ? ";
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, Usuario);
 
             return pstmt.executeQuery().next(); //true si existe
@@ -140,8 +137,4 @@ public class LoginDAOimpl implements LoginDAO {
         }
     }
 
-    public static void seturl(String url){
-        LoginDAOimpl.url=url;
-    
-    }
 }
