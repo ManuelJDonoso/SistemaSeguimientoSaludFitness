@@ -15,13 +15,20 @@ import java.util.List;
 public interface ClienteDAO {
 
     void insertar(Cliente u, DatosToma d);
-    void insertar(Cliente u );
+
+    void insertar(Cliente u);
 
     Cliente obtenerPorDni(String dni);
 
     List<Cliente> listarTodos();
 
-    void actualizar(Cliente u);
+    int actualizarCliente(Cliente old, Cliente New);
 
-    void eliminar(String dni);
+    boolean existeCliente(String dni);
+
+    boolean existeCliente(Cliente c);
+
+    void eliminarTodosUsuarios();
+
+    void eliminarUsuario(String dni);
 }

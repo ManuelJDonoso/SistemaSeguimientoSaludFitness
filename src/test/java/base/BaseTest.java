@@ -17,19 +17,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- *  @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public abstract class BaseTest {
+
     protected static String ruta = "data/databaseTest";
     protected static String archivo = "datos.db";
     protected static Connection conn;
+
     public BaseTest() {
     }
-    
-@BeforeAll
+
+    @BeforeAll
     public static void setUpClass() throws SQLException {
         DatabaseHelper.InitBaseDatosSQLite(ruta, archivo);
-        conn=DatabaseHelper.getConnection();
+        conn = DatabaseHelper.getConnection();
     }
 
     @AfterAll
@@ -39,18 +41,13 @@ public abstract class BaseTest {
         UtilHelper.EliminarRutaVacia(ruta);
         UtilHelper.EliminarRutaVacia("data");
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }

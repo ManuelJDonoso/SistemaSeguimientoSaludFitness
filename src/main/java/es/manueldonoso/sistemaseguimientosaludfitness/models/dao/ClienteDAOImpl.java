@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -119,9 +120,9 @@ public class ClienteDAOImpl implements ClienteDAO {
             throw new IllegalArgumentException("El DNI no puede ser nulo o vacío");
         }
 
-        String sql = "SELECT dni, nombre, apellido1, apellido2, sexo, fnacimiento, altura, peso, imc, "
-                + "dirFoto, direccion, poblacion, cp, tel, grasac, proteina, metabolismoV, grasaVis, "
-                + "PesoIdeal, anotaciones, fAlta, email FROM clientes WHERE dni = ?";
+        String sql = "SELECT dni, nombre, apellido1, apellido2, sexo, fnacimiento, altura, "
+                + "dirFoto, direccion, poblacion, cp, tel, "
+                + "pesoIdeal, anotaciones, fAlta, email FROM clientes WHERE dni = ?";
 
         Cliente cliente = null;
 
@@ -146,18 +147,12 @@ public class ClienteDAOImpl implements ClienteDAO {
                             rs.getString("apellido2"),
                             rs.getString("sexo"),
                             rs.getString("altura"),
-                            rs.getString("peso"),
-                            rs.getString("imc"),
                             rs.getString("dirFoto"),
                             rs.getString("direccion"),
                             rs.getString("poblacion"),
                             rs.getString("cp"),
                             rs.getString("tel"),
-                            rs.getString("grasac"),
-                            rs.getString("proteina"),
-                            rs.getString("metabolismoV"),
-                            rs.getString("grasaVis"),
-                            rs.getString("PesoIdeal"),
+                            rs.getString("pesoIdeal"),
                             rs.getString("anotaciones"),
                             fechaParseadaNacimiento,
                             fechaHoraParseadaFAlta,
@@ -181,13 +176,123 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
-    public void actualizar(Cliente u) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int actualizarCliente(Cliente old, Cliente New) {
+        int filasActualizadas = 0;
+        String sql = "UPDATE clientes SET "
+                + "dni= ?, nombre = ?, apellido1 = ?, apellido2 = ?, "
+                + "sexo = ?, "
+                + "fnacimiento = ?,  altura = ?, "
+                + "dirFoto = ?, "
+                + "direccion = ?, poblacion = ?, cp = ?, tel = ?, "
+                + "PesoIdeal = ?, "
+                + "anotaciones = ?, "
+                + "fAlta = ?, "
+                + "email = ?  "
+                + "WHERE dni = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (!existeCliente(old)) {
+                throw new NoSuchElementException("No se encontró el cliente con DNI: " + old.getDni() + ", no se procede a modificar.");
+            }
+
+            // Establecer parámetros
+            ps.setString(1, New.getDni());
+            ps.setString(2, New.getNombre());
+            ps.setString(3, New.getApellido1());
+            ps.setString(4, New.getApellido2());
+            ps.setString(5, New.getSexo());
+            ps.setString(6, New.getFechaNacimiento().toString());
+            ps.setString(7, New.getAltura());
+            ps.setString(8, New.getDirFoto());
+            ps.setString(9, New.getDireccion());
+            ps.setString(10, New.getPoblacion());
+            ps.setString(11, New.getCp());
+            ps.setString(12, New.getTelefono());
+            ps.setString(13, New.getPesoIdeal());
+            ps.setString(14, New.getAnotaciones());
+            ps.setString(15, New.getFechaAlta().toString());
+            ps.setString(16, New.getEmail());
+
+            ps.setString(17, old.getDni());
+
+            filasActualizadas = ps.executeUpdate();
+        } catch (SQLException e) {
+        }
+        return filasActualizadas;
     }
 
     @Override
-    public void eliminar(String dni) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean existeCliente(String dni) {
+        boolean existe = false;
+        String sql = "SELECT dni FROM clientes WHERE dni = ? ";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, dni);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                existe = true;
+            }
+
+        } catch (Exception e) {
+            e.getCause();
+        }
+
+        return existe;
+
+    }
+
+    @Override
+    public boolean existeCliente(Cliente c) {
+
+        String dni = c.getDni();
+        boolean existe = false;
+        String sql = "SELECT dni FROM clientes WHERE dni = ? ";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, dni);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                existe = true;
+            }
+
+        } catch (Exception e) {
+            e.getCause();
+        }
+
+        return existe;
+
+    }
+
+    @Override
+    public void eliminarTodosUsuarios() {
+        String sql = "DELETE FROM clientes";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            int FilasBorradas = pstmt.executeUpdate();
+            String mensaje = (FilasBorradas == 1) ? "Se Han borrado " + FilasBorradas + " cliente" : "Se Han borrado " + FilasBorradas + " clientes";
+            System.out.println(mensaje);
+
+        } catch (Exception e) {
+            e.getCause();
+        }
+
+    }
+
+    @Override
+    public void eliminarUsuario(String dni) {
+
+        String sql = "DELETE FROM clientes WHERE dni = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, dni);
+            int FilasBorradas = pstmt.executeUpdate();
+            String mensaje = (FilasBorradas == 1) ? "Se Han borrado " + FilasBorradas + " cliente" : "Se Han borrado " + FilasBorradas + " clientes";
+            System.out.println(mensaje);
+
+        } catch (Exception e) {
+            e.getCause();
+        }
     }
 
 }

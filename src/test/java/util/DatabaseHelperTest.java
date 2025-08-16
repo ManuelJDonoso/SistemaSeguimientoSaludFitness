@@ -6,6 +6,7 @@ package util;
 
 import base.BaseTest;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
+import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +39,9 @@ public class DatabaseHelperTest extends BaseTest {
     @Test
     public void testConectarDB() throws SQLException {
         System.out.println("conectar con la base de datos temporal");
-        conn = DatabaseHelper.getConnection();
-        assertNotNull(conn, "La conexión a la base de datos debe ser válida");
+        try (Connection connection = DatabaseHelper.getConnection()) {
+            assertNotNull(connection, "La conexión a la base de datos debe ser válida");
+        }
 
     }
 

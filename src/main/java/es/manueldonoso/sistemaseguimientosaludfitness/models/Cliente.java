@@ -21,7 +21,9 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String dni, String nombre, String apellido1, String apellido2, String sexo, String altura, String peso, String imc, String dirFoto, String direccion, String poblacion, String cp, String telefono, String grasac, String proteina, String metabolismoV, String grasaV, String PesoIdeal, String Anotaciones, LocalDate fechaNacimiento, LocalDateTime fechaAlta,String email) {
+    public Cliente(String dni, String nombre, String apellido1, String apellido2, String sexo, String altura,  String dirFoto, String direccion, 
+            String poblacion, String cp, String telefono, String PesoIdeal, 
+            String Anotaciones, LocalDate fechaNacimiento, LocalDateTime fechaAlta,String email) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
