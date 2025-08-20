@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 public class DatosToma {
 
-    String dni, peso, imc, dirFoto, grasac, proteina, metabolismoV, grasaV, PesoIdeal;
+    String dni, peso, imc, dirFoto, grasac, proteina, metabolismoV, grasaV;
     
     private LocalDateTime fechaToma, proximaCita;
 
@@ -20,7 +20,7 @@ public class DatosToma {
     }
 
     
-    public DatosToma(String dni, String peso, String imc, String dirFoto, String grasac, String proteina, String metabolismoV, String grasaV, String PesoIdeal, LocalDateTime fechaToma, LocalDateTime proximaCita) {
+    public DatosToma(String dni, String peso, String imc, String dirFoto, String grasac, String proteina, String metabolismoV, String grasaV, LocalDateTime fechaToma, LocalDateTime proximaCita) {
         this.dni = dni;
         this.peso = peso;
         this.imc = imc;
@@ -29,7 +29,7 @@ public class DatosToma {
         this.proteina = proteina;
         this.metabolismoV = metabolismoV;
         this.grasaV = grasaV;
-        this.PesoIdeal = PesoIdeal;
+       
         this.fechaToma = fechaToma;
         this.proximaCita = proximaCita;
     }
@@ -101,13 +101,7 @@ public class DatosToma {
         this.grasaV = grasaV;
     }
 
-    public String getPesoIdeal() {
-        return PesoIdeal;
-    }
-
-    public void setPesoIdeal(String PesoIdeal) {
-        this.PesoIdeal = PesoIdeal;
-    }
+  
 
     public LocalDateTime getFechaToma() {
         return fechaToma;
@@ -127,7 +121,7 @@ public class DatosToma {
 
     @Override
     public String toString() {
-        return "DatosToma{" + "dni=" + dni + ", peso=" + peso + ", imc=" + imc + ", dirFoto=" + dirFoto + ", grasac=" + grasac + ", proteina=" + proteina + ", metabolismoV=" + metabolismoV + ", grasaV=" + grasaV + ", PesoIdeal=" + PesoIdeal + ", fechaToma=" + fechaToma + ", proximaCita=" + proximaCita + '}';
+        return "DatosToma{" + "dni=" + dni + ", peso=" + peso + ", imc=" + imc + ", dirFoto=" + dirFoto + ", grasac=" + grasac + ", proteina=" + proteina + ", metabolismoV=" + metabolismoV + ", grasaV=" + grasaV + ", fechaToma=" + fechaToma + ", proximaCita=" + proximaCita + '}';
     }
     
     

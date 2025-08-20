@@ -212,4 +212,117 @@ public class DatabaseHelper {
             return rs.next();
         }
     }
+
+
+    public static void insertar10Clientes(Connection conn){
+    
+        ClienteDAOImpl DAOCliente = new ClienteDAOImpl(conn);
+        List <Cliente>  clientes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            clientes.add(new Cliente(
+                    "000000" + i + "X",
+                    "nombre" + i,
+                    "Apellido1_" + i,
+                    "Apellido2_" + i,
+                    i % 2 == 0 ? "Hombre" : "Mujer",
+                    "17" + i,
+                    "imagen" + i + ".jpg",
+                    "direccion" + i,
+                    "ciudad " + i,
+                    "1011" + i,
+                    "65535431" + i,
+                    "7" + 1,
+                    "anotaciones",
+                    LocalDate.of(1990, 1, i + 1),
+                    LocalDateTime.now(),
+                    "email" + i + "@example.com"));
+        }
+        for (Cliente c : clientes) {
+            DAOCliente.insertar(c);
+        }
+        System.out.println("Se han insertado 10 Clientes");
+  
+    }
+    
+     public static void insertar10Clientes30Tomas(Connection conn){
+    
+        ClienteDAOImpl DAOCliente = new ClienteDAOImpl(conn);
+        DatosTomaDAOImpl DAODatosToma= new DatosTomaDAOImpl(conn);
+        List <Cliente>  clientes = new ArrayList<>();
+        List <DatosToma> DatoTomas= new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            clientes.add(new Cliente(
+                    "000000" + i + "X",
+                    "nombre" + i,
+                    "Apellido1_" + i,
+                    "Apellido2_" + i,
+                    i % 2 == 0 ? "Hombre" : "Mujer",
+                    "17" + i,
+                    "imagen" + i + ".jpg",
+                    "direccion" + i,
+                    "ciudad " + i,
+                    "1011" + i,
+                    "65535431" + i,
+                    "7" + 1,
+                    "anotaciones",
+                    LocalDate.of(1990, 1, i + 1),
+                    LocalDateTime.now(),
+                    "email" + i + "@example.com"));
+            
+            DatoTomas.add(
+                    new DatosToma(
+                "000000" + i + "X", //dni
+                "32", //Peso
+                "30", //imc
+                "foto"+LocalDateTime.now().toString()+".jpg", //dirFoto
+                "12", //grasac
+                "14", //proteina
+                "2000", //metavolismov
+                "13", //grasav
+                LocalDateTime.now().minusWeeks(1), //fecha toma
+                LocalDateTime.now())//Fecha proxima cita
+            
+            );
+            
+            DatoTomas.add(
+                    new DatosToma(
+                "000000" + i + "X", //dni
+                "32", //Peso
+                "30", //imc
+                "foto"+LocalDateTime.now().toString()+".jpg", //dirFoto
+                "12", //grasac
+                "14", //proteina
+                "2000", //metavolismov
+                "13", //grasav
+                LocalDateTime.now(), //fecha toma
+                LocalDateTime.now().plusWeeks(1))//Fecha proxima cita
+            
+            );
+             DatoTomas.add(
+                    new DatosToma(
+                "000000" + i + "X", //dni
+                "32", //Peso
+                "30", //imc
+                "foto"+LocalDateTime.now().toString()+".jpg", //dirFoto
+                "12", //grasac
+                "14", //proteina
+                "2000", //metavolismov
+                "13", //grasav
+                LocalDateTime.now().plusWeeks(1), //fecha toma
+                LocalDateTime.now().plusWeeks(2))//Fecha proxima cita
+            
+            );
+            
+        }
+        for (Cliente c : clientes) {
+            DAOCliente.insertar(c);
+        }
+        
+        for (DatosToma dt : DatoTomas){
+            System.out.println(dt.toString());
+            DAODatosToma.insertarDatosToma(dt);
+        }
+        System.out.println("Se han insertado 10 Clientes y 40 tomas ");
+  
+    }
 }

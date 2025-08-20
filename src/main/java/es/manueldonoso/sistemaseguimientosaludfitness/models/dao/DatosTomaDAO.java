@@ -14,6 +14,8 @@ public interface DatosTomaDAO {
     void insertarDatosToma(DatosToma datosToma);
     void modificarDatosToma(DatosToma datosToma);
     void EliminarDatosToma(DatosToma datosToma);
+    void EliminarTodosDatosTomas();
+    DatosToma buscarUsuarioFechaToma(String dni,String fecha);
     
     
 }
