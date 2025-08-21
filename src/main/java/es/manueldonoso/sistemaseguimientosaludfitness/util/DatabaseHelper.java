@@ -322,7 +322,7 @@ public class DatabaseHelper {
             System.out.println(dt.toString());
             DAODatosToma.insertarDatosToma(dt);
         }
-        System.out.println("Se han insertado 10 Clientes y 40 tomas ");
+        System.out.println("Se han insertado 10 Clientes y 30 tomas ");
   
     }
 }

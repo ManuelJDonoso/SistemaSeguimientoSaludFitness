@@ -23,7 +23,7 @@ import java.time.Month;
 
 /**
  *
- * @author donpe
+ * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class DatosTomaTest extends BaseTest {
 
@@ -45,11 +45,7 @@ public class DatosTomaTest extends BaseTest {
             // DatabaseHelper.insertar10Clientes(conn);
             DAODatosToma = new DatosTomaDAOImpl(conn);
             tomas = new ArrayList<>();
-         
 
-      
-
-  
         } catch (SQLException ex) {
             System.getLogger(DatosTomaTest.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
@@ -59,17 +55,18 @@ public class DatosTomaTest extends BaseTest {
     public void tearDown() {
         DAOCliente.eliminarTodosUsuarios();
         DAODatosToma.EliminarTodosDatosTomas();
-        
+
     }
 
     @Test
     public void insertar() {
-        
+
         System.out.println("Crando Datos De Toma");
-        LocalDateTime ahora =LocalDateTime.now();
-        String ahoraString=ahora.toString();
-        
-        DatosToma dt=new DatosToma(
+        LocalDateTime ahora = LocalDateTime.now(), semanaSiguiente = ahora.plusWeeks(1);
+        String ahoraString = ahora.toString();
+        String semanaSiguienteString = semanaSiguiente.toString();
+
+        DatosToma dt = new DatosToma(
                 "00000001X", //dni
                 "32", //Peso
                 "30", //imc
@@ -79,33 +76,161 @@ public class DatosTomaTest extends BaseTest {
                 "2000", //metavolismov
                 "13", //grasav
                 ahora, //fecha toma
-                ahora.plusWeeks(1));//Fecha proxima cita
-        System.out.println("Insertando datos de tomo");
+                semanaSiguiente);//Fecha proxima cita
+        System.out.println("Insertando datos de toma");
         DAODatosToma.insertarDatosToma(dt);
-        
+
         System.out.println("Comprobando que se ha insertado correctamente");
-        
-        DatosToma recdt= DAODatosToma.buscarUsuarioFechaToma("00000001X", ahoraString);
-        System.out.println(recdt.toString());
+
         assertNotNull(DAODatosToma.buscarUsuarioFechaToma("00000001X", ahoraString));
-        
+        System.out.println("comporbado por fecha de toma");
+        DatosToma recdt2 = DAODatosToma.buscarUsuarioProximaCita("00000001X", semanaSiguienteString);
+
+        assertNotNull(DAODatosToma.buscarUsuarioProximaCita("00000001X", semanaSiguienteString));
+        System.out.println("comporbado por fecha de proxima cita");
     }
 
     @Test
     public void ListarTodas() {
+        System.out.println("Insertar 10 usuario con un total de 30 datos de Tomas");
         DatabaseHelper.insertar10Clientes30Tomas(conn);
+        List lista = DAODatosToma.ListarTodosDatos();
+        
+        System.out.println("Comprobando si la lista tiene un tamaño de 30" );
+        assertEquals(30, lista.size());
     }
 
     @Test
     public void ListarFechaUsuario() {
+        String dni="0000000X";
+         System.out.println("Insertar 10 usuario con un total de 30 datos de Tomas");
+        DatabaseHelper.insertar10Clientes30Tomas(conn);
+        List lista = DAODatosToma.ListarDatosTomaCliente(dni);
+        
+        System.out.println("Comprobando si la lista obtenida del usuario "+dni+" tiene un tamaño de 3" );
+        assertEquals(3, lista.size());
     }
 
+    @Test
+    public void ListarPorFechaToma(){
+        String fecha = LocalDate.now().toString();
+        System.out.println("Insertar 10 usuario con un total de 30 datos de Tomas");
+        DatabaseHelper.insertar10Clientes30Tomas(conn);
+        System.out.println(fecha);
+        List lista = DAODatosToma.ListarDatosTomaCliente(fecha);
+        System.out.println(lista.size());
+        
+    }
+    
     @Test
     public void modificar() {
+
+        System.out.println("Crando Datos De Toma");
+        LocalDateTime ahora = LocalDateTime.now(), semanaSiguiente = ahora.plusWeeks(1);
+        String ahoraString = ahora.toString();
+        String semanaSiguienteString = semanaSiguiente.toString();
+        String datosmodString;
+
+        DatosToma old = new DatosToma(
+                "00000001X", //dni
+                "32", //Peso
+                "30", //imc
+                "foto.jpg", //dirFoto
+                "12", //grasac
+                "14", //proteina
+                "2000", //metavolismov
+                "13", //grasav
+                ahora, //fecha toma
+                semanaSiguiente);//Fecha proxima cita
+
+        DatosToma mod = new DatosToma(
+                "00000001X", //dni
+                "42", //Peso
+                "32", //imc
+                "foto4.jpg", //dirFoto
+                "121", //grasac
+                "141", //proteina
+                "1800", //metavolismov
+                "13", //grasav
+                ahora, //fecha toma
+                semanaSiguiente);//Fecha proxima cita
+
+        datosmodString = mod.toString();
+        System.out.println("Insertando datos de toma");
+
+        DAODatosToma.insertarDatosToma(old);
+
+        System.out.println("Comprobando que se ha insertado");
+        assertNotNull(DAODatosToma.buscarUsuarioFechaToma(old.getDni(), ahoraString));
+        System.out.println("Modificando Datos");
+        DAODatosToma.modificarDatosToma(old, mod);
+        System.out.println("Comprobando que que han modificado correctamente");
+        assertEquals(mod.toString(), datosmodString);
+
     }
 
     @Test
-    public void Eliminar() {
+    public void EliminarDatosToma() {
+
+        System.out.println("Crando Datos De Toma");
+        LocalDateTime ahora = LocalDateTime.now(), semanaSiguiente = ahora.plusWeeks(1);
+        String ahoraString = ahora.toString();
+        String semanaSiguienteString = semanaSiguiente.toString();
+
+        DatosToma dt = new DatosToma(
+                "00000001X", //dni
+                "32", //Peso
+                "30", //imc
+                "foto.jpg", //dirFoto
+                "12", //grasac
+                "14", //proteina
+                "2000", //metavolismov
+                "13", //grasav
+                ahora, //fecha toma
+                semanaSiguiente);//Fecha proxima cita
+        System.out.println("Insertando datos de toma");
+        DAODatosToma.insertarDatosToma(dt);
+
+        System.out.println("Comprobando que se ha insertado correctamente");
+        assertNotNull(DAODatosToma.buscarUsuarioFechaToma("00000001X", ahoraString));
+        System.out.println("Eliminando Datos de la toma");
+        DAODatosToma.EliminarDatosToma(dt);
+        System.out.println("Comprobando que se ha eliminado correctamente");
+        assertNull(DAODatosToma.buscarUsuarioFechaToma("00000001X", ahoraString));
+
     }
 
+    @Test
+    public void EliminarCita() {
+
+        System.out.println("Crando Datos De Toma");
+        LocalDateTime ahora = LocalDateTime.now(), semanaSiguiente = ahora.plusWeeks(1);
+        String ahoraString = ahora.toString();
+        String semanaSiguienteString = semanaSiguiente.toString();
+
+        DatosToma dt = new DatosToma(
+                "00000001X", //dni
+                "32", //Peso
+                "30", //imc
+                "foto.jpg", //dirFoto
+                "12", //grasac
+                "14", //proteina
+                "2000", //metavolismov
+                "13", //grasav
+                ahora, //fecha toma
+                semanaSiguiente);//Fecha proxima cita
+        System.out.println("Insertando datos de toma");
+        DAODatosToma.insertarDatosToma(dt);
+
+        System.out.println("Comprobando que se ha insertado correctamente");
+
+        assertNotNull(DAODatosToma.buscarUsuarioFechaToma("00000001X", ahoraString));
+
+        DAODatosToma.EliminarProximaCita(dt);
+
+        System.out.println("Comprobando que se ha eliminado la cita");
+
+        DatosToma dtrec = DAODatosToma.buscarUsuarioFechaToma("00000001X", ahoraString);
+        assertNull(dtrec.getProximaCita());
+    }
 }
