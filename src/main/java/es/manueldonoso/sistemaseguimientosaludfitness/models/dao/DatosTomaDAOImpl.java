@@ -12,17 +12,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Implementación de la interfaz {@link DatosTomaDAO} que gestiona las
+ * operaciones CRUD sobre la tabla <code>datosToma</code> en la base de datos.
+ * <p>
+ * Esta clase utiliza una conexión JDBC para realizar inserciones,
+ * actualizaciones, eliminaciones y consultas de registros relacionados con la
+ * entidad {@link DatosToma}.
+ * </p>
+ *
+ * Ejemplos de funcionalidades soportadas:
+ * <ul>
+ * <li>Insertar un nuevo registro de datos de toma.</li>
+ * <li>Modificar registros existentes de datos de toma.</li>
+ * <li>Eliminar registros individuales o todos los registros.</li>
+ * <li>Buscar registros por fecha de toma, próxima cita, usuario o listar
+ * todos.</li>
+ * </ul>
  *
  * @author Manuel Jesús Donoso Pérez <dev@manueldonoso.es>
  */
 public class DatosTomaDAOImpl implements DatosTomaDAO {
 
+    /**
+     * Conexión activa con la base de datos.
+     */
     private Connection conn;
 
+    /**
+     * Crea una nueva instancia del DAO con la conexión especificada.
+     *
+     * @param conn conexión activa a la base de datos
+     */
     public DatosTomaDAOImpl(Connection conn) {
         this.conn = conn;
     }
 
+    /**
+     * Inserta un nuevo registro de {@link DatosToma} en la base de datos.
+     *
+     * @param datosToma objeto con los datos de la toma a insertar
+     */
     @Override
     public void insertarDatosToma(DatosToma datosToma) {
 
@@ -56,6 +85,14 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
 
     }
 
+    /**
+     * Modifica un registro existente de datos de toma.
+     *
+     * @param old objeto con los datos antiguos que identifican el registro a
+     * modificar
+     * @param nuevo objeto con los nuevos valores para actualizar
+     * @return número de filas actualizadas
+     */
     @Override
     public int modificarDatosToma(DatosToma old, DatosToma nuevo) {
         int filasActualizadas = 0;
@@ -93,6 +130,12 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         return filasActualizadas;
     }
 
+    /**
+     * Elimina un registro de datos de toma de un cliente en una fecha
+     * específica.
+     *
+     * @param datosToma objeto con el cliente y la fecha de toma a eliminar
+     */
     @Override
     public void EliminarDatosToma(DatosToma datosToma) {
         String sql = "DELETE FROM datosToma WHERE fechaToma = ? AND fkCliente = ?";
@@ -112,6 +155,9 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
 
     }
 
+    /**
+     * Elimina todos los registros de la tabla <code>datosToma</code>.
+     */
     @Override
     public void EliminarTodosDatosTomas() {
         String sql = "DELETE FROM datosToma";
@@ -128,6 +174,14 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
 
     }
 
+    /**
+     * Busca un registro de datos de toma para un cliente en una fecha
+     * específica.
+     *
+     * @param dni DNI del cliente
+     * @param fecha fecha de toma (en formato ISO-8601)
+     * @return objeto {@link DatosToma} encontrado o {@code null} si no existe
+     */
     @Override
     public DatosToma buscarUsuarioFechaToma(String dni, String fecha) {
         DatosToma datosToma = null;
@@ -181,6 +235,13 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         return datosToma;
     }
 
+    /**
+     * Busca un registro de datos de toma por cliente y fecha de próxima cita.
+     *
+     * @param dni DNI del cliente
+     * @param fecha fecha de próxima cita (en formato ISO-8601)
+     * @return objeto {@link DatosToma} encontrado o {@code null} si no existe
+     */
     @Override
     public DatosToma buscarUsuarioProximaCita(String dni, String fecha) {
         DatosToma datosToma = null;
@@ -234,6 +295,12 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         return datosToma;
     }
 
+    /**
+     * Elimina la fecha de próxima cita de un registro de datos de toma.
+     *
+     * @param datoToma objeto con los datos de toma a actualizar
+     * @return número de filas actualizadas
+     */
     @Override
     public int EliminarProximaCita(DatosToma datoToma) {
 
@@ -248,6 +315,12 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         return filasActualizadas;
     }
 
+    /**
+     * Lista todos los registros de datos de toma existentes en la base de
+     * datos.
+     *
+     * @return lista con todos los objetos {@link DatosToma}
+     */
     @Override
     public List<DatosToma> ListarTodosDatos() {
         List<DatosToma> lista = new ArrayList<>();
@@ -296,6 +369,12 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         return lista;
     }
 
+    /**
+     * Lista todos los registros de datos de toma de un cliente específico.
+     *
+     * @param dni DNI del cliente
+     * @return lista de objetos {@link DatosToma} asociados al cliente
+     */
     @Override
     public List<DatosToma> ListarDatosTomaCliente(String dni
     ) {
@@ -349,6 +428,13 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         return lista;
     }
 
+    /**
+     * Lista todos los registros de datos de toma en una fecha concreta.
+     *
+     * @param FechaToma fecha de toma en formato ISO-8601 (yyyy-MM-dd)
+     * @return lista de objetos {@link DatosToma} correspondientes a la fecha
+     * indicada
+     */
     @Override
     public List<DatosToma> ListarDatosFecha(String FechaToma) {
         List<DatosToma> lista = new ArrayList<>();
@@ -360,8 +446,8 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         System.out.println("Se ha introducido la fecha " + FechaToma);
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
 
-            stmt.setString(1, FechaToma+"%");
-            
+            stmt.setString(1, FechaToma + "%");
+
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String fechaTomaStr = rs.getString("fechaToma");
