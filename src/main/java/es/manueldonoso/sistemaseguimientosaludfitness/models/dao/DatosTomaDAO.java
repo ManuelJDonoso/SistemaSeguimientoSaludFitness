@@ -22,5 +22,6 @@ public interface DatosTomaDAO {
     List<DatosToma>ListarTodosDatos();
     List<DatosToma>ListarDatosTomaCliente(String dni);
     List<DatosToma>ListarDatosFecha(String FechaToma);
+     List<DatosToma>ListarDatosDesdeFecha(String FechaToma);
     
 }

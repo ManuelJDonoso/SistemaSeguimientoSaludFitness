@@ -177,7 +177,23 @@ public class DatosTomaTest extends BaseTest {
         assertEquals(10, lista.size());
 
     }
+    
+     /**
+     * Verifica que se pueden listar los datos de toma desde la fecha de toma,
+     * comprobando que se obtienen las 20 entradas correspondientes al día
+     * actual.
+     */
+    @Test
+    public void ListarDesdeFechaToma() {
+        String fecha = LocalDate.now().toString();
+        System.out.println("Insertar 10 usuario con un total de 30 datos de Tomas");
+        DatabaseHelper.insertar10Clientes30Tomas(conn);
+        System.out.println("Buscar los registros a partir de "+ fecha +" , debe haber un total de 20");
+        List lista = DAODatosToma.ListarDatosDesdeFecha(fecha);
+        System.out.println(lista.size());
+         assertEquals(20, lista.size());
 
+    }
     /**
      * Verifica la funcionalidad de modificación de un registro de datos de
      * toma, comprobando que los cambios realizados se almacenan correctamente.

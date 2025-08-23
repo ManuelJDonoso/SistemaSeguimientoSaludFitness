@@ -487,4 +487,63 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
         return lista;
     }
 
+    /**
+     * Lista todos los registros de datos de toma desde fecha concreta.
+     *
+     * @param FechaToma fecha de toma en formato ISO-8601 (yyyy-MM-dd)
+     * @return lista de objetos {@link DatosToma} correspondientes desde la fecha
+     * indicada
+     */
+    @Override
+    public List<DatosToma> ListarDatosDesdeFecha(String fechaDesde) {
+        List<DatosToma> lista = new ArrayList<>();
+        String sql = "SELECT fkCliente, fechaToma, fechaProximaCita, peso, imc, dirFoto, grasac, proteina, "
+                + "metabolismoV, grasaV "
+                + "FROM datosToma "
+                + "WHERE fechaToma >= ? "
+                + "ORDER BY fechaToma ASC";
+
+        System.out.println("Se ha introducido la fecha " + fechaDesde);
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, fechaDesde);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String fechaTomaStr = rs.getString("fechaToma");
+                    String fechaProximaStr = rs.getString("fechaProximaCita");
+
+                    LocalDateTime fechaToma = null;
+                    LocalDateTime fechaProxima = null;
+
+                    if (fechaTomaStr != null) {
+                        fechaToma = LocalDateTime.parse(fechaTomaStr);
+                    }
+
+                    if (fechaProximaStr != null) {
+                        fechaProxima = LocalDateTime.parse(fechaProximaStr);
+                    }
+
+                    lista.add(
+                            new DatosToma(
+                                    rs.getString("fkCliente"), // dni
+                                    rs.getString("peso"), // peso
+                                    rs.getString("imc"), // imc
+                                    rs.getString("dirFoto"), // dirfoto
+                                    rs.getString("grasac"), // grasac
+                                    rs.getString("proteina"), // proteina
+                                    rs.getString("metabolismoV"),// metabolismo v
+                                    rs.getString("grasaV"), // grasav
+                                    fechaToma, // fecha toma
+                                    fechaProxima // fecha proxima
+                            ));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar datos de toma: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
 }
