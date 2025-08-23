@@ -351,16 +351,17 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
 
     @Override
     public List<DatosToma> ListarDatosFecha(String FechaToma) {
+        List<DatosToma> lista = new ArrayList<>();
         String sql = "SELECT fkCliente, fechaToma, fechaProximaCita, peso, imc, dirFoto, grasac, proteina, "
                 + "metabolismoV, grasaV "
                 + "FROM datosToma "
                 + "WHERE fechaToma LIKE ?";
 
-        List<DatosToma> lista = new ArrayList<>();
+        System.out.println("Se ha introducido la fecha " + FechaToma);
+        try (PreparedStatement stmt = conn.prepareStatement(sql);) {
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, FechaToma ); // Ej: "2025-08-21%"
-
+            stmt.setString(1, FechaToma+"%");
+            
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String fechaTomaStr = rs.getString("fechaToma");
@@ -379,16 +380,16 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
 
                     lista.add(
                             new DatosToma(
-                                    rs.getString("fkCliente"),
-                                    rs.getString("peso"),
-                                    rs.getString("imc"),
-                                    rs.getString("dirFoto"),
-                                    rs.getString("grasac"),
-                                    rs.getString("proteina"),
-                                    rs.getString("metabolismoV"),
-                                    rs.getString("grasaV"),
-                                    fechaToma,
-                                    fechaProxima
+                                    rs.getString("fkCliente"), // dni
+                                    rs.getString("peso"), // peso
+                                    rs.getString("imc"), // imc
+                                    rs.getString("dirFoto"), // dirfoto
+                                    rs.getString("grasac"), // grasac
+                                    rs.getString("proteina"), // proteina
+                                    rs.getString("metabolismoV"), // metabolismo v
+                                    rs.getString("grasaV"), // grasav
+                                    fechaToma, // fecha toma
+                                    fechaProxima // fecha proxima
                             ));
                 }
             }

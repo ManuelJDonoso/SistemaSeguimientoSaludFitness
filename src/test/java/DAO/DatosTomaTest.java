@@ -117,8 +117,8 @@ public class DatosTomaTest extends BaseTest {
         System.out.println("Insertar 10 usuario con un total de 30 datos de Tomas");
         DatabaseHelper.insertar10Clientes30Tomas(conn);
         System.out.println(fecha);
-        List lista = DAODatosToma.ListarDatosTomaCliente(fecha);
-        System.out.println(lista.size());
+        List lista = DAODatosToma.ListarDatosFecha(fecha);
+        assertEquals(10, lista.size());
         
     }
     
