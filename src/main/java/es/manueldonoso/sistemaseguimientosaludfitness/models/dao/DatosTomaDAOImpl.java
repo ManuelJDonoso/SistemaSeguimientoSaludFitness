@@ -491,8 +491,8 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
      * Lista todos los registros de datos de toma desde fecha concreta.
      *
      * @param FechaToma fecha de toma en formato ISO-8601 (yyyy-MM-dd)
-     * @return lista de objetos {@link DatosToma} correspondientes desde la fecha
-     * indicada
+     * @return lista de objetos {@link DatosToma} correspondientes desde la
+     * fecha indicada
      */
     @Override
     public List<DatosToma> ListarDatosDesdeFecha(String fechaDesde) {
@@ -546,4 +546,77 @@ public class DatosTomaDAOImpl implements DatosTomaDAO {
 
         return lista;
     }
+
+    /**
+     * Lista todos los registros de {@link DatosToma} cuya fecha de toma esté
+     * comprendida entre dos fechas dadas (inclusive).
+     * <p>
+     * Los resultados se devuelven ordenados de forma ascendente por la fecha de
+     * toma.
+     * </p>
+     *
+     * @param fechaInicio fecha inicial del rango (en formato ISO-8601, ej.
+     * "2025-08-01T10:00:00")
+     * @param fechaFin fecha final del rango (en formato ISO-8601, ej.
+     * "2025-08-23T23:59:59")
+     * @return lista de objetos {@link DatosToma} que cumplen el criterio de
+     * búsqueda. Si no existen registros, devuelve una lista vacía.
+     */
+    @Override
+    public List<DatosToma> ListarDatosEntreFechas(String fechaInicio, String fechaFin) {
+        LocalDate FechaFinDia = LocalDate.parse(fechaFin).plusDays(1);
+        String fechaFinString = FechaFinDia.toString();
+        List<DatosToma> lista = new ArrayList<>();
+        String sql = "SELECT fkCliente, fechaToma, fechaProximaCita, peso, imc, dirFoto, grasac, proteina, "
+                + "metabolismoV, grasaV "
+                + "FROM datosToma "
+                + "WHERE fechaToma BETWEEN ? AND ? "
+                + "ORDER BY fechaToma ASC";
+
+        System.out.println("Buscando datos entre " + fechaInicio + " y " + fechaFin);
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, fechaInicio);
+            stmt.setString(2, fechaFinString);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String fechaTomaStr = rs.getString("fechaToma");
+                    String fechaProximaStr = rs.getString("fechaProximaCita");
+
+                    LocalDateTime fechaToma = null;
+                    LocalDateTime fechaProxima = null;
+
+                    if (fechaTomaStr != null) {
+                        fechaToma = LocalDateTime.parse(fechaTomaStr);
+                    }
+
+                    if (fechaProximaStr != null) {
+                        fechaProxima = LocalDateTime.parse(fechaProximaStr);
+                    }
+
+                    lista.add(
+                            new DatosToma(
+                                    rs.getString("fkCliente"), // dni
+                                    rs.getString("peso"), // peso
+                                    rs.getString("imc"), // imc
+                                    rs.getString("dirFoto"), // dirfoto
+                                    rs.getString("grasac"), // grasac
+                                    rs.getString("proteina"), // proteina
+                                    rs.getString("metabolismoV"),// metabolismo v
+                                    rs.getString("grasaV"), // grasav
+                                    fechaToma, // fecha toma
+                                    fechaProxima // fecha proxima
+                            ));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar datos entre fechas: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
 }

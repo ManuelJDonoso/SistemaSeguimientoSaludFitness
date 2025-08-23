@@ -177,8 +177,38 @@ public class DatosTomaTest extends BaseTest {
         assertEquals(10, lista.size());
 
     }
-    
-     /**
+
+    /**
+     * Verifica que el método {@link DatosTomaDAOImpl#ListarDatosEntreFechas(String, String)}
+     * devuelve el número correcto de registros en diferentes rangos de fechas:
+     * <ul>
+     *   <li><b>Día actual:</b> Debe devolver 10 registros (uno por cliente).</li>
+     *   <li><b>Desde hoy hasta dentro de una semana:</b> Debe devolver 20 registros.</li>
+     *   <li><b>Desde hace una semana hasta dentro de una semana:</b> Debe devolver los 30 registros insertados.</li>
+     * </ul>
+     */
+    @Test
+    public void ListarEntreFechaToma() {
+        String fechaInicioSemanaAnterior = LocalDate.now().minusWeeks(1).toString();
+        String fechaInicio = LocalDate.now().toString();
+        String fechaFinUnaSemana = LocalDate.now().plusWeeks(1).toString();
+        System.out.println("Insertar 10 usuario con un total de 30 datos de Tomas");
+        DatabaseHelper.insertar10Clientes30Tomas(conn);
+
+        System.out.println("Datos de toma de un dia de hoy ");
+        List lista = DAODatosToma.ListarDatosEntreFechas(fechaInicio, fechaInicio);
+        assertEquals(10, lista.size());
+
+        System.out.println("Datos de toma de una semana desde el dia de hoy");
+        lista = DAODatosToma.ListarDatosEntreFechas(fechaInicio, fechaFinUnaSemana);
+        assertEquals(20, lista.size());
+
+        System.out.println("Datos de toma desde hace una semana hasta la semana que viene ");
+        lista = DAODatosToma.ListarDatosEntreFechas(fechaInicioSemanaAnterior, fechaFinUnaSemana);
+        assertEquals(30, lista.size());
+    }
+
+    /**
      * Verifica que se pueden listar los datos de toma desde la fecha de toma,
      * comprobando que se obtienen las 20 entradas correspondientes al día
      * actual.
@@ -188,12 +218,13 @@ public class DatosTomaTest extends BaseTest {
         String fecha = LocalDate.now().toString();
         System.out.println("Insertar 10 usuario con un total de 30 datos de Tomas");
         DatabaseHelper.insertar10Clientes30Tomas(conn);
-        System.out.println("Buscar los registros a partir de "+ fecha +" , debe haber un total de 20");
+        System.out.println("Buscar los registros a partir de " + fecha + " , debe haber un total de 20");
         List lista = DAODatosToma.ListarDatosDesdeFecha(fecha);
         System.out.println(lista.size());
-         assertEquals(20, lista.size());
+        assertEquals(20, lista.size());
 
     }
+
     /**
      * Verifica la funcionalidad de modificación de un registro de datos de
      * toma, comprobando que los cambios realizados se almacenan correctamente.
