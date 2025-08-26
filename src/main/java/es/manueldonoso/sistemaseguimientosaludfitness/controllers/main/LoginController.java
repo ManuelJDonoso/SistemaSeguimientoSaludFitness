@@ -12,6 +12,7 @@ import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -51,28 +52,26 @@ public class LoginController {
 
 
 
-    public Connection getConn() {
-        return conn;
-    }
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
-    }
     
     
-    void initialize() {
+    void initialize()  {
         assert btn_ingresar != null : "fx:id=\"btn_ingresar\" was not injected: check your FXML file 'Login.fxml'.";
         assert btn_menu_help != null : "fx:id=\"btn_menu_help\" was not injected: check your FXML file 'Login.fxml'.";
         assert btn_menu_salir != null : "fx:id=\"btn_menu_salir\" was not injected: check your FXML file 'Login.fxml'.";
         assert tf_usuario != null : "fx:id=\"tf_usuario\" was not injected: check your FXML file 'Login.fxml'.";
         assert tfp_pass != null : "fx:id=\"tfp_pass\" was not injected: check your FXML file 'Login.fxml'.";
+       
 
     }
 
     @FXML
-    private void OA_btn_iniciarSesion(ActionEvent event) {
+    private void OA_btn_iniciarSesion(ActionEvent event)  {
         System.out.println("iniciar sesion");
-
+        try {
+            conn=DatabaseHelper.getConnection();
+        } catch (SQLException ex) {
+            System.getLogger(LoginController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         LoginDAOimpl DAO = new LoginDAOimpl(conn);
 
         Login login = new Login(tf_usuario.getText(), tfp_pass.getText());

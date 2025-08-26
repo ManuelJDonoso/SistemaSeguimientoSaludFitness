@@ -42,9 +42,7 @@ public class StageShow {
             // Ventana a cargar
             VBox ventana = (VBox) loader.load();
 
-            // Obtener el controlador y pasar la conexión
-            LoginController controller = loader.getController();
-            controller.setConn(conn);
+        
 
             // Creo la escena
             Scene scene = new Scene(ventana);
