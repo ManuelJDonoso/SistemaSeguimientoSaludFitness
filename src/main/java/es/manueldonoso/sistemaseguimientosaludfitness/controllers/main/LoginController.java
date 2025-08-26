@@ -11,6 +11,7 @@ import es.manueldonoso.sistemaseguimientosaludfitness.models.dao.LoginDAOimpl;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.DatabaseHelper;
 import es.manueldonoso.sistemaseguimientosaludfitness.util.StageShow;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -46,6 +47,19 @@ public class LoginController {
     @FXML
     private Label lbMensajeError;
 
+    private Connection conn;
+
+
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+    
+    
     void initialize() {
         assert btn_ingresar != null : "fx:id=\"btn_ingresar\" was not injected: check your FXML file 'Login.fxml'.";
         assert btn_menu_help != null : "fx:id=\"btn_menu_help\" was not injected: check your FXML file 'Login.fxml'.";
@@ -55,41 +69,42 @@ public class LoginController {
 
     }
 
-//    @FXML
-//    private void OA_btn_iniciarSesion(ActionEvent event) {
-//        System.out.println("iniciar sesion");
-//
-//        LoginDAOimpl DAO = new LoginDAOimpl();
-//
-//        Login login = new Login(tf_usuario.getText(), tfp_pass.getText());
-//        boolean inicioCorrecto = DAO.verificarLogin(login);
-//        if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
-//            lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
-//        } else if (!inicioCorrecto) {
-//            lbMensajeError.setText("Error en el usuario o contraseña");
-//        } else {
-//            StageShow.MostrarDashboard();
-//            Node source = (Node) event.getSource();
-//            Stage stage = (Stage) source.getScene().getWindow();
-//            stage.close();
-//        }
-//    }
+    @FXML
+    private void OA_btn_iniciarSesion(ActionEvent event) {
+        System.out.println("iniciar sesion");
 
-//    private void detectarIntro() {
-//        System.out.println("detecta intro");
-//        OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
-//    }
+        LoginDAOimpl DAO = new LoginDAOimpl(conn);
 
-//    @FXML
-//    private void onKeyPressedEnter(KeyEvent event) {
-//        if (event.getCode() == KeyCode.ENTER) {
-//            detectarIntro();
-//        }
-//    }
+        Login login = new Login(tf_usuario.getText(), tfp_pass.getText());
+        boolean inicioCorrecto = DAO.verificarLogin(login);
+        if (tf_usuario.getText().isBlank() || tfp_pass.getText().isBlank()) {
+            lbMensajeError.setText("Los campos usuario y contraseña son requeridos");
+        } else if (!inicioCorrecto) {
+            lbMensajeError.setText("Error en el usuario o contraseña");
+        } else {
+            StageShow.MostrarDashboard();
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    private void detectarIntro() {
+        System.out.println("detecta intro");
+        OA_btn_iniciarSesion(new ActionEvent(btn_ingresar, null));
+    }
+
+    @FXML
+    private void onKeyPressedEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            detectarIntro();
+        }
+    }
 
     @FXML
     private void oa_btn_salir(ActionEvent event) {
         Platform.exit();
     }
 
+    
 }

@@ -8,6 +8,7 @@ import static es.manueldonoso.sistemaseguimientosaludfitness.App.main;
 import es.manueldonoso.sistemaseguimientosaludfitness.controllers.FichaClientesController;
 import es.manueldonoso.sistemaseguimientosaludfitness.controllers.main.LoginController;
 import java.io.IOException;
+import java.sql.Connection;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,7 +33,7 @@ import org.bridj.util.Utils;
  */
 public class StageShow {
 
-    public static void MostrarLogin() {
+    public static void MostrarLogin(Connection conn) {
         Stage primaryStage = new Stage();
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -40,6 +41,10 @@ public class StageShow {
 
             // Ventana a cargar
             VBox ventana = (VBox) loader.load();
+
+            // Obtener el controlador y pasar la conexión
+            LoginController controller = loader.getController();
+            controller.setConn(conn);
 
             // Creo la escena
             Scene scene = new Scene(ventana);
@@ -100,19 +105,18 @@ public class StageShow {
             e.printStackTrace();
         }
     }
-    
-    public static void CargarDatosClientes(Pane root,String dni) throws IOException{
+
+    public static void CargarDatosClientes(Pane root, String dni) throws IOException {
         FXMLLoader loader = new FXMLLoader(StageShow.class.getResource(
-                    "/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/FichaClientes.fxml"));
-        AnchorPane pane =loader.load();
-        
+                "/es/manueldonoso/sistemaseguimientosaludfitness/vistas/comun/FichaClientes.fxml"));
+        AnchorPane pane = loader.load();
+
         // Obtener el controlador
         FichaClientesController controller = loader.getController();
-    
+
         // Pasar el DNI al controlador
         controller.cargarFicha(dni);
-    
-    
+
         Scene scene = new Scene(pane);
         Stage stage = new Stage();
         stage.setTitle("Ficha Cliente");

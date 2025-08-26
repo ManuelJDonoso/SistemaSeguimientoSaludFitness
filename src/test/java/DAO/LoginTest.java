@@ -31,8 +31,8 @@ public class LoginTest extends BaseTest {
 
     private String usuario = "UserTest";
     private String pass = "PassTest";
-    LoginDAOimpl DAO;
-    Login login;
+    private LoginDAOimpl DAO;
+    private Login login;
 
     public LoginTest() {
     }
