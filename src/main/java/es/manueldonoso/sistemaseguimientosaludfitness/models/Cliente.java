@@ -77,6 +77,9 @@ public class Cliente {
         this.apellido2 = apellido2;
     }
 
+    public String getApellidos(){
+        return apellido1+" "+apellido2;
+    }
     public String getSexo() {
         return sexo;
     }
@@ -185,6 +188,7 @@ public class Cliente {
         this.email = email;
     }
 
+    
     @Override
     public String toString() {
         return "Cliente{" + "dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", sexo=" + sexo + ", altura=" + altura + ", dirFoto=" + dirFoto + ", direccion=" + direccion + ", poblacion=" + poblacion + ", cp=" + cp + ", telefono=" + telefono + ", PesoIdeal=" + PesoIdeal + ", Anotaciones=" + Anotaciones + ", email=" + email + ", fechaNacimiento=" + fechaNacimiento + ", fechaAlta=" + fechaAlta + '}';

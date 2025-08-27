@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,19 +30,27 @@ public class ClienteTomaDAOImpl implements ClienteTomaDAO {
     public ObservableList<ClienteTomaDTO> findAll() {
 
         ObservableList<ClienteTomaDTO> lista = FXCollections.observableArrayList();
-        String sql = "SELECT c.dni, c.nombre, c.apellidos, c.poblacion, d.proxima_cita "
+        String sql = "SELECT c.dni, c.nombre, c.apellido1, c.apellido2, c.poblacion, d.fechaProximaCita "
                 + "FROM clientes c "
-                + "JOIN datostoma d ON c.dni = d.dni";
+                + "JOIN datostoma d ON c.dni = d.fkCliente";
         try (PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
+                String fecha = rs.getString("fechaProximaCita");
+
+                LocalDateTime proximaCita = null;
+
+                if (fecha != null && !fecha.isEmpty()) {
+
+                    proximaCita = LocalDateTime.parse(fecha);
+                }
+
                 ClienteTomaDTO dto = new ClienteTomaDTO(
                         rs.getString("dni"),
                         rs.getString("nombre"),
-                        rs.getString("apellidos"),
+                        rs.getString("apellido1") + " " + rs.getString("apellido2"),
                         rs.getString("Poblacion"),
-                        LocalDateTime.parse(rs.getString("fechaProximaCita"))
+                        proximaCita
                 );
-
 
                 lista.add(dto);
             }

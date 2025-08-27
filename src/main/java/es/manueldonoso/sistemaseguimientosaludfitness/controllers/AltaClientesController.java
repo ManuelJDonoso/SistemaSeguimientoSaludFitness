@@ -269,46 +269,6 @@ public class AltaClientesController implements Initializable {
                 user.setFechaAlta(LocalDateTime.now());
                 user.setEmail(email);
 
-                // Guardar la imagen si hay una seleccionada
-                if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {
-                    File imageFile = (File) ivFoto.getProperties().get("imageFile");
-
-                    if (!dni.isEmpty()) {
-                        try {
-                            // Crear directorio si no existe
-                            Path userImageDir = Paths.get("data", "images", dni);
-                            Files.createDirectories(userImageDir);
-
-                            // Generar nombre del archivo con DNI y fecha actual
-                            LocalDateTime now = LocalDateTime.now();
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-                            String formattedDateTime = now.format(formatter);
-
-                            // Nombre del archivo: DNI_FECHA.extensión
-                            String fileName = String.format("%s_%s%s",
-                                    dni,
-                                    formattedDateTime,
-                                    getFileExtension(imageFile.getName()));
-
-                            // Copiar la imagen al directorio destino
-                            Path destination = userImageDir.resolve(fileName);
-                            Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
-
-                            // Guardar la ruta en el usuario
-                            user.setDirFoto(destination.toString());
-
-                            // Mostrar mensaje de éxito
-                            mostrarAlerta("Éxito", "Imagen guardada correctamente como: " + fileName, Alert.AlertType.INFORMATION);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            mostrarAlerta("Error al guardar la imagen", "No se pudo guardar la imagen del usuario.");
-                        }
-                    } else {
-                        mostrarAlerta("DNI requerido", "Debe ingresar un DNI para guardar la imagen.");
-                    }
-                }
-
                 dt.setDni(dni);
                 dt.setFechaToma(LocalDateTime.now());
                 dt.setPeso(peso);
@@ -319,16 +279,57 @@ public class AltaClientesController implements Initializable {
                 dt.setImc(imc);
 
                 ClienteDAO dao = new ClienteDAOImpl(DatabaseHelper.getConnection());
-                
-                if(!dao.existeCliente(user)){
-                DatosTomaDAOImpl datosTomaDaoImpl = new DatosTomaDAOImpl(DatabaseHelper.getConnection());
-                datosTomaDaoImpl.insertarDatosToma(dt);
 
-                
-                dao.insertar(user);
+                if (!dao.existeCliente(user)) {
+                    // Guardar la imagen si hay una seleccionada
+                    if (ivFoto.getImage() != null && ivFoto.getProperties().containsKey("imageFile")) {
+                        File imageFile = (File) ivFoto.getProperties().get("imageFile");
 
-                mostrarAlerta("usuario dado de alta", "el usuario se ha añadido a la base de datos", Alert.AlertType.INFORMATION);
-                }else{mostrarAlerta("usuario dado de alta", "el usuario ya existe en la base de datos", Alert.AlertType.ERROR);}
+                        if (!dni.isEmpty()) {
+                            try {
+                                // Crear directorio si no existe
+                                Path userImageDir = Paths.get("data", "images", dni);
+                                Files.createDirectories(userImageDir);
+
+                                // Generar nombre del archivo con DNI y fecha actual
+                                LocalDateTime now = LocalDateTime.now();
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+                                String formattedDateTime = now.format(formatter);
+
+                                // Nombre del archivo: DNI_FECHA.extensión
+                                String fileName = String.format("%s_%s%s",
+                                        dni,
+                                        formattedDateTime,
+                                        getFileExtension(imageFile.getName()));
+
+                                // Copiar la imagen al directorio destino
+                                Path destination = userImageDir.resolve(fileName);
+                                Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+
+                                // Guardar la ruta en el usuario
+                                user.setDirFoto(destination.toString());
+
+                                // Mostrar mensaje de éxito
+                                mostrarAlerta("Éxito", "Imagen guardada correctamente como: " + fileName, Alert.AlertType.INFORMATION);
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                mostrarAlerta("Error al guardar la imagen", "No se pudo guardar la imagen del usuario.");
+                            }
+                        } else {
+                            mostrarAlerta("DNI requerido", "Debe ingresar un DNI para guardar la imagen.");
+                        }
+                    }
+
+                    DatosTomaDAOImpl datosTomaDaoImpl = new DatosTomaDAOImpl(DatabaseHelper.getConnection());
+                    datosTomaDaoImpl.insertarDatosToma(dt);
+
+                    dao.insertar(user);
+
+                    mostrarAlerta("usuario dado de alta", "el usuario se ha añadido a la base de datos", Alert.AlertType.INFORMATION);
+                } else {
+                    mostrarAlerta("usuario dado de alta", "el usuario ya existe en la base de datos", Alert.AlertType.ERROR);
+                }
             } catch (SQLException ex) {
                 System.getLogger(AltaClientesController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
